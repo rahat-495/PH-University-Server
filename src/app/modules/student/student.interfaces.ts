@@ -1,13 +1,13 @@
 
 import { Types } from "mongoose";
 
-type TUserName = {
-    fristName : string ;
+export type TUserName = {
+    firstName : string ;
     middleName : string ;
     lastName : string ;
 }
 
-type TGuardian = {
+export type TGuardian = {
     fatherName : string ;
     fatherOccupation : string ;
     fatherContactNo : string ;
@@ -16,7 +16,7 @@ type TGuardian = {
     motherOccupation : string ;
 }
 
-type TLocalGuardian = {
+export type TLocalGuardian = {
     name : string ;
     accupation : string ;
     contactNo : string ;
