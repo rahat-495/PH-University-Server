@@ -1,21 +1,24 @@
 
 import config from "../../config";
+import { TStudent } from "../student/student.interfaces";
+import { studentsModel } from "../student/student.model";
 import { TUser } from "./user.interfaces";
 import { UsersModel } from "./user.model";
 
-const createStudnetIntoDb = async (password : string , data : object) => {
+const createStudnetIntoDb = async (password : string , studentData : Partial<TStudent>) => {
 
     const userData : Partial<TUser> = {} ;
     userData.role = 'student' ;
     userData.id = "2030100001" ;
     userData.password = password || config.defaultPass as string ;
 
-    const createNewUser = await UsersModel.create(userData) ;
-    if(createNewUser._id){
-        // data.id = createNewUser.id ;
-        // data.user = createNewUser._id ;
+    const newUser = await UsersModel.create(userData) ;
+    if(newUser?._id){
+        studentData.id = newUser?.id ;
+        studentData.user = newUser?._id ;
+        const newStudent = await studentsModel.create(studentData) ;
+        return newStudent ;
     }
-    // return result ;
 }
 
 export const userService = {

@@ -1,5 +1,5 @@
 
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import { TGuardian, TLocalGuardian, TStudent, TUserName } from "./student.interfaces";
 
 const nameSchema = new Schema<TUserName>({
@@ -128,3 +128,5 @@ const studentSchema = new Schema<TStudent>({
         required : [true , "admissionSemester is required !"] ,
     },
 })
+
+export const studentsModel = model('student' , studentSchema) ;

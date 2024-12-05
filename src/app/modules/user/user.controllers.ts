@@ -8,6 +8,11 @@ const createStudent = async (req : Request , res : Response) => {
         const {password , student : studentData} = req.body ;
         // const zodParsedData = userValidation.userValidationSchema.parse(studentData) ;
         const result = await userService.createStudnetIntoDb(password  , studentData) ;
+        res.json({
+            success : true ,
+            message : "student created success fully !" ,
+            data : result ,
+        })
 
     } catch (error) {
         res.status(500).json({
