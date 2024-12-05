@@ -14,18 +14,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = void 0;
 const config_1 = __importDefault(require("../../config"));
+const student_model_1 = require("../student/student.model");
 const user_model_1 = require("./user.model");
-const createStudnetIntoDb = (password, data) => __awaiter(void 0, void 0, void 0, function* () {
+const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0, void 0, function* () {
     const userData = {};
     userData.role = 'student';
     userData.id = "2030100001";
     userData.password = password || config_1.default.defaultPass;
-    const createNewUser = yield user_model_1.UsersModel.create(userData);
-    if (createNewUser._id) {
-        // data.id = createNewUser.id ;
-        // data.user = createNewUser._id ;
+    const newUser = yield user_model_1.UsersModel.create(userData);
+    if (newUser === null || newUser === void 0 ? void 0 : newUser._id) {
+        studentData.id = newUser === null || newUser === void 0 ? void 0 : newUser.id;
+        studentData.user = newUser === null || newUser === void 0 ? void 0 : newUser._id;
+        const newStudent = yield student_model_1.studentsModel.create(studentData);
+        return newStudent;
     }
-    // return result ;
 });
 exports.userService = {
     createStudnetIntoDb,
