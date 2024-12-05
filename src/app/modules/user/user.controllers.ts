@@ -5,9 +5,9 @@ import { userService } from "./user.services";
 const createStudent = async (req : Request , res : Response) => {
     try {
         
-        const data = req.body ;
-        const zodParsedData = userValidation.userValidationSchema.parse(data) ;
-        const result = await userService.createStudnetIntoDb(zodParsedData) ;
+        const {password , student : studentData} = req.body ;
+        // const zodParsedData = userValidation.userValidationSchema.parse(studentData) ;
+        const result = await userService.createStudnetIntoDb(password  , studentData) ;
 
     } catch (error) {
         res.status(500).json({
