@@ -12,8 +12,8 @@ const createStudnetIntoDb = async (password : string , data : object) => {
 
     const createNewUser = await UsersModel.create(user) ;
     if(createNewUser._id){
-        data.id = createNewUser.id ;
-        data.user = createNewUser._id ;
+        // data.id = createNewUser.id ;
+        // data.user = createNewUser._id ;
     }
     // return result ;
 }
