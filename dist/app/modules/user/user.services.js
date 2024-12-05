@@ -8,12 +8,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = void 0;
+const config_1 = __importDefault(require("../../config"));
 const user_model_1 = require("./user.model");
-const createStudnetIntoDb = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.UsersModel.create(data);
-    return result;
+const createStudnetIntoDb = (password, data) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = { role: "", password: "", id: "" };
+    user.role = 'student';
+    user.id = "2030100001";
+    user.password = password || config_1.default.defaultPass;
+    const createNewUser = yield user_model_1.UsersModel.create(user);
+    if (createNewUser._id) {
+        // data.id = createNewUser.id ;
+        // data.user = createNewUser._id ;
+    }
+    // return result ;
 });
 exports.userService = {
     createStudnetIntoDb,

@@ -10,13 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userControllers = void 0;
-const user_validation_1 = require("./user.validation");
 const user_services_1 = require("./user.services");
 const createStudent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const data = req.body;
-        const zodParsedData = user_validation_1.userValidation.userValidationSchema.parse(data);
-        const result = yield user_services_1.userService.createStudnetIntoDb(zodParsedData);
+        const { password, student: studentData } = req.body;
+        // const zodParsedData = userValidation.userValidationSchema.parse(studentData) ;
+        const result = yield user_services_1.userService.createStudnetIntoDb(password, studentData);
     }
     catch (error) {
         res.status(500).json({
