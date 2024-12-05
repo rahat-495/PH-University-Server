@@ -1,16 +1,16 @@
 
 import config from "../../config";
-import { NewUser } from "./user.interfaces";
-import { UsersModel } from "./user.model"
+import { TUser } from "./user.interfaces";
+import { UsersModel } from "./user.model";
 
 const createStudnetIntoDb = async (password : string , data : object) => {
 
-    const user : NewUser = { role : "" , password : "" , id : "" } ;
-    user.role = 'student' ;
-    user.id = "2030100001" ;
-    user.password = password || config.defaultPass as string ;
+    const userData : Partial<TUser> = {} ;
+    userData.role = 'student' ;
+    userData.id = "2030100001" ;
+    userData.password = password || config.defaultPass as string ;
 
-    const createNewUser = await UsersModel.create(user) ;
+    const createNewUser = await UsersModel.create(userData) ;
     if(createNewUser._id){
         // data.id = createNewUser.id ;
         // data.user = createNewUser._id ;
