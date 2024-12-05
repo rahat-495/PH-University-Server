@@ -16,11 +16,11 @@ exports.userService = void 0;
 const config_1 = __importDefault(require("../../config"));
 const user_model_1 = require("./user.model");
 const createStudnetIntoDb = (password, data) => __awaiter(void 0, void 0, void 0, function* () {
-    const user = { role: "", password: "", id: "" };
-    user.role = 'student';
-    user.id = "2030100001";
-    user.password = password || config_1.default.defaultPass;
-    const createNewUser = yield user_model_1.UsersModel.create(user);
+    const userData = {};
+    userData.role = 'student';
+    userData.id = "2030100001";
+    userData.password = password || config_1.default.defaultPass;
+    const createNewUser = yield user_model_1.UsersModel.create(userData);
     if (createNewUser._id) {
         // data.id = createNewUser.id ;
         // data.user = createNewUser._id ;
