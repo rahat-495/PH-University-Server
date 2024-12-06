@@ -1,6 +1,8 @@
 
 import { model, Schema } from "mongoose";
+import bcript from "bcryptjs";
 import { TUser } from "./user.interfaces";
+import config from "../../config";
 
 const userSchema = new Schema<TUser>({
     id : {
@@ -32,6 +34,24 @@ const userSchema = new Schema<TUser>({
     },
 } , {
     timestamps : true ,
+})
+
+userSchema.pre("save" , async function(next){
+    const user = this ;
+    user.password = await bcript.hash(user.password , Number(config.bcryptSaltRounds)) ;
+    next() ;
+})
+
+userSchema.pre("find" , async function(next){
+    const user = this ;
+    this.find({isDeleted : { $ne : true }}) ;
+    next() ;
+})
+
+userSchema.pre("findOne" , async function(next){
+    const user = this ;
+    this.find({isDeleted : { $ne : true }}) ;
+    next() ;
 })
 
 export const UsersModel = model<TUser>('user' , userSchema) ;
