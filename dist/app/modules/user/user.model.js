@@ -54,16 +54,20 @@ userSchema.pre("save", function (next) {
         next();
     });
 });
+userSchema.post("save", function (doc, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        doc.password = "";
+        next();
+    });
+});
 userSchema.pre("find", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        const user = this;
         this.find({ isDeleted: { $ne: true } });
         next();
     });
 });
 userSchema.pre("findOne", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        const user = this;
         this.find({ isDeleted: { $ne: true } });
         next();
     });
