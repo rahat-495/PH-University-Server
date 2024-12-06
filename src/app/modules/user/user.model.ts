@@ -42,14 +42,17 @@ userSchema.pre("save" , async function(next){
     next() ;
 })
 
+userSchema.post("save" , async function(doc , next){
+    doc.password = "" ;
+    next() ;
+})
+
 userSchema.pre("find" , async function(next){
-    const user = this ;
     this.find({isDeleted : { $ne : true }}) ;
     next() ;
 })
 
 userSchema.pre("findOne" , async function(next){
-    const user = this ;
     this.find({isDeleted : { $ne : true }}) ;
     next() ;
 })
