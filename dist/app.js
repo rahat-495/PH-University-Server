@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const student_routes_1 = require("./app/modules/student/student.routes");
 const user_routes_1 = require("./app/modules/user/user.routes");
+const globalErrorHandler_1 = __importDefault(require("./app/modules/middlewares/globalErrorHandler"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
@@ -24,11 +25,5 @@ app.use('/api/v1/students', student_routes_1.studentRoutes);
 app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json({ message: "The second project server are running !", success: true });
 }));
-app.use((err, req, res, next) => {
-    return res.status(500).json({
-        success: false,
-        message: err.message || "some thing wen't wrong",
-        error: err,
-    });
-});
+app.use(globalErrorHandler_1.default);
 exports.default = app;
