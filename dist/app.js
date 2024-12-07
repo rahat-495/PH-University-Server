@@ -24,4 +24,11 @@ app.use('/api/v1/students', student_routes_1.studentRoutes);
 app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json({ message: "The second project server are running !", success: true });
 }));
+app.use((err, req, res, next) => {
+    return res.status(500).json({
+        success: false,
+        message: err.message || "some thing wen't wrong",
+        error: err,
+    });
+});
 exports.default = app;

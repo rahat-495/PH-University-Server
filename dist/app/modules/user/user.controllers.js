@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userControllers = void 0;
 const user_services_1 = require("./user.services");
-const createStudent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createStudent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { password, student: studentData } = req.body;
         // const zodParsedData = userValidation.userValidationSchema.parse(studentData) ;
@@ -23,11 +23,7 @@ const createStudent = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "something went wrong !",
-            error: error,
-        });
+        next(error);
     }
 });
 exports.userControllers = {
