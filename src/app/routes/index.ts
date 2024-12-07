@@ -5,7 +5,17 @@ import { userRoutes } from "../modules/user/user.routes";
 
 const router = express.Router() ;
 
-router.use('/users' , userRoutes) ;
-router.use('/students' , studentRoutes) ;
+const moduleRoutes = [
+    {
+        path : '/users' ,
+        route : userRoutes ,
+    } ,
+    {
+        path : '/students' ,
+        route : studentRoutes ,
+    } ,
+]
+
+moduleRoutes.forEach((route) => router.use(route.path , route.route)) ;
 
 export default router ;
