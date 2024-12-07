@@ -8,19 +8,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userControllers = void 0;
 const user_services_1 = require("./user.services");
+const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const createStudent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { password, student: studentData } = req.body;
         // const zodParsedData = userValidation.userValidationSchema.parse(studentData) ;
         const result = yield user_services_1.userService.createStudnetIntoDb(password, studentData);
-        res.json({
-            success: true,
+        // res.json()
+        if (!result) {
+            return;
+        }
+        (0, sendResponse_1.default)(res, { success: true,
             message: "student created success fully !",
-            data: result,
-        });
+            statusCode: 200, data: result });
     }
     catch (error) {
         next(error);
