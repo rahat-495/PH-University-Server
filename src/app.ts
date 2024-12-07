@@ -4,6 +4,7 @@ import cors from "cors" ;
 import { studentRoutes } from "./app/modules/student/student.routes";
 import { userRoutes } from "./app/modules/user/user.routes";
 import globalErrorHandler from "./app/modules/middlewares/globalErrorHandler";
+import notFound from "./app/modules/middlewares/notFound";
 const app = express() ;
 
 app.use(cors()) ;
@@ -16,6 +17,7 @@ app.get('/' , async (req , res) => {
     res.json({message : "The second project server are running !" , success : true}) ;
 })
 
-app.use(globalErrorHandler)
+app.use(notFound) ;
+app.use(globalErrorHandler) ;
 
 export default app ;
