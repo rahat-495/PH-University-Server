@@ -15,6 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.studentControllers = void 0;
 const student_services_1 = require("./student.services");
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
+const catchAsync = (fn) => {
+    return (req, res, next) => {
+        Promise.resolve(fn(req, res, next)).catch((err) => next(err));
+    };
+};
 const getAllStudents = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield student_services_1.studentServices.getAllStudentsFromDb();

@@ -1,5 +1,5 @@
 
-import { RequestHandler } from "express"
+import { NextFunction, Request, RequestHandler, Response } from "express"
 import { studentServices } from "./student.services";
 import sendResponse from "../../utils/sendResponse";
 
