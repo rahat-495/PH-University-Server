@@ -1,8 +1,14 @@
 
-import { RequestHandler } from "express";
+import { NextFunction, RequestHandler, Response , Request } from "express";
 import { userService } from "./user.services";
 import sendResponse from "../../utils/sendResponse";
 import { TStudent } from "../student/student.interfaces";
+
+const catchAsync = (fn : RequestHandler) => {
+    return (req : Request , res : Response , next : NextFunction) => {
+        Promise.resolve(fn(req , res , next)).catch((err) => next(err)) ;
+    }
+} 
 
 const createStudent : RequestHandler = async (req , res , next) => {
     try {
