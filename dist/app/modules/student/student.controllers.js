@@ -8,9 +8,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.studentControllers = void 0;
-const getAllStudents = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const student_services_1 = require("./student.services");
+const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
+const getAllStudents = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield student_services_1.studentServices.getAllStudentsFromDb();
+        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "All students are retrived !" });
+    }
+    catch (error) {
+        next(error);
+    }
 });
 exports.studentControllers = {
     getAllStudents,
