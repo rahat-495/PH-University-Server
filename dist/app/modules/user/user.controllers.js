@@ -20,7 +20,6 @@ const createStudent = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         const { password, student: studentData } = req.body;
         // const zodParsedData = userValidation.userValidationSchema.parse(studentData) ;
         const result = yield user_services_1.userService.createStudnetIntoDb(password, studentData);
-        // res.json()
         if (!result) {
             return;
         }
