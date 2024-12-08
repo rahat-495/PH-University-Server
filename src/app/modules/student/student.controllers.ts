@@ -3,6 +3,12 @@ import { RequestHandler } from "express"
 import { studentServices } from "./student.services";
 import sendResponse from "../../utils/sendResponse";
 
+const catchAsync = (fn : RequestHandler) => {
+    return (req : Request , res : Response , next : NextFunction) => {
+        Promise.resolve(fn(req , res , next)).catch((err) => next(err)) ;
+    }
+} 
+
 const getAllStudents : RequestHandler = async (req , res , next) => {
     try {
         const result = await studentServices.getAllStudentsFromDb() ;
