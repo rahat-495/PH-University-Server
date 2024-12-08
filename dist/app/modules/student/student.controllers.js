@@ -20,15 +20,10 @@ const catchAsync = (fn) => {
         Promise.resolve(fn(req, res, next)).catch((err) => next(err));
     };
 };
-const getAllStudents = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const result = yield student_services_1.studentServices.getAllStudentsFromDb();
-        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "All students are retrived !" });
-    }
-    catch (error) {
-        next(error);
-    }
-});
+const getAllStudents = catchAsync((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield student_services_1.studentServices.getAllStudentsFromDb();
+    (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "All students are retrived !" });
+}));
 exports.studentControllers = {
     getAllStudents,
 };
