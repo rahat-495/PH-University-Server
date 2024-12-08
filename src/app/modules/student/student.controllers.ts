@@ -9,14 +9,10 @@ const catchAsync = (fn : RequestHandler) => {
     }
 } 
 
-const getAllStudents : RequestHandler = async (req , res , next) => {
-    try {
-        const result = await studentServices.getAllStudentsFromDb() ;
-        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "All students are retrived !"}) ;
-    } catch (error) {
-        next(error) ;
-    }
-}
+const getAllStudents : RequestHandler = catchAsync(async (req , res , next) => {
+    const result = await studentServices.getAllStudentsFromDb() ;
+    sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "All students are retrived !"}) ;
+}) ;
 
 export const studentControllers = {
     getAllStudents ,
