@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.studentRoutes = void 0;
 const express_1 = __importDefault(require("express"));
+const student_controllers_1 = require("./student.controllers");
 const router = express_1.default.Router();
-// router.post('/create-student' , userControllers.createStudent) ;
+router.get('/getAllStudents', student_controllers_1.studentControllers.getAllStudents);
 exports.studentRoutes = router;
