@@ -15,6 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userControllers = void 0;
 const user_services_1 = require("./user.services");
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
+const catchAsync = (fn) => {
+    return (req, res, next) => {
+        Promise.resolve(fn(req, res, next)).catch((err) => next(err));
+    };
+};
 const createStudent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { password, student: studentData } = req.body;
