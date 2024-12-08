@@ -20,22 +20,17 @@ const catchAsync = (fn) => {
         Promise.resolve(fn(req, res, next)).catch((err) => next(err));
     };
 };
-const createStudent = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { password, student: studentData } = req.body;
-        // const zodParsedData = userValidation.userValidationSchema.parse(studentData) ;
-        const result = yield user_services_1.userService.createStudnetIntoDb(password, studentData);
-        if (!result) {
-            return;
-        }
-        (0, sendResponse_1.default)(res, { success: true,
-            message: "student created success fully !",
-            statusCode: 200, data: result });
+const createStudent = catchAsync((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { password, student: studentData } = req.body;
+    // const zodParsedData = userValidation.userValidationSchema.parse(studentData) ;
+    const result = yield user_services_1.userService.createStudnetIntoDb(password, studentData);
+    if (!result) {
+        return;
     }
-    catch (error) {
-        next(error);
-    }
-});
+    (0, sendResponse_1.default)(res, { success: true,
+        message: "student created success fully !",
+        statusCode: 200, data: result });
+}));
 exports.userControllers = {
     createStudent,
 };
