@@ -1,14 +1,9 @@
 
-import { NextFunction, RequestHandler, Response , Request } from "express";
+import { RequestHandler } from "express";
 import { userService } from "./user.services";
 import sendResponse from "../../utils/sendResponse";
 import { TStudent } from "../student/student.interfaces";
-
-const catchAsync = (fn : RequestHandler) => {
-    return (req : Request , res : Response , next : NextFunction) => {
-        Promise.resolve(fn(req , res , next)).catch((err) => next(err)) ;
-    }
-} 
+import catchAsync from "../../utils/catchAsync";
 
 const createStudent : RequestHandler = catchAsync( async (req , res , next) => { 
     const {password , student : studentData} = req.body ;
