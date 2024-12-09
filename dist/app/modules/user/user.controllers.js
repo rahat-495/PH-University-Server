@@ -15,12 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userControllers = void 0;
 const user_services_1 = require("./user.services");
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
-const catchAsync = (fn) => {
-    return (req, res, next) => {
-        Promise.resolve(fn(req, res, next)).catch((err) => next(err));
-    };
-};
-const createStudent = catchAsync((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
+const createStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { password, student: studentData } = req.body;
     // const zodParsedData = userValidation.userValidationSchema.parse(studentData) ;
     const result = yield user_services_1.userService.createStudnetIntoDb(password, studentData);
