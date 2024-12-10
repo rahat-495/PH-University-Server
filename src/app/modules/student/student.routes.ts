@@ -4,6 +4,7 @@ import { studentControllers } from "./student.controllers";
 
 const router = express.Router() ;
 
-router.get('/getAllStudents' , studentControllers.getAllStudents) ;
+router.get('/students' , studentControllers.getAllStudents) ;
+router.get('/student/:id' , studentControllers.getSpecificStudent) ;
 
 export const studentRoutes = router ;
