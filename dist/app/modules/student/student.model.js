@@ -121,7 +121,7 @@ const studentSchema = new mongoose_1.Schema({
         required: [true, "gender is required !"],
     },
     admissionSemester: {
-        type: String,
+        type: mongoose_1.Types.ObjectId,
         required: [true, "admissionSemester is required !"],
     },
 });
