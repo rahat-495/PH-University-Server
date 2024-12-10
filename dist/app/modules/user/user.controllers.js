@@ -18,7 +18,6 @@ const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const createStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { password, student: studentData } = req.body;
-    // const zodParsedData = userValidation.userValidationSchema.parse(studentData) ;
     const result = yield user_services_1.userService.createStudnetIntoDb(password, studentData);
     if (!result) {
         return;
