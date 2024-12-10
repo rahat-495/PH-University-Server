@@ -25,7 +25,13 @@ const getSpecificStudent = (0, catchAsync_1.default)((req, res, next) => __await
     const result = yield student_services_1.studentServices.getSpecificStudentFromDb(id);
     (0, sendResponse_1.default)(res, { data: Object.assign({}, result), statusCode: 200, success: true, message: "Specific students are retrived !" });
 }));
+const deleteAStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield student_services_1.studentServices.deleteAStudentFromDb(id);
+    (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Specific students are deleted !" });
+}));
 exports.studentControllers = {
     getAllStudents,
+    deleteAStudent,
     getSpecificStudent,
 };

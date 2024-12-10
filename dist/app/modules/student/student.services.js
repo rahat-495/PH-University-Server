@@ -19,7 +19,12 @@ const getSpecificStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, funct
     const result = yield student_model_1.studentsModel.findById(id);
     return result;
 });
+const deleteAStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield student_model_1.studentsModel.deleteOne({ _id: id });
+    return result;
+});
 exports.studentServices = {
+    deleteAStudentFromDb,
     getAllStudentsFromDb,
     getSpecificStudentFromDb
 };

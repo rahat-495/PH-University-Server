@@ -9,4 +9,5 @@ const student_controllers_1 = require("./student.controllers");
 const router = express_1.default.Router();
 router.get('/students', student_controllers_1.studentControllers.getAllStudents);
 router.get('/student/:id', student_controllers_1.studentControllers.getSpecificStudent);
+router.get('/student/:id', student_controllers_1.studentControllers.deleteAStudent);
 exports.studentRoutes = router;
