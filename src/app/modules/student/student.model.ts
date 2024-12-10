@@ -1,5 +1,5 @@
 
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 import { TGuardian, TLocalGuardian, TStudent, TUserName } from "./student.interfaces";
 
 const nameSchema = new Schema<TUserName>({
@@ -124,7 +124,7 @@ const studentSchema = new Schema<TStudent>({
         required : [true , "gender is required !"] ,
     },
     admissionSemester : {
-        type : String ,
+        type : Types.ObjectId ,
         required : [true , "admissionSemester is required !"] ,
     },
 })

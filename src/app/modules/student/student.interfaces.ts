@@ -1,5 +1,5 @@
 
-import { Types } from "mongoose";
+import { Schema, Types } from "mongoose";
 
 export type TUserName = {
     firstName : string ;
@@ -37,6 +37,6 @@ export type TStudent = {
     guardian : TGuardian ;
     localGuardian : TLocalGuardian ;
     profileImage : string ;
-    admissionSemester : string ;
+    admissionSemester : Schema.Types.ObjectId ;
     isDeleted : boolean ;
 }
