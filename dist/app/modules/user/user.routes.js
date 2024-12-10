@@ -19,7 +19,13 @@ const student_validation_1 = require("../student/student.validation");
 const router = express_1.default.Router();
 const validateRequest = (schema) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const zodParsedData = yield schema.parseAsync({ body: req.body });
+        try {
+            yield schema.parseAsync({ body: req.body });
+            return next();
+        }
+        catch (error) {
+            next(error);
+        }
     });
 };
 router.post('/create-student', validateRequest(student_validation_1.studentValidationSchema), user_controllers_1.userControllers.createStudent);

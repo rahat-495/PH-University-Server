@@ -23,22 +23,23 @@ const localGuardianSchema = zod_1.z.object({
 });
 exports.studentValidationSchema = zod_1.z.object({
     body: zod_1.z.object({
-        id: zod_1.z.string(),
         password: zod_1.z.string().max(20),
-        name: userNameSchema,
-        gender: zod_1.z.enum(["male", "female", "other"]),
-        dateOfBirth: zod_1.z.string(),
-        email: zod_1.z.string().email(),
-        contactNo: zod_1.z.string(),
-        emergencyContactNo: zod_1.z.string(),
-        bloodGroup: zod_1.z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]),
-        presentAddress: zod_1.z.string(),
-        permanentAddress: zod_1.z.string(),
-        guardian: guardianSchema,
-        localGuardian: localGuardianSchema,
-        profileImg: zod_1.z.string(),
-        isActive: zod_1.z.enum(["active", "blocked"]).default("active"),
-        isDeleted: zod_1.z.boolean().optional(),
+        student: zod_1.z.object({
+            name: userNameSchema,
+            gender: zod_1.z.enum(["male", "female", "other"]),
+            dateOfBirth: zod_1.z.string(),
+            email: zod_1.z.string().email(),
+            contactNo: zod_1.z.string(),
+            emergencyContactNo: zod_1.z.string(),
+            bloodGroup: zod_1.z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]),
+            presentAddress: zod_1.z.string(),
+            permanentAddress: zod_1.z.string(),
+            guardian: guardianSchema,
+            localGuardian: localGuardianSchema,
+            profileImg: zod_1.z.string(),
+            isActive: zod_1.z.enum(["active", "blocked"]).default("active"),
+            isDeleted: zod_1.z.boolean().optional(),
+        })
     }),
 });
 exports.studentValidations = {
