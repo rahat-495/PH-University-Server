@@ -11,7 +11,13 @@ const getSpecificStudentFromDb = async (id : string) => {
     return result ;
 }
 
+const deleteAStudentFromDb = async (id : string) => {
+    const result = await studentsModel.deleteOne({_id : id}) ;
+    return result ;
+}
+
 export const studentServices = {
+    deleteAStudentFromDb,
     getAllStudentsFromDb ,
     getSpecificStudentFromDb
 }
