@@ -8,6 +8,7 @@ const academicSemesterSchema = new Schema<TAcademicSemester>({
     name : {
         type : String ,
         required : true ,
+        enum : ["Autumn" , "Summer" , "Fall"] ,
     },
     year : {
         type : Date ,
@@ -16,6 +17,7 @@ const academicSemesterSchema = new Schema<TAcademicSemester>({
     code : {
         type : String ,
         required : true ,
+        enum : ["01" , "02" , "03"] ,
     },
     startMonth : {
         enum : months ,
