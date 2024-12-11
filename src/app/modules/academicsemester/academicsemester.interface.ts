@@ -1,10 +1,10 @@
 
-export type month = "January" | "February" | "March" | "April" | "May" | "June" | "July" | "August" | "September" | "October" | "November" | "December";
+export type TMonth = "January" | "February" | "March" | "April" | "May" | "June" | "July" | "August" | "September" | "October" | "November" | "December";
 
-export type academicSemester = {
+export type TAcademicSemester = {
     name : "Autumn" | "Summer" | "Fall" ,
     code : "01" | "02" | "03" ,
     year : Date ,
-    startDate : month ,
-    endDate : month ,
+    startDate : TMonth ,
+    endDate : TMonth ,
 }
