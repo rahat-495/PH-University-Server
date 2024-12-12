@@ -17,11 +17,7 @@ const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const academicSemester_services_1 = require("./academicSemester.services");
 const createAcademicSemester = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { data } = req.body;
-    const result = yield academicSemester_services_1.academicSemesterServices.createacademicSemesterIntoDb(data);
-    if (!result) {
-        return;
-    }
+    const result = yield academicSemester_services_1.academicSemesterServices.createacademicSemesterIntoDb(req.body);
     (0, sendResponse_1.default)(res, { success: true,
         message: "Academic semester created success fully !",
         statusCode: 200, data: result });
