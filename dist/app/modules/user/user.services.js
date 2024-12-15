@@ -19,7 +19,9 @@ const user_model_1 = require("./user.model");
 const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0, void 0, function* () {
     const userData = {};
     userData.role = 'student';
-    userData.id = "2030100001";
+    // const academicDetails = await academicSemestersModel.findById(studentData.admissionSemester) ;
+    // userData.id = await generateStudentId(academicDetails as TAcademicSemester) ;
+    userData.id = "2030010001";
     userData.password = password || config_1.default.defaultPass;
     const newUser = yield user_model_1.UsersModel.create(userData);
     if (newUser === null || newUser === void 0 ? void 0 : newUser._id) {

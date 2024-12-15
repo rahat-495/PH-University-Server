@@ -16,7 +16,7 @@ exports.academicSemesterServices = void 0;
 const academicSemester_constant_1 = require("./academicSemester.constant");
 const academicSemester_model_1 = __importDefault(require("./academicSemester.model"));
 const createacademicSemesterIntoDb = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    if (academicSemester_constant_1.academicSemesterNameCodeMapper[data === null || data === void 0 ? void 0 : data.name] !== (data === null || data === void 0 ? void 0 : data.code)) {
+    if ((data === null || data === void 0 ? void 0 : data.name) && (data === null || data === void 0 ? void 0 : data.code) && academicSemester_constant_1.academicSemesterNameCodeMapper[data === null || data === void 0 ? void 0 : data.name] !== (data === null || data === void 0 ? void 0 : data.code)) {
         throw new Error("Invalid Semester Code !");
     }
     const newAcademicSemester = yield academicSemester_model_1.default.create(data);
@@ -31,7 +31,10 @@ const getAcademicSemesterFromDb = (id) => __awaiter(void 0, void 0, void 0, func
     return academicSemester;
 });
 const updateAcademicSemesterIntoDb = (id, data) => __awaiter(void 0, void 0, void 0, function* () {
-    const academicSemester = yield academicSemester_model_1.default.updateOne({ _id: id }, { $set: Object.assign({}, data) });
+    if ((data === null || data === void 0 ? void 0 : data.name) && (data === null || data === void 0 ? void 0 : data.code) && academicSemester_constant_1.academicSemesterNameCodeMapper[data === null || data === void 0 ? void 0 : data.name] !== (data === null || data === void 0 ? void 0 : data.code)) {
+        throw new Error("Invalid Semester Code !");
+    }
+    const academicSemester = yield academicSemester_model_1.default.updateOne({ _id: id }, { $set: data });
     return academicSemester;
 });
 exports.academicSemesterServices = {

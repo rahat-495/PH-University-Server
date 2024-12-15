@@ -47,7 +47,7 @@ const localGuardianSchema = new mongoose_1.Schema({
         type: String,
         required: [true, "name is required!"],
     },
-    accupation: {
+    occupation: {
         type: String,
         required: [true, "occupation is required!"],
     },
