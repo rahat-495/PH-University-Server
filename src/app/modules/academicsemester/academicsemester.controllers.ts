@@ -21,8 +21,14 @@ const getAcademicSemester : RequestHandler = catchAsync( async (req , res , next
     }
 }) ;
 
+const updateAcademicSemester : RequestHandler = catchAsync( async (req , res , next) => { 
+    const result = await academicSemesterServices.updateAcademicSemesterIntoDb(req.params.semesterId , req.body) ;
+    sendResponse<object>(res , {success : true , message : "Academic semester updated success fully !" , statusCode : 200 , data : result }) ;
+}) ;
+
 export const academicSemesterControllers = {
     getAcademicSemester ,
     createAcademicSemester ,
     getAllAcademicSemester ,
+    updateAcademicSemester ,
 }

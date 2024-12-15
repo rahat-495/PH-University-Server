@@ -1,5 +1,4 @@
 
-import { Types } from "mongoose";
 import { academicSemesterNameCodeMapper } from "./academicSemester.constant";
 import { TAcademicSemester } from "./academicSemester.interface";
 import academicSemestersModel from "./academicSemester.model";
@@ -22,8 +21,14 @@ const getAcademicSemesterFromDb = async (id : string) => {
     return academicSemester ;
 }
 
+const updateAcademicSemesterIntoDb = async (id : string , data : Partial<TAcademicSemester>) => {
+    const academicSemester = await academicSemestersModel.updateOne({_id : id} , { $set : { ...data } }) ;
+    return academicSemester ;
+}
+
 export const academicSemesterServices = {
     getAcademicSemesterFromDb ,
     createacademicSemesterIntoDb ,
     getAllAcademicSemesterFromDb ,
+    updateAcademicSemesterIntoDb ,
 }
