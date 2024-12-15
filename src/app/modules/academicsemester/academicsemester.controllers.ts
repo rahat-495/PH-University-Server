@@ -11,6 +11,14 @@ const createAcademicSemester : RequestHandler = catchAsync( async (req , res , n
     statusCode : 200 , data : result }) ;
 }) ;
 
+const getAllAcademicSemester : RequestHandler = catchAsync( async (req , res , next) => { 
+    const result = await academicSemesterServices.getAllAcademicSemesterFromDb() ;
+    sendResponse<object[]>(res , {success : true ,
+    message : "Academic semester created success fully !" , 
+    statusCode : 200 , data : result }) ;
+}) ;
+
 export const academicSemesterControllers = {
     createAcademicSemester ,
+    getAllAcademicSemester ,
 }

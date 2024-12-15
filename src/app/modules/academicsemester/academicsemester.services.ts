@@ -11,6 +11,12 @@ const createacademicSemesterIntoDb = async (data : TAcademicSemester) => {
     return newAcademicSemester ;
 }
 
+const getAllAcademicSemesterFromDb = async () => {
+    const newAcademicSemester = await academicSemestersModel.find() ;
+    return newAcademicSemester ;
+}
+
 export const academicSemesterServices = {
     createacademicSemesterIntoDb ,
+    getAllAcademicSemesterFromDb ,
 }
