@@ -122,6 +122,7 @@ const studentSchema = new mongoose_1.Schema({
     },
     admissionSemester: {
         type: mongoose_1.Types.ObjectId,
+        ref: "academicSemester",
         required: [true, "admissionSemester is required !"],
     },
 });

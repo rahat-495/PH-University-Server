@@ -39,6 +39,7 @@ exports.createStudentValidationSchema = zod_1.z.object({
             profileImg: zod_1.z.string(),
             isActive: zod_1.z.enum(["active", "blocked"]).default("active"),
             isDeleted: zod_1.z.boolean().optional(),
+            admissionSemester: zod_1.z.string(),
         })
     }),
 });
