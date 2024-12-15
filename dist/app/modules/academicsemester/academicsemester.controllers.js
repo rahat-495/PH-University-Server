@@ -18,17 +18,20 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const academicSemester_services_1 = require("./academicSemester.services");
 const createAcademicSemester = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield academicSemester_services_1.academicSemesterServices.createacademicSemesterIntoDb(req.body);
-    (0, sendResponse_1.default)(res, { success: true,
-        message: "Academic semester created success fully !",
-        statusCode: 200, data: result });
+    (0, sendResponse_1.default)(res, { success: true, message: "Academic semester created success fully !", statusCode: 200, data: result });
 }));
 const getAllAcademicSemester = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield academicSemester_services_1.academicSemesterServices.getAllAcademicSemesterFromDb();
-    (0, sendResponse_1.default)(res, { success: true,
-        message: "Academic semester created success fully !",
-        statusCode: 200, data: result });
+    (0, sendResponse_1.default)(res, { success: true, message: "Academic semesters retrive success fully !", statusCode: 200, data: result });
+}));
+const getAcademicSemester = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicSemester_services_1.academicSemesterServices.getAcademicSemesterFromDb(req.params.semesterId);
+    if (result) {
+        (0, sendResponse_1.default)(res, { success: true, message: "Academic semester retrive success fully !", statusCode: 200, data: result });
+    }
 }));
 exports.academicSemesterControllers = {
+    getAcademicSemester,
     createAcademicSemester,
     getAllAcademicSemester,
 };

@@ -23,10 +23,15 @@ const createacademicSemesterIntoDb = (data) => __awaiter(void 0, void 0, void 0,
     return newAcademicSemester;
 });
 const getAllAcademicSemesterFromDb = () => __awaiter(void 0, void 0, void 0, function* () {
-    const newAcademicSemester = yield academicSemester_model_1.default.find();
-    return newAcademicSemester;
+    const academicSemesters = yield academicSemester_model_1.default.find();
+    return academicSemesters;
+});
+const getAcademicSemesterFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const academicSemester = yield academicSemester_model_1.default.findById(id);
+    return academicSemester;
 });
 exports.academicSemesterServices = {
+    getAcademicSemesterFromDb,
     createacademicSemesterIntoDb,
     getAllAcademicSemesterFromDb,
 };
