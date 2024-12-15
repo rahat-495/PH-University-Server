@@ -30,8 +30,13 @@ const getAcademicSemester = (0, catchAsync_1.default)((req, res, next) => __awai
         (0, sendResponse_1.default)(res, { success: true, message: "Academic semester retrive success fully !", statusCode: 200, data: result });
     }
 }));
+const updateAcademicSemester = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicSemester_services_1.academicSemesterServices.updateAcademicSemesterIntoDb(req.params.semesterId, req.body);
+    (0, sendResponse_1.default)(res, { success: true, message: "Academic semester updated success fully !", statusCode: 200, data: result });
+}));
 exports.academicSemesterControllers = {
     getAcademicSemester,
     createAcademicSemester,
     getAllAcademicSemester,
+    updateAcademicSemester,
 };

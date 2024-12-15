@@ -30,8 +30,13 @@ const getAcademicSemesterFromDb = (id) => __awaiter(void 0, void 0, void 0, func
     const academicSemester = yield academicSemester_model_1.default.findById(id);
     return academicSemester;
 });
+const updateAcademicSemesterIntoDb = (id, data) => __awaiter(void 0, void 0, void 0, function* () {
+    const academicSemester = yield academicSemester_model_1.default.updateOne({ _id: id }, { $set: Object.assign({}, data) });
+    return academicSemester;
+});
 exports.academicSemesterServices = {
     getAcademicSemesterFromDb,
     createacademicSemesterIntoDb,
     getAllAcademicSemesterFromDb,
+    updateAcademicSemesterIntoDb,
 };
