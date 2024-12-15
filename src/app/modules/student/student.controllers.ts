@@ -12,8 +12,10 @@ const getAllStudents : RequestHandler = catchAsync(async (req , res , next) => {
 
 const getSpecificStudent : RequestHandler = catchAsync(async (req , res , next) => {
     const {id} = req.params ;
-    const result = await studentServices.getSpecificStudentFromDb(id) ;
-    sendResponse<object>(res , {data : {...result} , statusCode : 200 , success : true , message : "Specific students are retrived !"}) ;
+    const data = await studentServices.getSpecificStudentFromDb(id) ;
+    if(data){
+        sendResponse<object>(res , {data , statusCode : 200 , success : true , message : "Specific students are retrived !"}) ;
+    }
 }) ;
 
 const deleteAStudent : RequestHandler = catchAsync(async (req , res , next) => {

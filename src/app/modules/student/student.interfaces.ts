@@ -18,7 +18,7 @@ export type TGuardian = {
 
 export type TLocalGuardian = {
     name : string ;
-    accupation : string ;
+    occupation : string ;
     contactNo : string ;
     address : string ;
 }

@@ -4,7 +4,7 @@ import { TAcademicSemester } from "./academicSemester.interface";
 import academicSemestersModel from "./academicSemester.model";
 
 const createacademicSemesterIntoDb = async (data : TAcademicSemester) => {
-    if(academicSemesterNameCodeMapper[data?.name] !== data?.code){
+    if(data?.name && data?.code && academicSemesterNameCodeMapper[data?.name] !== data?.code){
         throw new Error("Invalid Semester Code !") ;
     }
     const newAcademicSemester = await academicSemestersModel.create(data) ;
@@ -22,7 +22,10 @@ const getAcademicSemesterFromDb = async (id : string) => {
 }
 
 const updateAcademicSemesterIntoDb = async (id : string , data : Partial<TAcademicSemester>) => {
-    const academicSemester = await academicSemestersModel.updateOne({_id : id} , { $set : { ...data } }) ;
+    if(data?.name && data?.code && academicSemesterNameCodeMapper[data?.name] !== data?.code){
+        throw new Error("Invalid Semester Code !") ;
+    }
+    const academicSemester = await academicSemestersModel.updateOne({_id : id} , { $set : data }) ;
     return academicSemester ;
 }
 

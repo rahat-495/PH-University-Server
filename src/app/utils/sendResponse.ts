@@ -8,11 +8,11 @@ type TResponse<T> = {
     statusCode : number ;
 }
 
-const sendResponse = <T>(res : Response , data : TResponse<T>) => {
-    res.status(data?.statusCode).json({
-        success : data?.success ,
-        message : data?.message ,
-        data : data?.data ,
+const sendResponse = <T>(res : Response , payload : TResponse<T>) => {
+    res.status(payload?.statusCode).json({
+        success : payload?.success ,
+        message : payload?.message ,
+        data : payload?.data ,
     })
 }
 

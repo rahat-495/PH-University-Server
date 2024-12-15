@@ -1,15 +1,22 @@
 
 import config from "../../config";
+import { TAcademicSemester } from "../academicSemester/academicSemester.interface";
+import academicSemestersModel from "../academicSemester/academicSemester.model";
 import { TStudent } from "../student/student.interfaces";
 import { studentsModel } from "../student/student.model";
 import { TUser } from "./user.interfaces";
 import { UsersModel } from "./user.model";
+import { generateStudentId } from "./user.utils";
 
 const createStudnetIntoDb = async (password : string , studentData : Partial<TStudent>) => {
 
     const userData : Partial<TUser> = {} ;
     userData.role = 'student' ;
-    userData.id = "2030100001" ;
+
+    // const academicDetails = await academicSemestersModel.findById(studentData.admissionSemester) ;
+
+    // userData.id = await generateStudentId(academicDetails as TAcademicSemester) ;
+    userData.id = "2030010001" ;
     userData.password = password || config.defaultPass as string ;
 
     const newUser = await UsersModel.create(userData) ;
