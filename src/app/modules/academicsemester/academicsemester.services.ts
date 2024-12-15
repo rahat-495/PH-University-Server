@@ -1,4 +1,5 @@
 
+import { Types } from "mongoose";
 import { academicSemesterNameCodeMapper } from "./academicSemester.constant";
 import { TAcademicSemester } from "./academicSemester.interface";
 import academicSemestersModel from "./academicSemester.model";
@@ -12,11 +13,17 @@ const createacademicSemesterIntoDb = async (data : TAcademicSemester) => {
 }
 
 const getAllAcademicSemesterFromDb = async () => {
-    const newAcademicSemester = await academicSemestersModel.find() ;
-    return newAcademicSemester ;
+    const academicSemesters = await academicSemestersModel.find() ;
+    return academicSemesters ;
+}
+
+const getAcademicSemesterFromDb = async (id : string) => {
+    const academicSemester = await academicSemestersModel.findById(id) ;
+    return academicSemester ;
 }
 
 export const academicSemesterServices = {
+    getAcademicSemesterFromDb ,
     createacademicSemesterIntoDb ,
     getAllAcademicSemesterFromDb ,
 }
