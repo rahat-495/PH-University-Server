@@ -22,6 +22,13 @@ const createAcademicSemester = (0, catchAsync_1.default)((req, res, next) => __a
         message: "Academic semester created success fully !",
         statusCode: 200, data: result });
 }));
+const getAllAcademicSemester = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield academicSemester_services_1.academicSemesterServices.getAllAcademicSemesterFromDb();
+    (0, sendResponse_1.default)(res, { success: true,
+        message: "Academic semester created success fully !",
+        statusCode: 200, data: result });
+}));
 exports.academicSemesterControllers = {
     createAcademicSemester,
+    getAllAcademicSemester,
 };

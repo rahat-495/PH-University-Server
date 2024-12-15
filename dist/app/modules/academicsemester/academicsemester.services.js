@@ -22,6 +22,11 @@ const createacademicSemesterIntoDb = (data) => __awaiter(void 0, void 0, void 0,
     const newAcademicSemester = yield academicSemester_model_1.default.create(data);
     return newAcademicSemester;
 });
+const getAllAcademicSemesterFromDb = () => __awaiter(void 0, void 0, void 0, function* () {
+    const newAcademicSemester = yield academicSemester_model_1.default.find();
+    return newAcademicSemester;
+});
 exports.academicSemesterServices = {
     createacademicSemesterIntoDb,
+    getAllAcademicSemesterFromDb,
 };
