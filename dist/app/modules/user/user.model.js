@@ -19,6 +19,7 @@ const config_1 = __importDefault(require("../../config"));
 const userSchema = new mongoose_1.Schema({
     id: {
         type: String,
+        unique: true,
         required: true,
     },
     password: {

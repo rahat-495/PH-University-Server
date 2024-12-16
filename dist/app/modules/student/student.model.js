@@ -63,6 +63,7 @@ const localGuardianSchema = new mongoose_1.Schema({
 const studentSchema = new mongoose_1.Schema({
     id: {
         type: String,
+        unique: true,
         required: [true, "ID is required !"],
     },
     user: {
