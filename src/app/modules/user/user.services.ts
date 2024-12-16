@@ -1,5 +1,6 @@
 
 import config from "../../config";
+import sendResponse from "../../utils/sendResponse";
 import { TAcademicSemester } from "../academicSemester/academicSemester.interface";
 import academicSemestersModel from "../academicSemester/academicSemester.model";
 import { TStudent } from "../student/student.interfaces";
@@ -14,6 +15,10 @@ const createStudnetIntoDb = async (password : string , studentData : Partial<TSt
     userData.role = 'student' ;
 
     const academicDetails = await academicSemestersModel.findById(studentData.admissionSemester) ;
+
+    if(!academicDetails){
+        return false ;
+    }
 
     userData.id = await generateStudentId(academicDetails as TAcademicSemester) ;
     userData.password = password || config.defaultPass as string ;
