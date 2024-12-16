@@ -7,6 +7,7 @@ import config from "../../config";
 const userSchema = new Schema<TUser>({
     id : {
         type : String ,
+        unique : true ,
         required : true ,
     },
     password : {

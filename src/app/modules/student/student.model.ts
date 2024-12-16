@@ -66,6 +66,7 @@ const localGuardianSchema = new Schema<TLocalGuardian>({
 const studentSchema = new Schema<TStudent>({
     id : {
         type : String ,
+        unique : true ,
         required : [true , "ID is required !"] ,
     },
     user : {
