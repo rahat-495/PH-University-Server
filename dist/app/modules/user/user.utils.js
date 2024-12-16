@@ -13,7 +13,7 @@ exports.generateStudentId = void 0;
 const generateStudentId = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const currentId = (0).toString();
     let incrementId = Number(currentId + 1).toString().padStart(4, '0');
-    incrementId = `${payload.year}${payload.code}${incrementId}`;
+    incrementId = `${payload === null || payload === void 0 ? void 0 : payload.year}${payload === null || payload === void 0 ? void 0 : payload.code}${incrementId}`;
     return incrementId;
 });
 exports.generateStudentId = generateStudentId;

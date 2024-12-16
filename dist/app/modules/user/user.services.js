@@ -22,6 +22,9 @@ const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0,
     const userData = {};
     userData.role = 'student';
     const academicDetails = yield academicSemester_model_1.default.findById(studentData.admissionSemester);
+    if (!academicDetails) {
+        return false;
+    }
     userData.id = yield (0, user_utils_1.generateStudentId)(academicDetails);
     userData.password = password || config_1.default.defaultPass;
     const newUser = yield user_model_1.UsersModel.create(userData);
