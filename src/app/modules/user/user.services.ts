@@ -23,13 +23,13 @@ const createStudnetIntoDb = async (password : string , studentData : Partial<TSt
     userData.id = await generateStudentId(academicDetails as TAcademicSemester) ;
     userData.password = password || config.defaultPass as string ;
 
-    const newUser = await UsersModel.create(userData) ;
-    if(newUser?._id){
-        studentData.id = newUser?.id ;
-        studentData.user = newUser?._id ;
-        const newStudent = await studentsModel.create(studentData) ;
-        return newStudent ;
-    }
+    // const newUser = await UsersModel.create(userData) ;
+    // if(newUser?._id){
+    //     studentData.id = newUser?.id ;
+    //     studentData.user = newUser?._id ;
+    //     const newStudent = await studentsModel.create(studentData) ;
+    //     return newStudent ;
+    // }
 }
 
 export const userService = {
