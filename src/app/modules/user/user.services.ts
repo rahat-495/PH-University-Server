@@ -13,10 +13,9 @@ const createStudnetIntoDb = async (password : string , studentData : Partial<TSt
     const userData : Partial<TUser> = {} ;
     userData.role = 'student' ;
 
-    // const academicDetails = await academicSemestersModel.findById(studentData.admissionSemester) ;
+    const academicDetails = await academicSemestersModel.findById(studentData.admissionSemester) ;
 
-    // userData.id = await generateStudentId(academicDetails as TAcademicSemester) ;
-    userData.id = "2030010001" ;
+    userData.id = await generateStudentId(academicDetails as TAcademicSemester) ;
     userData.password = password || config.defaultPass as string ;
 
     const newUser = await UsersModel.create(userData) ;
