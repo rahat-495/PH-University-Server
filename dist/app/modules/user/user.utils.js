@@ -17,7 +17,7 @@ const findLastUserId = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 const generateStudentId = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const currentId = (yield findLastUserId()) || (0).toString();
-    let incrementId = Number(currentId + 1).toString().padStart(4, '0');
+    let incrementId = (Number(currentId) + 1).toString().padStart(4, '0');
     incrementId = `${payload === null || payload === void 0 ? void 0 : payload.year}${payload === null || payload === void 0 ? void 0 : payload.code}${incrementId}`;
     return incrementId;
 });

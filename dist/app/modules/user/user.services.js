@@ -15,8 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = void 0;
 const config_1 = __importDefault(require("../../config"));
 const academicSemester_model_1 = __importDefault(require("../academicSemester/academicSemester.model"));
-const student_model_1 = require("../student/student.model");
-const user_model_1 = require("./user.model");
 const user_utils_1 = require("./user.utils");
 const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0, void 0, function* () {
     const userData = {};
@@ -27,13 +25,13 @@ const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0,
     }
     userData.id = yield (0, user_utils_1.generateStudentId)(academicDetails);
     userData.password = password || config_1.default.defaultPass;
-    const newUser = yield user_model_1.UsersModel.create(userData);
-    if (newUser === null || newUser === void 0 ? void 0 : newUser._id) {
-        studentData.id = newUser === null || newUser === void 0 ? void 0 : newUser.id;
-        studentData.user = newUser === null || newUser === void 0 ? void 0 : newUser._id;
-        const newStudent = yield student_model_1.studentsModel.create(studentData);
-        return newStudent;
-    }
+    // const newUser = await UsersModel.create(userData) ;
+    // if(newUser?._id){
+    //     studentData.id = newUser?.id ;
+    //     studentData.user = newUser?._id ;
+    //     const newStudent = await studentsModel.create(studentData) ;
+    //     return newStudent ;
+    // }
 });
 exports.userService = {
     createStudnetIntoDb,
