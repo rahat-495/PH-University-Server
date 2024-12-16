@@ -14,14 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = void 0;
 const config_1 = __importDefault(require("../../config"));
+const academicSemester_model_1 = __importDefault(require("../academicSemester/academicSemester.model"));
 const student_model_1 = require("../student/student.model");
 const user_model_1 = require("./user.model");
+const user_utils_1 = require("./user.utils");
 const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0, void 0, function* () {
     const userData = {};
     userData.role = 'student';
-    // const academicDetails = await academicSemestersModel.findById(studentData.admissionSemester) ;
-    // userData.id = await generateStudentId(academicDetails as TAcademicSemester) ;
-    userData.id = "2030010001";
+    const academicDetails = yield academicSemester_model_1.default.findById(studentData.admissionSemester);
+    userData.id = yield (0, user_utils_1.generateStudentId)(academicDetails);
     userData.password = password || config_1.default.defaultPass;
     const newUser = yield user_model_1.UsersModel.create(userData);
     if (newUser === null || newUser === void 0 ? void 0 : newUser._id) {
