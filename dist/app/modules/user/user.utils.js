@@ -13,10 +13,18 @@ exports.generateStudentId = void 0;
 const user_model_1 = require("./user.model");
 const findLastUserId = () => __awaiter(void 0, void 0, void 0, function* () {
     const lastUserId = yield user_model_1.UsersModel.findOne({ role: "student" }, { id: 1, _id: 0 }).sort({ createdAt: -1 }).lean();
-    return (lastUserId === null || lastUserId === void 0 ? void 0 : lastUserId.id) ? lastUserId.id.substring(6) : undefined;
+    return (lastUserId === null || lastUserId === void 0 ? void 0 : lastUserId.id) ? lastUserId.id : undefined;
 });
 const generateStudentId = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const currentId = (yield findLastUserId()) || (0).toString();
+    let currentId = (0).toString();
+    const lastUserId = yield findLastUserId();
+    const lastStudentyear = lastUserId === null || lastUserId === void 0 ? void 0 : lastUserId.substring(0, 4);
+    const lastStudentSemesterCode = lastUserId === null || lastUserId === void 0 ? void 0 : lastUserId.substring(4, 6);
+    const currnetYear = payload.year;
+    const currnetCode = payload.code;
+    if (lastUserId && lastStudentSemesterCode === currnetCode && lastStudentyear === currnetYear) {
+        currentId = lastUserId.substring(6);
+    }
     let incrementId = (Number(currentId) + 1).toString().padStart(4, '0');
     incrementId = `${payload === null || payload === void 0 ? void 0 : payload.year}${payload === null || payload === void 0 ? void 0 : payload.code}${incrementId}`;
     return incrementId;
