@@ -5,7 +5,8 @@ const mongoose_1 = require("mongoose");
 const academicFacultySchema = new mongoose_1.Schema({
     name: {
         type: String,
-        required: [true, "Enter the name !"]
+        unique: true,
+        required: [true, "Enter the name !"],
     }
 });
 exports.academicFacultysModel = (0, mongoose_1.model)("academicFaculty", academicFacultySchema);
