@@ -5,8 +5,9 @@ import { TAcademicFaculty } from "./academicFaculty.interfaces";
 const academicFacultySchema = new Schema<TAcademicFaculty>({
     name : {
         type : String ,
-        required : [true , "Enter the name !"]
+        unique : true ,
+        required : [true , "Enter the name !"],
     }
 })
 
-export const academicFacultysModel = model("academicFaculty" , academicFacultySchema) ;
+export const academicFacultysModel = model<TAcademicFaculty>("academicFaculty" , academicFacultySchema) ;
