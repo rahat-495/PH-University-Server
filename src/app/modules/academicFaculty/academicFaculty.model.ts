@@ -1,5 +1,5 @@
 
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import { TAcademicFaculty } from "./academicFaculty.interfaces";
 
 const academicFacultySchema = new Schema<TAcademicFaculty>({
@@ -8,3 +8,5 @@ const academicFacultySchema = new Schema<TAcademicFaculty>({
         required : [true , "Enter the name !"]
     }
 })
+
+export const academicFacultysModel = model("academicFaculty" , academicFacultySchema) ;
