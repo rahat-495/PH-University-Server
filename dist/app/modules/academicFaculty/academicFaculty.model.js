@@ -8,5 +8,7 @@ const academicFacultySchema = new mongoose_1.Schema({
         unique: true,
         required: [true, "Enter the name !"],
     }
+}, {
+    timestamps: true,
 });
 exports.academicFacultysModel = (0, mongoose_1.model)("academicFaculty", academicFacultySchema);
