@@ -18,21 +18,21 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const academicDepartment_services_1 = require("./academicDepartment.services");
 const createAcademicDepartmentIntoDb = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield academicDepartment_services_1.academicDepartmentServices.createAacademicDepartmentIntoDb(req.body);
-    (0, sendResponse_1.default)(res, { success: true, message: "Academic faculty created success fully !", statusCode: 200, data: result });
+    (0, sendResponse_1.default)(res, { success: true, message: "Academic department created success fully !", statusCode: 200, data: result });
 }));
 const getAllAcademicDepartment = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield academicDepartment_services_1.academicDepartmentServices.getAllAcademicDepartmentFromDb();
-    (0, sendResponse_1.default)(res, { success: true, message: "Academic faculties retrive success fully !", statusCode: 200, data: result });
+    (0, sendResponse_1.default)(res, { success: true, message: "Academic department retrive success fully !", statusCode: 200, data: result });
 }));
 const getAcademicDepartment = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield academicDepartment_services_1.academicDepartmentServices.getSpecificAcademicDepartmentFromDb(req.params.id);
     if (result) {
-        (0, sendResponse_1.default)(res, { success: true, message: "Academic faculty retrive success fully !", statusCode: 200, data: result });
+        (0, sendResponse_1.default)(res, { success: true, message: "Academic department retrive success fully !", statusCode: 200, data: result });
     }
 }));
 const updateAcademicDepartment = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield academicDepartment_services_1.academicDepartmentServices.updateAcademicDepartmentIntoDb(req.params.id, req.body);
-    (0, sendResponse_1.default)(res, { success: true, message: "Academic faculty updated success fully !", statusCode: 200, data: result });
+    (0, sendResponse_1.default)(res, { success: true, message: "Academic department updated success fully !", statusCode: 200, data: result });
 }));
 exports.academicDepartmentControllers = {
     getAcademicDepartment,
