@@ -34,4 +34,14 @@ academicDepartmentSchema.pre("save", function (next) {
         next();
     });
 });
+academicDepartmentSchema.pre("updateOne", function (next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const query = this.getQuery();
+        const academicDepartment = yield exports.academicDepartmentsModel.findOne(query);
+        if (!academicDepartment) {
+            throw new Error("Academic department id is not axist !");
+        }
+        next();
+    });
+});
 exports.academicDepartmentsModel = (0, mongoose_1.model)("academicDepartment", academicDepartmentSchema);
