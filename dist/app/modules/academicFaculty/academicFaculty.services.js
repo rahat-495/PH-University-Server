@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.studentServices = void 0;
+exports.academicFacultyServices = void 0;
 const academicFaculty_model_1 = require("./academicFaculty.model");
 const createAacademicFacultyIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield academicFaculty_model_1.academicFacultysModel.create(payload);
@@ -23,13 +23,13 @@ const getSpecificAcademicFacultyFromDb = (id) => __awaiter(void 0, void 0, void 
     const result = yield academicFaculty_model_1.academicFacultysModel.findById(id);
     return result;
 });
-const updateAAcademicFacultyIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const updateAcademicFacultyIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield academicFaculty_model_1.academicFacultysModel.updateOne({ _id: id }, { $set: payload });
     return result;
 });
-exports.studentServices = {
+exports.academicFacultyServices = {
+    updateAcademicFacultyIntoDb,
     createAacademicFacultyIntoDb,
-    updateAAcademicFacultyIntoDb,
     getAllAcademicFacultiesFromDb,
     getSpecificAcademicFacultyFromDb,
 };
