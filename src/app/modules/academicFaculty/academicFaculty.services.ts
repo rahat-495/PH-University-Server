@@ -17,14 +17,14 @@ const getSpecificAcademicFacultyFromDb = async (id : string) => {
     return result ;
 }
 
-const updateAAcademicFacultyIntoDb = async (id : string , payload : TAcademicFaculty) => {
+const updateAcademicFacultyIntoDb = async (id : string , payload : TAcademicFaculty) => {
     const result = await academicFacultysModel.updateOne({_id : id} , {$set : payload}) ;
     return result ;
 }
 
-export const studentServices = {
+export const academicFacultyServices = {
+    updateAcademicFacultyIntoDb ,
     createAacademicFacultyIntoDb,
-    updateAAcademicFacultyIntoDb ,
     getAllAcademicFacultiesFromDb ,
     getSpecificAcademicFacultyFromDb ,
 }
