@@ -22,7 +22,16 @@ academicDepartmentSchema.pre("save" , async function(next){
     if(academicDepartment){
         throw new Error("Academic department name is already axist !") ; 
     }
-    next() ;
+    next() ;  
+}) ;
+
+academicDepartmentSchema.pre("updateOne" , async function(next){
+    const query = this.getQuery() ;
+    const academicDepartment = await academicDepartmentsModel.findOne(query) ;
+    if(!academicDepartment){
+        throw new Error("Academic department id is not axist !") ; 
+    }
+    next() ;  
 }) ;
 
 export const academicDepartmentsModel = model<TAcademicDepartment>("academicDepartment" , academicDepartmentSchema) ;
