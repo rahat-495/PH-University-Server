@@ -131,7 +131,7 @@ const studentSchema = new Schema<TStudent>({
     },
     academicDepartment : {
         type : Types.ObjectId ,
-        ref : "academicSemester" ,
+        ref : "academicDepartment" ,
         required : [true , "admissionSemester is required !"] ,
     },
 })
