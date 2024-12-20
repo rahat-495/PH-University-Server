@@ -129,6 +129,11 @@ const studentSchema = new Schema<TStudent>({
         ref : "academicSemester" ,
         required : [true , "admissionSemester is required !"] ,
     },
+    academicDepartment : {
+        type : Types.ObjectId ,
+        ref : "academicSemester" ,
+        required : [true , "admissionSemester is required !"] ,
+    },
 })
 
 export const studentsModel = model('student' , studentSchema) ;

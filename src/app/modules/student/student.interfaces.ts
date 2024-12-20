@@ -38,5 +38,6 @@ export type TStudent = {
     localGuardian : TLocalGuardian ;
     profileImage : string ;
     admissionSemester : Schema.Types.ObjectId ;
+    academicDepartment : Schema.Types.ObjectId ;
     isDeleted : boolean ;
 }

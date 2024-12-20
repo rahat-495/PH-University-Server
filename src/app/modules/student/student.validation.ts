@@ -41,6 +41,7 @@ export const createStudentValidationSchema = z.object({
             isActive : z.enum(["active" , "blocked"]).default("active") ,
             isDeleted : z.boolean().optional() ,
             admissionSemester : z.string() ,
+            academicDepartment : z.string() ,
         })
     }),
 })
