@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.academicDepartmentsModel = void 0;
 const mongoose_1 = require("mongoose");
+const AppErrors_1 = require("../../errors/AppErrors");
 const academicDepartmentSchema = new mongoose_1.Schema({
     name: {
         type: String,
@@ -29,7 +30,7 @@ academicDepartmentSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const academicDepartment = yield exports.academicDepartmentsModel.findOne({ name: this.name });
         if (academicDepartment) {
-            throw new Error("Academic department name is already axist !");
+            throw new AppErrors_1.AppError("Academic department name is already axist !", 404);
         }
         next();
     });
