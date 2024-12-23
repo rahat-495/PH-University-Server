@@ -1,7 +1,7 @@
 
 import { model, Schema } from "mongoose";
 import { TAcademicDepartment } from "./academicDepartment.interface";
-import { AppError } from "../../errors/AppErrors";
+import AppError from "../../errors/AppErrors";
 
 const academicDepartmentSchema = new Schema<TAcademicDepartment>({
     name : {
@@ -21,7 +21,7 @@ const academicDepartmentSchema = new Schema<TAcademicDepartment>({
 academicDepartmentSchema.pre("save" , async function(next){
     const academicDepartment = await academicDepartmentsModel.findOne({name : this.name}) ;
     if(academicDepartment){
-        throw new AppError(404 , "Academic department name is already axist !") ; 
+        throw new AppError(500 , "Academic department name is already axist !") ; 
     }
     next() ;  
 }) ;
@@ -30,7 +30,7 @@ academicDepartmentSchema.pre("updateOne" , async function(next){
     const query = this.getQuery() ;
     const academicDepartment = await academicDepartmentsModel.findOne(query) ;
     if(!academicDepartment){
-        throw new Error("Academic department id is not axist !") ; 
+        throw new AppError(404 , "Academic department id is not axist !") ; 
     }
     next() ;  
 }) ;
