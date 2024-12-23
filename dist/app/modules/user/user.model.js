@@ -16,6 +16,7 @@ exports.UsersModel = void 0;
 const mongoose_1 = require("mongoose");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const config_1 = __importDefault(require("../../config"));
+const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const userSchema = new mongoose_1.Schema({
     id: {
         type: String,
@@ -70,6 +71,15 @@ userSchema.pre("find", function (next) {
 userSchema.pre("findOne", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         this.find({ isDeleted: { $ne: true } });
+        next();
+    });
+});
+userSchema.pre('findOneAndUpdate', function (next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const student = yield exports.UsersModel.findOne({ id: this.getQuery().id });
+        if (!student) {
+            throw new AppErrors_1.default(404, "User not found!");
+        }
         next();
     });
 });
