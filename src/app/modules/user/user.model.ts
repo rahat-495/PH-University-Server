@@ -3,6 +3,7 @@ import { model, Schema } from "mongoose";
 import bcript from "bcryptjs";
 import { TUser } from "./user.interfaces";
 import config from "../../config";
+import AppError from "../../errors/AppErrors";
 
 const userSchema = new Schema<TUser>({
     id : {
@@ -57,5 +58,13 @@ userSchema.pre("findOne" , async function(next){
     this.find({isDeleted : { $ne : true }}) ;
     next() ;
 })
+
+userSchema.pre('findOneAndUpdate', async function(next) {
+    const student = await UsersModel.findOne({id : this.getQuery().id}) ;
+    if (!student) {
+        throw new AppError(404, "User not found!");
+    }
+    next();
+});
 
 export const UsersModel = model<TUser>('user' , userSchema) ;
