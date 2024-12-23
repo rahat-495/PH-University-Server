@@ -1,6 +1,7 @@
 
 import { model, Schema, Types } from "mongoose";
 import { TGuardian, TLocalGuardian, TStudent, TUserName } from "./student.interfaces";
+import AppError from "../../errors/AppErrors";
 
 const nameSchema = new Schema<TUserName>({
     firstName: {
@@ -135,5 +136,13 @@ const studentSchema = new Schema<TStudent>({
         required : [true , "admissionSemester is required !"] ,
     },
 })
+
+studentSchema.pre('findOneAndUpdate', async function(next) {
+    const student = await studentsModel.findOne({id : this.getQuery().id}) ;
+    if (!student) {
+        throw new AppError(404, "Student not found!");
+    }
+    next();
+});
 
 export const studentsModel = model('student' , studentSchema) ;
