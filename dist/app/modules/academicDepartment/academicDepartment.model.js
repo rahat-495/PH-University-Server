@@ -8,10 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.academicDepartmentsModel = void 0;
 const mongoose_1 = require("mongoose");
-const AppErrors_1 = require("../../errors/AppErrors");
+const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const academicDepartmentSchema = new mongoose_1.Schema({
     name: {
         type: String,
@@ -30,7 +33,7 @@ academicDepartmentSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const academicDepartment = yield exports.academicDepartmentsModel.findOne({ name: this.name });
         if (academicDepartment) {
-            throw new AppErrors_1.AppError(404, "Academic department name is already axist !");
+            throw new AppErrors_1.default(500, "Academic department name is already axist !");
         }
         next();
     });
@@ -40,7 +43,7 @@ academicDepartmentSchema.pre("updateOne", function (next) {
         const query = this.getQuery();
         const academicDepartment = yield exports.academicDepartmentsModel.findOne(query);
         if (!academicDepartment) {
-            throw new Error("Academic department id is not axist !");
+            throw new AppErrors_1.default(404, "Academic department id is not axist !");
         }
         next();
     });
