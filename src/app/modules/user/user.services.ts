@@ -1,6 +1,6 @@
 
+import mongoose from "mongoose";
 import config from "../../config";
-import sendResponse from "../../utils/sendResponse";
 import { TAcademicSemester } from "../academicSemester/academicSemester.interface";
 import academicSemestersModel from "../academicSemester/academicSemester.model";
 import { TStudent } from "../student/student.interfaces";
@@ -8,6 +8,7 @@ import { studentsModel } from "../student/student.model";
 import { TUser } from "./user.interfaces";
 import { UsersModel } from "./user.model";
 import { generateStudentId } from "./user.utils";
+import AppError from "../../errors/AppErrors";
 
 const createStudnetIntoDb = async (password : string , studentData : Partial<TStudent>) => {
 
@@ -16,19 +17,32 @@ const createStudnetIntoDb = async (password : string , studentData : Partial<TSt
 
     const academicDetails = await academicSemestersModel.findById(studentData.admissionSemester) ;
 
-    if(!academicDetails){
-        return false ;
-    }
+    const session = await mongoose.startSession() ;
+    try {
+        session.startTransaction() ;
+        userData.id = await generateStudentId(academicDetails as TAcademicSemester) ;
+        userData.password = password || config.defaultPass as string ;
+    
+        const newUser = await UsersModel.create([userData] , {session}) ;
+        if(!newUser?.length){
+            throw new AppError(500 , 'Failed to create user') ;
+        }
 
-    userData.id = await generateStudentId(academicDetails as TAcademicSemester) ;
-    userData.password = password || config.defaultPass as string ;
+        studentData.id = newUser[0]?.id ;
+        studentData.user = newUser[0]?._id ;
 
-    const newUser = await UsersModel.create(userData) ;
-    if(newUser?._id){
-        studentData.id = newUser?.id ;
-        studentData.user = newUser?._id ;
-        const newStudent = await studentsModel.create(studentData) ;
+        const newStudent = await studentsModel.create([studentData] , {session}) ;
+
+        if(!newStudent?.length){
+            throw new AppError(500 , 'Failed to create student') ;
+        }
+
+        await session.commitTransaction() ;
+        await session.endSession() ;
         return newStudent ;
+    } catch (error) {
+        await session.abortTransaction() ;
+        await session.endSession() ;
     }
 }
 
