@@ -25,6 +25,10 @@ const getSpecificStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, funct
     const result = yield student_model_1.studentsModel.findOne({ id }).populate("admissionSemester").populate({ path: "academicDepartment", populate: { path: "academicFaculty" } });
     return result;
 });
+const updateAStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield student_model_1.studentsModel.findOneAndUpdate({ id }, { isDeleted: true }, { new: true });
+    return result;
+});
 const deleteAStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const session = yield mongoose_1.default.startSession();
     try {
@@ -49,5 +53,6 @@ const deleteAStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function*
 exports.studentServices = {
     deleteAStudentFromDb,
     getAllStudentsFromDb,
+    updateAStudentFromDb,
     getSpecificStudentFromDb
 };
