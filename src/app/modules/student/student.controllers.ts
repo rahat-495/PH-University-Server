@@ -20,7 +20,7 @@ const getSpecificStudent : RequestHandler = catchAsync(async (req , res , next) 
 
 const updateAStudent : RequestHandler = catchAsync(async (req , res , next) => {
     const {id} = req.params ;
-    const result = await studentServices.updateAStudentFromDb(id) ;
+    const result = await studentServices.updateAStudentIntoDb(id , req.body.student) ;
     if(result){
         sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Student details udpated success fully !"}) ;
     }

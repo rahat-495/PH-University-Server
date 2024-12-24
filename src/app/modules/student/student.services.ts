@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { studentsModel } from "./student.model"
 import AppError from "../../errors/AppErrors";
 import { UsersModel } from "../user/user.model";
+import { TStudent } from "./student.interfaces";
 
 const getAllStudentsFromDb = async () => {
     const result = await studentsModel.find().populate("admissionSemester").populate({path : "academicDepartment" , populate : {path : "academicFaculty"}}) ;
@@ -14,8 +15,8 @@ const getSpecificStudentFromDb = async (id : string) => {
     return result ;
 }
 
-const updateAStudentFromDb = async (id : string) => {
-    const result = await studentsModel.findOneAndUpdate({id} , {isDeleted : true} , {new : true}) ;
+const updateAStudentIntoDb = async (id : string , payload : Partial<TStudent>) => {
+    const result = await studentsModel.findOneAndUpdate({id} , {$set : payload} , {new : true}) ;
     return result ;
 }
 
@@ -40,12 +41,13 @@ const deleteAStudentFromDb = async (id : string) => {
     } catch (error) {
         await session.abortTransaction() ;
         await session.endSession() ;
+        throw new AppError(500 , "Failed to delete student") ;
     }
 }
 
 export const studentServices = {
     deleteAStudentFromDb,
     getAllStudentsFromDb ,
-    updateAStudentFromDb ,
+    updateAStudentIntoDb ,
     getSpecificStudentFromDb
 }
