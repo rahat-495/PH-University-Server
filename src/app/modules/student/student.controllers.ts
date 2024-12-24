@@ -18,6 +18,14 @@ const getSpecificStudent : RequestHandler = catchAsync(async (req , res , next) 
     }
 }) ;
 
+const updateAStudent : RequestHandler = catchAsync(async (req , res , next) => {
+    const {id} = req.params ;
+    const result = await studentServices.updateAStudentFromDb(id) ;
+    if(result){
+        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Student details udpated success fully !"}) ;
+    }
+}) ;
+
 const deleteAStudent : RequestHandler = catchAsync(async (req , res , next) => {
     const {id} = req.params ;
     const result = await studentServices.deleteAStudentFromDb(id) ;
@@ -29,5 +37,6 @@ const deleteAStudent : RequestHandler = catchAsync(async (req , res , next) => {
 export const studentControllers = {
     getAllStudents,
     deleteAStudent ,
+    updateAStudent ,
     getSpecificStudent ,
 }

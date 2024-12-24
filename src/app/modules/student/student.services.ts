@@ -14,6 +14,11 @@ const getSpecificStudentFromDb = async (id : string) => {
     return result ;
 }
 
+const updateAStudentFromDb = async (id : string) => {
+    const result = await studentsModel.findOneAndUpdate({id} , {isDeleted : true} , {new : true}) ;
+    return result ;
+}
+
 const deleteAStudentFromDb = async (id : string) => {
     const session = await mongoose.startSession() ;
     try {
@@ -41,5 +46,6 @@ const deleteAStudentFromDb = async (id : string) => {
 export const studentServices = {
     deleteAStudentFromDb,
     getAllStudentsFromDb ,
+    updateAStudentFromDb ,
     getSpecificStudentFromDb
 }
