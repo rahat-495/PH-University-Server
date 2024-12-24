@@ -10,7 +10,7 @@ const getAllStudentsFromDb = async () => {
 }
 
 const getSpecificStudentFromDb = async (id : string) => {
-    const result = await studentsModel.findById(id).populate("admissionSemester").populate({path : "academicDepartment" , populate : {path : "academicFaculty"}}) ;
+    const result = await studentsModel.findOne({id}).populate("admissionSemester").populate({path : "academicDepartment" , populate : {path : "academicFaculty"}}) ;
     return result ;
 }
 
