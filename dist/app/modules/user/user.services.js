@@ -47,6 +47,7 @@ const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0,
     catch (error) {
         yield session.abortTransaction();
         yield session.endSession();
+        throw new AppErrors_1.default(500, 'Failed to create student');
     }
 });
 exports.userService = {

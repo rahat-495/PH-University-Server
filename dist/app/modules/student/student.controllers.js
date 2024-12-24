@@ -29,7 +29,7 @@ const getSpecificStudent = (0, catchAsync_1.default)((req, res, next) => __await
 }));
 const updateAStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const result = yield student_services_1.studentServices.updateAStudentFromDb(id);
+    const result = yield student_services_1.studentServices.updateAStudentIntoDb(id, req.body.student);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Student details udpated success fully !" });
     }

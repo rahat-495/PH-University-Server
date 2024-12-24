@@ -64,7 +64,6 @@ const updateLocalGuardianValidationSchema = zod_1.z.object({
 });
 const updateStudentValidationSchema = zod_1.z.object({
     body: zod_1.z.object({
-        password: zod_1.z.string().max(20).optional(),
         student: zod_1.z.object({
             name: updateUserNameValidationSchema.optional(),
             gender: zod_1.z.enum(["male", "female", "other"]).optional(),

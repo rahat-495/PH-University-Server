@@ -25,8 +25,8 @@ const getSpecificStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, funct
     const result = yield student_model_1.studentsModel.findOne({ id }).populate("admissionSemester").populate({ path: "academicDepartment", populate: { path: "academicFaculty" } });
     return result;
 });
-const updateAStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield student_model_1.studentsModel.findOneAndUpdate({ id }, { isDeleted: true }, { new: true });
+const updateAStudentIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield student_model_1.studentsModel.findOneAndUpdate({ id }, { $set: payload }, { new: true });
     return result;
 });
 const deleteAStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -48,11 +48,12 @@ const deleteAStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function*
     catch (error) {
         yield session.abortTransaction();
         yield session.endSession();
+        throw new AppErrors_1.default(500, "Failed to delete student");
     }
 });
 exports.studentServices = {
     deleteAStudentFromDb,
     getAllStudentsFromDb,
-    updateAStudentFromDb,
+    updateAStudentIntoDb,
     getSpecificStudentFromDb
 };
