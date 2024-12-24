@@ -22,7 +22,7 @@ const getAllStudentsFromDb = () => __awaiter(void 0, void 0, void 0, function* (
     return result;
 });
 const getSpecificStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield student_model_1.studentsModel.findById(id).populate("admissionSemester").populate({ path: "academicDepartment", populate: { path: "academicFaculty" } });
+    const result = yield student_model_1.studentsModel.findOne({ id }).populate("admissionSemester").populate({ path: "academicDepartment", populate: { path: "academicFaculty" } });
     return result;
 });
 const deleteAStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
