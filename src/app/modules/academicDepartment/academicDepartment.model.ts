@@ -21,7 +21,7 @@ const academicDepartmentSchema = new Schema<TAcademicDepartment>({
 academicDepartmentSchema.pre("save" , async function(next){
     const academicDepartment = await academicDepartmentsModel.findOne({name : this.name}) ;
     if(academicDepartment){
-        throw new AppError(500 , "Academic department name is already axist !") ; 
+        throw new AppError(404 , "Academic department already axist !") ; 
     }
     next() ;  
 }) ;
