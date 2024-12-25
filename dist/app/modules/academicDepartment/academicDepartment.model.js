@@ -33,7 +33,7 @@ academicDepartmentSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const academicDepartment = yield exports.academicDepartmentsModel.findOne({ name: this.name });
         if (academicDepartment) {
-            throw new AppErrors_1.default(500, "Academic department name is already axist !");
+            throw new AppErrors_1.default(404, "Academic department already axist !");
         }
         next();
     });
