@@ -9,7 +9,6 @@ const globalErrorHandler : ErrorRequestHandler = (err , req , res , next : NextF
 
     let statusCode = err.statusCode || 500 ;
     let message = err.message || "some thing wen't wrong" ;
-
     let errorSources : TErrorSource = [{
         path : "" ,
         message : "Some thing went wrong" ,
@@ -20,7 +19,6 @@ const globalErrorHandler : ErrorRequestHandler = (err , req , res , next : NextF
         statusCode = simplifiedError.statusCode ;
         message = simplifiedError.message ;
         errorSources = simplifiedError.errorSources ;
-
     }
 
     return res.status(statusCode).json({
