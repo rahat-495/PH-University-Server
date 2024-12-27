@@ -9,10 +9,7 @@ const HandleZodError_1 = __importDefault(require("../../errors/HandleZodError"))
 const globalErrorHandler = (err, req, res, next) => {
     let statusCode = err.statusCode || 500;
     let message = err.message || "some thing wen't wrong";
-    let errorSources = [{
-            path: "",
-            message: "Some thing went wrong",
-        }];
+    let errorSources = [{ path: "", message: "Some thing went wrong" }];
     if (err instanceof zod_1.ZodError) {
         const simplifiedError = (0, HandleZodError_1.default)(err);
         statusCode = simplifiedError.statusCode;
