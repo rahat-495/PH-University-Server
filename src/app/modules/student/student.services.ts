@@ -18,7 +18,7 @@ const getAllStudentsFromDb = async (query : Record<string , unknown>) => {
         $or : studentsSearchAbleFields.map((field) => ({ [field] : {$regex : searchTerm , $options : "i"} }))
     }) ;
 
-    const excludeFields = ["searchTerm" , "page" , "limit" , "sort"] ;
+    const excludeFields = ["searchTerm" , "page" , "limit" , "sort" , "fields"] ;
     excludeFields.forEach((el) => delete queryObj[el]) ;
     const filterQuery = searchQuery.find(queryObj).populate("admissionSemester").populate({path : "academicDepartment" , populate : {path : "academicFaculty"}}) ;
 
@@ -31,7 +31,7 @@ const getAllStudentsFromDb = async (query : Record<string , unknown>) => {
     let limit = 1 ;
     let page = 1 ;
     let skip = 0 ;
-    
+
     if(query.limit){
         limit = Number(query.limit) ;
     }
@@ -43,9 +43,16 @@ const getAllStudentsFromDb = async (query : Record<string , unknown>) => {
 
     const paginateQuery = sortQuery.skip(skip) ;
 
-    const limitQuery = await paginateQuery.limit(limit) ;
+    const limitQuery = paginateQuery.limit(limit) ;
 
-    return limitQuery ;
+    let fields = "-__v" ;
+    if(query.fields){
+        fields = (query.fields as string).split(",").join(" ") ;
+    }
+
+    const finalQuery = await limitQuery.select(fields) ;
+
+    return finalQuery ;
 }
 
 const getSpecificStudentFromDb = async (id : string) => {
