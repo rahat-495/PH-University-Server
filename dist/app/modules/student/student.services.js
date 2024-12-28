@@ -38,7 +38,7 @@ const getAllStudentsFromDb = (query) => __awaiter(void 0, void 0, void 0, functi
     const searchQuery = student_model_1.studentsModel.find({
         $or: studentsSearchAbleFields.map((field) => ({ [field]: { $regex: searchTerm, $options: "i" } }))
     });
-    const excludeFields = ["searchTerm", "page", "limit", "sort"];
+    const excludeFields = ["searchTerm", "page", "limit", "sort", "fields"];
     excludeFields.forEach((el) => delete queryObj[el]);
     const filterQuery = searchQuery.find(queryObj).populate("admissionSemester").populate({ path: "academicDepartment", populate: { path: "academicFaculty" } });
     let sort = '-createdAt';
@@ -57,8 +57,13 @@ const getAllStudentsFromDb = (query) => __awaiter(void 0, void 0, void 0, functi
         skip = (page - 1) * limit;
     }
     const paginateQuery = sortQuery.skip(skip);
-    const limitQuery = yield paginateQuery.limit(limit);
-    return limitQuery;
+    const limitQuery = paginateQuery.limit(limit);
+    let fields = "-__v";
+    if (query.fields) {
+        fields = query.fields.split(",").join(" ");
+    }
+    const finalQuery = yield limitQuery.select(fields);
+    return finalQuery;
 });
 const getSpecificStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield student_model_1.studentsModel.findOne({ id }).populate("admissionSemester").populate({ path: "academicDepartment", populate: { path: "academicFaculty" } });
