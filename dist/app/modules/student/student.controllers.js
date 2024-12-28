@@ -17,7 +17,7 @@ const student_services_1 = require("./student.services");
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const getAllStudents = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield student_services_1.studentServices.getAllStudentsFromDb();
+    const result = yield student_services_1.studentServices.getAllStudentsFromDb(req.query);
     (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "All students are retrived !" });
 }));
 const getSpecificStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {

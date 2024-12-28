@@ -28,8 +28,14 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const student_model_1 = require("./student.model");
 const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const user_model_1 = require("../user/user.model");
-const getAllStudentsFromDb = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield student_model_1.studentsModel.find().populate("admissionSemester").populate({ path: "academicDepartment", populate: { path: "academicFaculty" } });
+const getAllStudentsFromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    let searchTerm = "";
+    if (query.searchTerm) {
+        searchTerm = query.searchTerm;
+    }
+    const result = yield student_model_1.studentsModel.find({
+        $or: ["name.firstName", "pressentAddress", "email"].map((field) => ({ [field]: { $regex: searchTerm, $options: "i" } }))
+    }).populate("admissionSemester").populate({ path: "academicDepartment", populate: { path: "academicFaculty" } });
     return result;
 });
 const getSpecificStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
