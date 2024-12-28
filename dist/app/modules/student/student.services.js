@@ -47,10 +47,17 @@ const getAllStudentsFromDb = (query) => __awaiter(void 0, void 0, void 0, functi
     }
     const sortQuery = filterQuery.sort(sort);
     let limit = 1;
+    let page = 1;
+    let skip = 0;
     if (query.limit) {
         limit = Number(query.limit);
     }
-    const limitQuery = yield sortQuery.limit(limit);
+    if (query.page) {
+        page = Number(query.page);
+        skip = (page - 1) * limit;
+    }
+    const paginateQuery = sortQuery.skip(skip);
+    const limitQuery = yield paginateQuery.limit(limit);
     return limitQuery;
 });
 const getSpecificStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
