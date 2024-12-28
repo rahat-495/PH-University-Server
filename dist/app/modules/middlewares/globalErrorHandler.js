@@ -9,9 +9,10 @@ const HandleZodError_1 = __importDefault(require("../../errors/HandleZodError"))
 const HandleValidationError_1 = __importDefault(require("../../errors/HandleValidationError"));
 const handleCastError_1 = __importDefault(require("../../errors/handleCastError"));
 const handleDuplicateError_1 = __importDefault(require("../../errors/handleDuplicateError"));
+const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const globalErrorHandler = (err, req, res, next) => {
-    let statusCode = err.statusCode || 500;
-    let message = err.message || "some thing wen't wrong";
+    let statusCode = 500;
+    let message = "some thing wen't wrong";
     let errorSources = [{ path: "", message: "Some thing went wrong" }];
     if (err instanceof zod_1.ZodError) {
         const simplifiedError = (0, HandleZodError_1.default)(err);
@@ -36,6 +37,11 @@ const globalErrorHandler = (err, req, res, next) => {
         statusCode = simplifiedError.statusCode;
         message = simplifiedError.message;
         errorSources = simplifiedError.errorSources;
+    }
+    else if (err instanceof AppErrors_1.default) {
+        statusCode = err.statusCode;
+        message = err.message;
+        errorSources = [{ path: "", message: err.message }];
     }
     return res.status(statusCode).json({
         success: false,
