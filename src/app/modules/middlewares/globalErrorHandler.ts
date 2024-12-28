@@ -7,11 +7,12 @@ import handleZodError from "../../errors/HandleZodError";
 import handleValidationError from "../../errors/HandleValidationError";
 import handleCastError from "../../errors/handleCastError";
 import handleDuplicateError from "../../errors/handleDuplicateError";
+import AppError from "../../errors/AppErrors";
 
 const globalErrorHandler : ErrorRequestHandler = (err , req , res , next : NextFunction) : any => {
 
-    let statusCode = err.statusCode || 500 ;
-    let message = err.message || "some thing wen't wrong" ;
+    let statusCode = 500 ;
+    let message = "some thing wen't wrong" ;
     let errorSources : TErrorSources = [{ path : "" , message : "Some thing went wrong" }] ;
 
     if(err instanceof ZodError){
@@ -37,6 +38,11 @@ const globalErrorHandler : ErrorRequestHandler = (err , req , res , next : NextF
         statusCode = simplifiedError.statusCode ;
         message = simplifiedError.message ;
         errorSources = simplifiedError.errorSources ;    
+    }
+    else if(err instanceof AppError){
+        statusCode = err.statusCode ;
+        message = err.message ;
+        errorSources = [{ path : "" , message : err.message }] ;    
     }
 
     return res.status(statusCode).json({
