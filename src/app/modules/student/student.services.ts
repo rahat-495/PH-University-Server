@@ -5,8 +5,15 @@ import AppError from "../../errors/AppErrors";
 import { UsersModel } from "../user/user.model";
 import { TStudent } from "./student.interfaces";
 
-const getAllStudentsFromDb = async () => {
-    const result = await studentsModel.find().populate("admissionSemester").populate({path : "academicDepartment" , populate : {path : "academicFaculty"}}) ;
+const getAllStudentsFromDb = async (query : Record<string , unknown>) => {
+
+    let searchTerm = "" ;
+    if(query.searchTerm){
+        searchTerm = query.searchTerm as string ;
+    }
+    const result = await studentsModel.find({
+        $or : ["name.firstName" , "pressentAddress" , "email"].map((field) => ({ [field] : {$regex : searchTerm , $options : "i"} }))
+    }).populate("admissionSemester").populate({path : "academicDepartment" , populate : {path : "academicFaculty"}}) ;
     return result ;
 }
 

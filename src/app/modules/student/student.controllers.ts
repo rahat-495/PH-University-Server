@@ -6,7 +6,7 @@ import catchAsync from "../../utils/catchAsync";
 import { TStudent } from "./student.interfaces";
 
 const getAllStudents : RequestHandler = catchAsync(async (req , res , next) => {
-    const result = await studentServices.getAllStudentsFromDb() ;
+    const result = await studentServices.getAllStudentsFromDb(req.query) ;
     sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "All students are retrived !"}) ;
 }) ;
 
