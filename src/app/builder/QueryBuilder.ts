@@ -27,7 +27,11 @@ class QueryBuilder<T> {
         return this ;
     }
 
-    
+    sort(){
+        let sort = (this?.query?.sort as string) || '-createdAt' ;
+        this.modelQuery = this.modelQuery.sort(sort) ;
+        return this ;
+    }
 }
 
 export default QueryBuilder ;
