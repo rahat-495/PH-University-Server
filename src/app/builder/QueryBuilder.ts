@@ -20,20 +20,21 @@ class QueryBuilder<T> {
         }
         return this ;
     }
-
+    
     filter(){
+        const queryObj = {...this.query} ;
         const excludeFields = ["searchTerm" , "page" , "limit" , "sort" , "fields"] ;
-        excludeFields.forEach((el) => delete this.query[el]) ;
-        this.modelQuery = this.modelQuery.find(this.query as FilterQuery<T>).populate("admissionSemester").populate({path : "academicDepartment" , populate : {path : "academicFaculty"}}) ;
+        excludeFields.forEach((el) => delete queryObj[el]) ;
+        this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>) ;
         return this ;
     }
-
+    
     sort(){
-        const sort = (this?.query?.sort as string) || '-createdAt' ;
+        const sort = (this?.query?.sort as string)?.split(',')?.join(" ") || '-createdAt' ;
         this.modelQuery = this.modelQuery.sort(sort) ;
         return this ;
     }
-
+    
     paginate(){
         const page = Number(this?.query?.page) || 1 ;
         const limit = Number(this?.query?.limit) || 10 ;
@@ -41,7 +42,7 @@ class QueryBuilder<T> {
         this.modelQuery = this.modelQuery.skip(skip).limit(limit) ;
         return this ;
     }
-
+    
     fields(){
         const fields = (this?.query?.fields as string)?.split(',')?.join(" ") || "-__v" ;
         this.modelQuery = this.modelQuery.select(fields) ;
