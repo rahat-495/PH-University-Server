@@ -36,5 +36,11 @@ class QueryBuilder {
         this.modelQuery = this.modelQuery.skip(skip).limit(limit);
         return this;
     }
+    fields() {
+        var _a;
+        const fields = ((_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.fields).split(',').join(" ") || "-__v";
+        this.modelQuery = this.modelQuery.select(fields);
+        return this;
+    }
 }
 exports.default = QueryBuilder;
