@@ -31,7 +31,7 @@ const user_model_1 = require("../user/user.model");
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const student_constand_1 = require("./student.constand");
 const getAllStudentsFromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const studentQuery = new QueryBuilder_1.default(student_model_1.studentsModel.find(), query).search(student_constand_1.studentsSearchAbleFields).filter().sort().paginate().fields();
+    const studentQuery = new QueryBuilder_1.default(student_model_1.studentsModel.find().populate("admissionSemester").populate({ path: "academicDepartment", populate: { path: "academicFaculty" } }), query).search(student_constand_1.studentsSearchAbleFields).filter().sort().paginate().fields();
     const result = yield studentQuery.modelQuery;
     return result;
 });
