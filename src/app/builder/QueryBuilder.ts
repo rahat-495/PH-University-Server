@@ -11,7 +11,7 @@ class QueryBuilder<T> {
     };
 
     search(searchAbleFields : string[]){
-        let searchTerm = this?.query?.searchTerm ;
+        const searchTerm = this?.query?.searchTerm ;
         if(searchTerm){
             this.modelQuery = this.modelQuery.find({
                 $or : searchAbleFields.map((field) => ({ [field] : {$regex : searchTerm , $options : "i"} }) as FilterQuery<T>)
@@ -28,7 +28,7 @@ class QueryBuilder<T> {
     }
 
     sort(){
-        let sort = (this?.query?.sort as string) || '-createdAt' ;
+        const sort = (this?.query?.sort as string) || '-createdAt' ;
         this.modelQuery = this.modelQuery.sort(sort) ;
         return this ;
     }
