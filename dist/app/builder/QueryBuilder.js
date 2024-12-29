@@ -22,5 +22,11 @@ class QueryBuilder {
         this.modelQuery = this.modelQuery.find(this.query).populate("admissionSemester").populate({ path: "academicDepartment", populate: { path: "academicFaculty" } });
         return this;
     }
+    sort() {
+        var _a;
+        let sort = ((_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.sort) || '-createdAt';
+        this.modelQuery = this.modelQuery.sort(sort);
+        return this;
+    }
 }
 exports.default = QueryBuilder;
