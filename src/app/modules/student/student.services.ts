@@ -56,6 +56,8 @@ const getAllStudentsFromDb = async (query : Record<string , unknown>) => {
     // return finalQuery ;
 
     const studentQuery = new QueryBuilder(studentsModel.find() , query).search(studentsSearchAbleFields).filter().sort().paginate().fields() ;
+    const result = await studentQuery.modelQuery ;
+    return result ;
 }
 
 const getSpecificStudentFromDb = async (id : string) => {
