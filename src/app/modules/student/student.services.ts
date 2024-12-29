@@ -4,11 +4,12 @@ import { studentsModel } from "./student.model"
 import AppError from "../../errors/AppErrors";
 import { UsersModel } from "../user/user.model";
 import { TStudent } from "./student.interfaces";
+import QueryBuilder from "../../builder/QueryBuilder";
+import { studentsSearchAbleFields } from "./student.constand";
 
 const getAllStudentsFromDb = async (query : Record<string , unknown>) => {
     const queryObj = {...query} ;
 
-    const studentsSearchAbleFields = ["name.firstName" , "pressentAddress" , "email"] ;
     let searchTerm = "" ;
     if(query.searchTerm){
         searchTerm = query.searchTerm as string ;
@@ -52,7 +53,9 @@ const getAllStudentsFromDb = async (query : Record<string , unknown>) => {
 
     const finalQuery = await limitQuery.select(fields) ;
 
-    return finalQuery ;
+    // return finalQuery ;
+
+    const studentQuery = new QueryBuilder(studentsModel.find() , query).search(studentsSearchAbleFields).filter().sort().paginate().fields() ;
 }
 
 const getSpecificStudentFromDb = async (id : string) => {
