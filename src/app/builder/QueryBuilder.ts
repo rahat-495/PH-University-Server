@@ -2,6 +2,7 @@
 import { FilterQuery, Query } from "mongoose";
 
 class QueryBuilder<T> {
+    
     public modelQuery : Query<T[] , T> ;
     public query : Record<string , unknown> ;
 
@@ -46,6 +47,7 @@ class QueryBuilder<T> {
         this.modelQuery = this.modelQuery.select(fields) ;
         return this ;
     }
+
 }
 
 export default QueryBuilder ;
