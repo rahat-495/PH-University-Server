@@ -8,7 +8,7 @@ class QueryBuilder {
     ;
     search(searchAbleFields) {
         var _a;
-        let searchTerm = (_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.searchTerm;
+        const searchTerm = (_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.searchTerm;
         if (searchTerm) {
             this.modelQuery = this.modelQuery.find({
                 $or: searchAbleFields.map((field) => ({ [field]: { $regex: searchTerm, $options: "i" } }))
@@ -24,7 +24,7 @@ class QueryBuilder {
     }
     sort() {
         var _a;
-        let sort = ((_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.sort) || '-createdAt';
+        const sort = ((_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.sort) || '-createdAt';
         this.modelQuery = this.modelQuery.sort(sort);
         return this;
     }
