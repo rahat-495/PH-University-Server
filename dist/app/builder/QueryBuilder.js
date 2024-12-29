@@ -17,14 +17,15 @@ class QueryBuilder {
         return this;
     }
     filter() {
+        const queryObj = Object.assign({}, this.query);
         const excludeFields = ["searchTerm", "page", "limit", "sort", "fields"];
-        excludeFields.forEach((el) => delete this.query[el]);
-        this.modelQuery = this.modelQuery.find(this.query).populate("admissionSemester").populate({ path: "academicDepartment", populate: { path: "academicFaculty" } });
+        excludeFields.forEach((el) => delete queryObj[el]);
+        this.modelQuery = this.modelQuery.find(queryObj);
         return this;
     }
     sort() {
-        var _a;
-        const sort = ((_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.sort) || '-createdAt';
+        var _a, _b, _c;
+        const sort = ((_c = (_b = (_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.sort) === null || _b === void 0 ? void 0 : _b.split(',')) === null || _c === void 0 ? void 0 : _c.join(" ")) || '-createdAt';
         this.modelQuery = this.modelQuery.sort(sort);
         return this;
     }
