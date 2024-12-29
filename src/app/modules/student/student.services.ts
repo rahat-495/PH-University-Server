@@ -6,9 +6,10 @@ import { UsersModel } from "../user/user.model";
 import { TStudent } from "./student.interfaces";
 import QueryBuilder from "../../builder/QueryBuilder";
 import { studentsSearchAbleFields } from "./student.constand";
+import { populate } from "dotenv";
 
 const getAllStudentsFromDb = async (query : Record<string , unknown>) => {
-    const studentQuery = new QueryBuilder(studentsModel.find() , query).search(studentsSearchAbleFields).filter().sort().paginate().fields() ;
+    const studentQuery = new QueryBuilder(studentsModel.find().populate("admissionSemester").populate({path : "academicDepartment" , populate : { path : "academicFaculty" }}), query).search(studentsSearchAbleFields).filter().sort().paginate().fields() ;
     const result = await studentQuery.modelQuery ;
     return result ;
 }
