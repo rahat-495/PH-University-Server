@@ -31,40 +31,6 @@ const user_model_1 = require("../user/user.model");
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const student_constand_1 = require("./student.constand");
 const getAllStudentsFromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const queryObj = Object.assign({}, query);
-    let searchTerm = "";
-    if (query.searchTerm) {
-        searchTerm = query.searchTerm;
-    }
-    const searchQuery = student_model_1.studentsModel.find({
-        $or: student_constand_1.studentsSearchAbleFields.map((field) => ({ [field]: { $regex: searchTerm, $options: "i" } }))
-    });
-    const excludeFields = ["searchTerm", "page", "limit", "sort", "fields"];
-    excludeFields.forEach((el) => delete queryObj[el]);
-    const filterQuery = searchQuery.find(queryObj).populate("admissionSemester").populate({ path: "academicDepartment", populate: { path: "academicFaculty" } });
-    let sort = '-createdAt';
-    if (query.sort) {
-        sort = query.sort;
-    }
-    const sortQuery = filterQuery.sort(sort);
-    let limit = 1;
-    let page = 1;
-    let skip = 0;
-    if (query.limit) {
-        limit = Number(query.limit);
-    }
-    if (query.page) {
-        page = Number(query.page);
-        skip = (page - 1) * limit;
-    }
-    const paginateQuery = sortQuery.skip(skip);
-    const limitQuery = paginateQuery.limit(limit);
-    let fields = "-__v";
-    if (query.fields) {
-        fields = query.fields.split(",").join(" ");
-    }
-    const finalQuery = yield limitQuery.select(fields);
-    // return finalQuery ;
     const studentQuery = new QueryBuilder_1.default(student_model_1.studentsModel.find(), query).search(student_constand_1.studentsSearchAbleFields).filter().sort().paginate().fields();
     const result = yield studentQuery.modelQuery;
     return result;
