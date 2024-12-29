@@ -11,17 +11,23 @@ class QueryBuilder<T> {
     };
 
     search(searchAbleFields : string[]){
-        let searchTerm = "" ;
-        if(this?.query?.searchTerm){
-            searchTerm = this?.query?.searchTerm as string ;
-        }
-        if(this?.query?.searchTerm){
+        let searchTerm = this?.query?.searchTerm ;
+        if(searchTerm){
             this.modelQuery = this.modelQuery.find({
                 $or : searchAbleFields.map((field) => ({ [field] : {$regex : searchTerm , $options : "i"} }) as FilterQuery<T>)
             }) ;
         }
         return this ;
     }
+
+    filter(){
+        const excludeFields = ["searchTerm" , "page" , "limit" , "sort" , "fields"] ;
+        excludeFields.forEach((el) => delete this.query[el]) ;
+        this.modelQuery = this.modelQuery.find(this.query as FilterQuery<T>).populate("admissionSemester").populate({path : "academicDepartment" , populate : {path : "academicFaculty"}}) ;
+        return this ;
+    }
+
+    
 }
 
 export default QueryBuilder ;
