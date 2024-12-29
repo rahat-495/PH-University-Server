@@ -37,8 +37,8 @@ class QueryBuilder {
         return this;
     }
     fields() {
-        var _a;
-        const fields = ((_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.fields).split(',').join(" ") || "-__v";
+        var _a, _b, _c;
+        const fields = ((_c = (_b = (_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.fields) === null || _b === void 0 ? void 0 : _b.split(',')) === null || _c === void 0 ? void 0 : _c.join(" ")) || "-__v";
         this.modelQuery = this.modelQuery.select(fields);
         return this;
     }

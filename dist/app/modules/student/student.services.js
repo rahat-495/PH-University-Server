@@ -66,6 +66,8 @@ const getAllStudentsFromDb = (query) => __awaiter(void 0, void 0, void 0, functi
     const finalQuery = yield limitQuery.select(fields);
     // return finalQuery ;
     const studentQuery = new QueryBuilder_1.default(student_model_1.studentsModel.find(), query).search(student_constand_1.studentsSearchAbleFields).filter().sort().paginate().fields();
+    const result = yield studentQuery.modelQuery;
+    return result;
 });
 const getSpecificStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield student_model_1.studentsModel.findOne({ id }).populate("admissionSemester").populate({ path: "academicDepartment", populate: { path: "academicFaculty" } });
