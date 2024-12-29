@@ -28,15 +28,16 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const student_model_1 = require("./student.model");
 const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const user_model_1 = require("../user/user.model");
+const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
+const student_constand_1 = require("./student.constand");
 const getAllStudentsFromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const queryObj = Object.assign({}, query);
-    const studentsSearchAbleFields = ["name.firstName", "pressentAddress", "email"];
     let searchTerm = "";
     if (query.searchTerm) {
         searchTerm = query.searchTerm;
     }
     const searchQuery = student_model_1.studentsModel.find({
-        $or: studentsSearchAbleFields.map((field) => ({ [field]: { $regex: searchTerm, $options: "i" } }))
+        $or: student_constand_1.studentsSearchAbleFields.map((field) => ({ [field]: { $regex: searchTerm, $options: "i" } }))
     });
     const excludeFields = ["searchTerm", "page", "limit", "sort", "fields"];
     excludeFields.forEach((el) => delete queryObj[el]);
@@ -63,7 +64,8 @@ const getAllStudentsFromDb = (query) => __awaiter(void 0, void 0, void 0, functi
         fields = query.fields.split(",").join(" ");
     }
     const finalQuery = yield limitQuery.select(fields);
-    return finalQuery;
+    // return finalQuery ;
+    const studentQuery = new QueryBuilder_1.default(student_model_1.studentsModel.find(), query).search(student_constand_1.studentsSearchAbleFields).filter().sort().paginate().fields();
 });
 const getSpecificStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield student_model_1.studentsModel.findOne({ id }).populate("admissionSemester").populate({ path: "academicDepartment", populate: { path: "academicFaculty" } });
