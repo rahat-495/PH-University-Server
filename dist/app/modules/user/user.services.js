@@ -51,17 +51,33 @@ const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0,
     }
 });
 const createFacultyIntoDb = (password, facultyData) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     const userData = {};
     userData.role = 'faculty';
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
         userData.id = yield (0, user_utils_1.generateFacultyId)();
+        userData.password = password;
+        const newUser = yield user_model_1.UsersModel.create([userData], { session });
+        if (!(newUser === null || newUser === void 0 ? void 0 : newUser.length)) {
+            throw new AppErrors_1.default(500, 'Failed to create user');
+        }
+        facultyData.id = (_a = newUser[0]) === null || _a === void 0 ? void 0 : _a.id;
+        facultyData.user = (_b = newUser[0]) === null || _b === void 0 ? void 0 : _b._id;
+        const newFaculty = yield student_model_1.studentsModel.create([facultyData], { session });
+        if (!(newFaculty === null || newFaculty === void 0 ? void 0 : newFaculty.length)) {
+            throw new AppErrors_1.default(500, 'Failed to create faculty');
+        }
+        yield session.commitTransaction();
+        yield session.endSession();
+        return newFaculty;
     }
     catch (error) {
-        console.log(error);
+        yield session.abortTransaction();
+        yield session.endSession();
+        throw new AppErrors_1.default(500, 'Failed to create faculty');
     }
-    return {};
 });
 exports.userService = {
     createStudnetIntoDb,
