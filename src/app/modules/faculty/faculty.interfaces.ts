@@ -1,7 +1,7 @@
 
 import { Schema } from "mongoose";
 
-type TFacultyName = {
+export type TFacultyName = {
     firstName : string ;
     middleName : string ;
     lastName : string ;
