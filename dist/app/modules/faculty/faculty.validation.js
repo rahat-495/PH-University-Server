@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.studentValidations = void 0;
+exports.facultyValidations = void 0;
 const zod_1 = require("zod");
 const createUserNameValidationSchema = zod_1.z.object({
     firstName: zod_1.z.string().max(20).min(1).refine((value) => /^[A-Z]/.test(value), { message: "first name start with capital letter !" }),
@@ -53,7 +53,7 @@ const updateFacultyValidationSchema = zod_1.z.object({
         })
     }),
 });
-exports.studentValidations = {
+exports.facultyValidations = {
     createFacultyValidationSchema,
     updateFacultyValidationSchema,
 };

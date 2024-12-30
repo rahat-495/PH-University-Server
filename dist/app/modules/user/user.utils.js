@@ -38,7 +38,7 @@ const generateFacultyId = () => __awaiter(void 0, void 0, void 0, function* () {
     let currentId = (0).toString();
     const lastUserId = yield findLastFacultytId();
     if (lastUserId) {
-        currentId = lastUserId;
+        currentId = lastUserId.substring(2);
     }
     let incrementId = (Number(currentId) + 1).toString().padStart(4, "0");
     incrementId = `F-${incrementId}`;

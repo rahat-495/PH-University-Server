@@ -20,6 +20,7 @@ const student_model_1 = require("../student/student.model");
 const user_model_1 = require("./user.model");
 const user_utils_1 = require("./user.utils");
 const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
+const faculty_model_1 = require("../faculty/faculty.model");
 const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const userData = {};
@@ -65,7 +66,7 @@ const createFacultyIntoDb = (password, facultyData) => __awaiter(void 0, void 0,
         }
         facultyData.id = (_a = newUser[0]) === null || _a === void 0 ? void 0 : _a.id;
         facultyData.user = (_b = newUser[0]) === null || _b === void 0 ? void 0 : _b._id;
-        const newFaculty = yield student_model_1.studentsModel.create([facultyData], { session });
+        const newFaculty = yield faculty_model_1.facultysModel.create([facultyData], { session });
         if (!(newFaculty === null || newFaculty === void 0 ? void 0 : newFaculty.length)) {
             throw new AppErrors_1.default(500, 'Failed to create faculty');
         }

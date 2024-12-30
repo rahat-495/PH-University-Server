@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.facultysModel = void 0;
 const mongoose_1 = require("mongoose");
 const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
+const academicDepartment_model_1 = require("../academicDepartment/academicDepartment.model");
+const academicFaculty_model_1 = require("../academicFaculty/academicFaculty.model");
 const nameSchema = new mongoose_1.Schema({
     firstName: {
         type: String,
@@ -96,6 +98,20 @@ const facultySchema = new mongoose_1.Schema({
         ref: "academicDepartment",
         required: [true, "academicDepartment is required !"],
     },
+});
+facultySchema.pre("save", function (next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const faculty = this;
+        const academicDepartment = yield academicDepartment_model_1.academicDepartmentsModel.findOne({ _id: faculty.academicDepartment });
+        if (!academicDepartment) {
+            throw new AppErrors_1.default(404, "Academic department not found !");
+        }
+        const academicFaculty = yield academicFaculty_model_1.academicFacultysModel.findOne({ _id: faculty.academicFaculty });
+        if (!academicFaculty) {
+            throw new AppErrors_1.default(404, "Academic faculty not found !");
+        }
+        next();
+    });
 });
 facultySchema.pre('findOneAndUpdate', function (next) {
     return __awaiter(this, void 0, void 0, function* () {

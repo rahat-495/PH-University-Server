@@ -27,8 +27,8 @@ const createStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(vo
         statusCode: 200, data: result });
 }));
 const createFaculty = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { password, facultyData } = req.body;
-    const result = yield user_services_1.userService.createFacultyIntoDb(password, facultyData);
+    const { password, faculty } = req.body;
+    const result = yield user_services_1.userService.createFacultyIntoDb(password, faculty);
     if (!result) {
         return;
     }
