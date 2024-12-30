@@ -16,8 +16,8 @@ const createStudent : RequestHandler = catchAsync( async (req , res , next) => {
 }) ;
 
 const createFaculty : RequestHandler = catchAsync( async (req , res , next) => { 
-    const {password , facultyData} = req.body ;
-    const result = await userService.createFacultyIntoDb(password  , facultyData) ;
+    const {password , faculty} = req.body ;
+    const result = await userService.createFacultyIntoDb(password  , faculty) ;
     if(!result){
         return ;
     }

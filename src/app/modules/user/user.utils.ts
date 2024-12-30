@@ -34,7 +34,7 @@ export const generateFacultyId = async () => {
     let currentId = (0).toString() ;
     const lastUserId = await findLastFacultytId() ;
     if(lastUserId){
-        currentId = lastUserId ;
+        currentId = lastUserId.substring(2) ;
     }
     let incrementId = (Number(currentId)+1).toString().padStart(4 , "0") ;
     incrementId = `F-${incrementId}` ;

@@ -10,6 +10,7 @@ import { UsersModel } from "./user.model";
 import { generateFacultyId, generateStudentId } from "./user.utils";
 import AppError from "../../errors/AppErrors";
 import { TFaculty } from "../faculty/faculty.interfaces";
+import { facultysModel } from "../faculty/faculty.model";
 
 const createStudnetIntoDb = async (password : string , studentData : Partial<TStudent>) => {
 
@@ -63,11 +64,11 @@ const createFacultyIntoDb = async (password : string , facultyData : Partial<TFa
         if(!newUser?.length){
             throw new AppError(500 , 'Failed to create user') ;
         }
-
+        
         facultyData.id = newUser[0]?.id ;
         facultyData.user = newUser[0]?._id ;
-
-        const newFaculty = await studentsModel.create([facultyData] , {session}) ;
+        
+        const newFaculty = await facultysModel.create([facultyData] , {session}) ;
         if(!newFaculty?.length){
             throw new AppError(500 , 'Failed to create faculty') ;
         }

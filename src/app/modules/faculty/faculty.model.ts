@@ -2,6 +2,8 @@
 import { model, Schema, Types } from "mongoose";
 import AppError from "../../errors/AppErrors";
 import { TFaculty, TFacultyName } from "./faculty.interfaces";
+import { academicDepartmentsModel } from "../academicDepartment/academicDepartment.model";
+import { academicFacultysModel } from "../academicFaculty/academicFaculty.model";
 
 const nameSchema = new Schema<TFacultyName>({
     firstName: {
@@ -85,6 +87,19 @@ const facultySchema = new Schema<TFaculty>({
         ref : "academicDepartment" ,
         required : [true , "academicDepartment is required !"] ,
     },
+});
+
+facultySchema.pre("save" , async function(next){
+    const faculty = this ;
+    const academicDepartment = await academicDepartmentsModel.findOne({_id : faculty.academicDepartment}) ;
+    if(!academicDepartment){
+        throw new AppError(404 , "Academic department not found !") ;
+    }
+    const academicFaculty = await academicFacultysModel.findOne({_id : faculty.academicFaculty}) ;
+    if(!academicFaculty){
+        throw new AppError(404 , "Academic faculty not found !") ;
+    }
+    next() ;
 })
 
 facultySchema.pre('findOneAndUpdate', async function(next) {
