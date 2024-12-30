@@ -50,6 +50,10 @@ const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0,
         throw new AppErrors_1.default(500, 'Failed to create student');
     }
 });
+const createFacultyIntoDb = (password, facultyData) => __awaiter(void 0, void 0, void 0, function* () {
+    return {};
+});
 exports.userService = {
     createStudnetIntoDb,
+    createFacultyIntoDb,
 };

@@ -26,6 +26,17 @@ const createStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(vo
         message: "student created success fully !",
         statusCode: 200, data: result });
 }));
+const createFaculty = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { password, facultyData } = req.body;
+    const result = yield user_services_1.userService.createFacultyIntoDb(password, facultyData);
+    if (!result) {
+        return;
+    }
+    (0, sendResponse_1.default)(res, { success: true,
+        message: "Faculty created success fully !",
+        statusCode: 200, data: result });
+}));
 exports.userControllers = {
     createStudent,
+    createFaculty,
 };

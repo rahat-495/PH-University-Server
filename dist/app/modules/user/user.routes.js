@@ -10,4 +10,5 @@ const validateRequest_1 = __importDefault(require("../middlewares/validateReques
 const student_validation_1 = require("../student/student.validation");
 const router = express_1.default.Router();
 router.post('/create-student', (0, validateRequest_1.default)(student_validation_1.studentValidations.createStudentValidationSchema), user_controllers_1.userControllers.createStudent);
+router.post('/create-faculty', user_controllers_1.userControllers.createFaculty);
 exports.userRoutes = router;
