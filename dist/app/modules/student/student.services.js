@@ -57,7 +57,6 @@ const updateAStudentIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, 
             modifiedUpdateData[`localGuardian.${key}`] = value;
         }
     }
-    console.log(modifiedUpdateData);
     const result = yield student_model_1.studentsModel.findOneAndUpdate({ id }, modifiedUpdateData, { new: true, runValidators: true });
     return result;
 });
