@@ -9,6 +9,7 @@ type TFacultyName = {
 
 export type TFaculty = {
     id : string ;
+    user : Schema.Types.ObjectId ;
     designation : string ;
     name : TFacultyName ;
     gender : "male" | "female" | "other";
