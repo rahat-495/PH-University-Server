@@ -9,6 +9,7 @@ import { TUser } from "./user.interfaces";
 import { UsersModel } from "./user.model";
 import { generateStudentId } from "./user.utils";
 import AppError from "../../errors/AppErrors";
+import { TFaculty } from "../faculty/faculty.interfaces";
 
 const createStudnetIntoDb = async (password : string , studentData : Partial<TStudent>) => {
 
@@ -47,6 +48,13 @@ const createStudnetIntoDb = async (password : string , studentData : Partial<TSt
     }
 }
 
+const createFacultyIntoDb = async (password : string , facultyData : Partial<TFaculty>) => {
+
+    return {} ;
+
+}
+
 export const userService = {
     createStudnetIntoDb ,
+    createFacultyIntoDb ,
 }
