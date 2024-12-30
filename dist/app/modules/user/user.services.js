@@ -51,6 +51,16 @@ const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0,
     }
 });
 const createFacultyIntoDb = (password, facultyData) => __awaiter(void 0, void 0, void 0, function* () {
+    const userData = {};
+    userData.role = 'faculty';
+    const session = yield mongoose_1.default.startSession();
+    try {
+        session.startTransaction();
+        userData.id = yield (0, user_utils_1.generateFacultyId)();
+    }
+    catch (error) {
+        console.log(error);
+    }
     return {};
 });
 exports.userService = {

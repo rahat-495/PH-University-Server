@@ -9,15 +9,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateStudentId = void 0;
+exports.generateFacultyId = exports.generateStudentId = void 0;
 const user_model_1 = require("./user.model");
-const findLastUserId = () => __awaiter(void 0, void 0, void 0, function* () {
-    const lastUserId = yield user_model_1.UsersModel.findOne({ role: "student" }, { id: 1, _id: 0 }).sort({ createdAt: -1 }).lean();
-    return (lastUserId === null || lastUserId === void 0 ? void 0 : lastUserId.id) ? lastUserId.id : undefined;
+const findLastStudentId = () => __awaiter(void 0, void 0, void 0, function* () {
+    const lastStudentId = yield user_model_1.UsersModel.findOne({ role: "student" }, { id: 1, _id: 0 }).sort({ createdAt: -1 }).lean();
+    return (lastStudentId === null || lastStudentId === void 0 ? void 0 : lastStudentId.id) ? lastStudentId.id : undefined;
 });
 const generateStudentId = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     let currentId = (0).toString();
-    const lastUserId = yield findLastUserId();
+    const lastUserId = yield findLastStudentId();
     const lastStudentyear = lastUserId === null || lastUserId === void 0 ? void 0 : lastUserId.substring(0, 4);
     const lastStudentSemesterCode = lastUserId === null || lastUserId === void 0 ? void 0 : lastUserId.substring(4, 6);
     const currnetYear = payload.year;
@@ -30,3 +30,18 @@ const generateStudentId = (payload) => __awaiter(void 0, void 0, void 0, functio
     return incrementId;
 });
 exports.generateStudentId = generateStudentId;
+const findLastFacultytId = () => __awaiter(void 0, void 0, void 0, function* () {
+    const lastStudentId = yield user_model_1.UsersModel.findOne({ role: "faculty" }, { id: 1, _id: 0 }).sort({ createdAt: -1 }).lean();
+    return (lastStudentId === null || lastStudentId === void 0 ? void 0 : lastStudentId.id) ? lastStudentId.id : undefined;
+});
+const generateFacultyId = () => __awaiter(void 0, void 0, void 0, function* () {
+    let currentId = (0).toString();
+    const lastUserId = yield findLastFacultytId();
+    if (lastUserId) {
+        currentId = lastUserId;
+    }
+    let incrementId = (Number(currentId) + 1).toString().padStart(4, "0");
+    incrementId = `F-${incrementId}`;
+    return incrementId;
+});
+exports.generateFacultyId = generateFacultyId;
