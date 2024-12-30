@@ -49,7 +49,6 @@ const createStudnetIntoDb = async (password : string , studentData : Partial<TSt
 }
 
 const createFacultyIntoDb = async (password : string , facultyData : Partial<TFaculty>) => {
-
     const userData : Partial<TUser> = {} ;
     userData.role = 'faculty' ;
 
@@ -58,13 +57,29 @@ const createFacultyIntoDb = async (password : string , facultyData : Partial<TFa
         
         session.startTransaction() ;
         userData.id = await generateFacultyId() ;
+        userData.password = password ;
+
+        const newUser = await UsersModel.create([userData] , {session}) ;
+        if(!newUser?.length){
+            throw new AppError(500 , 'Failed to create user') ;
+        }
+
+        facultyData.id = newUser[0]?.id ;
+        facultyData.user = newUser[0]?._id ;
+
+        const newFaculty = await studentsModel.create([facultyData] , {session}) ;
+        if(!newFaculty?.length){
+            throw new AppError(500 , 'Failed to create faculty') ;
+        }
+        await session.commitTransaction() ;
+        await session.endSession() ;
+        return newFaculty ;
 
     } catch (error) {
-        console.log(error) ;
+        await session.abortTransaction() ;
+        await session.endSession() ;
+        throw new AppError(500 , 'Failed to create faculty') ;
     }
-
-    return {} ;
-
 }
 
 export const userService = {

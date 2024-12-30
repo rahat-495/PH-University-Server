@@ -1,5 +1,5 @@
 
-import { Schema } from "mongoose";
+import { Schema, Types } from "mongoose";
 
 export type TFacultyName = {
     firstName : string ;
@@ -9,7 +9,7 @@ export type TFacultyName = {
 
 export type TFaculty = {
     id : string ;
-    user : Schema.Types.ObjectId ;
+    user : Types.ObjectId ;
     designation : string ;
     name : TFacultyName ;
     gender : "male" | "female" | "other";
