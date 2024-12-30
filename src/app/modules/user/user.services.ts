@@ -7,7 +7,7 @@ import { TStudent } from "../student/student.interfaces";
 import { studentsModel } from "../student/student.model";
 import { TUser } from "./user.interfaces";
 import { UsersModel } from "./user.model";
-import { generateStudentId } from "./user.utils";
+import { generateFacultyId, generateStudentId } from "./user.utils";
 import AppError from "../../errors/AppErrors";
 import { TFaculty } from "../faculty/faculty.interfaces";
 
@@ -49,6 +49,19 @@ const createStudnetIntoDb = async (password : string , studentData : Partial<TSt
 }
 
 const createFacultyIntoDb = async (password : string , facultyData : Partial<TFaculty>) => {
+
+    const userData : Partial<TUser> = {} ;
+    userData.role = 'faculty' ;
+
+    const session = await mongoose.startSession() ;
+    try {
+        
+        session.startTransaction() ;
+        userData.id = await generateFacultyId() ;
+
+    } catch (error) {
+        console.log(error) ;
+    }
 
     return {} ;
 
