@@ -10,8 +10,8 @@ const getAlFaculties : RequestHandler = catchAsync(async (req , res , next) => {
 }) ;
 
 const getSpecifiFaculty : RequestHandler = catchAsync(async (req , res , next) => {
-    const {id} = req.params ;
-    const data = await facultyServices.getSpecificFacultyFromDb(id) ;
+    const {facultyId} = req.params ;
+    const data = await facultyServices.getSpecificFacultyFromDb(facultyId) ;
     if(data){
         sendResponse<object>(res , {data , statusCode : 200 , success : true , message : "Specific faculties are retrived !"}) ;
     }
@@ -21,16 +21,16 @@ const getSpecifiFaculty : RequestHandler = catchAsync(async (req , res , next) =
 }) ;
 
 const updateFaculty : RequestHandler = catchAsync(async (req , res , next) => {
-    const {id} = req.params ;
-    const result = await facultyServices.updateAFacultyIntoDb(id , req.body.faculty) ;
+    const {facultyId} = req.params ;
+    const result = await facultyServices.updateAFacultyIntoDb(facultyId , req.body.faculty) ;
     if(result){
         sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Faculty details udpated success fully !"}) ;
     }
 }) ;
 
 const deleteFaculty : RequestHandler = catchAsync(async (req , res , next) => {
-    const {id} = req.params ;
-    const result = await facultyServices.deleteAFacultyFromDb(id) ;
+    const {facultyId} = req.params ;
+    const result = await facultyServices.deleteAFacultyFromDb(facultyId) ;
     if(result){
         sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Specific faculties are deleted !"}) ;
     }
