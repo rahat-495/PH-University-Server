@@ -26,6 +26,9 @@ const updateAStudent : RequestHandler = catchAsync(async (req , res , next) => {
     if(result){
         sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Student details udpated success fully !"}) ;
     }
+    else{
+        sendResponse<object>(res , {data : {} , statusCode : 200 , success : false , message : "Can't student details udpate !"}) ;
+    }
 }) ;
 
 const deleteAStudent : RequestHandler = catchAsync(async (req , res , next) => {
