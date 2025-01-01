@@ -11,6 +11,8 @@ import { generateFacultyId, generateStudentId } from "./user.utils";
 import AppError from "../../errors/AppErrors";
 import { TFaculty } from "../faculty/faculty.interfaces";
 import { facultysModel } from "../faculty/faculty.model";
+import { TAdmin } from "../admin/admin.interfaces";
+import { adminsModel } from "../admin/admin.model";
 
 const createStudnetIntoDb = async (password : string , studentData : Partial<TStudent>) => {
 
@@ -83,7 +85,42 @@ const createFacultyIntoDb = async (password : string , facultyData : Partial<TFa
     }
 }
 
+const createAdminIntoDb = async (password : string , adminData : Partial<TAdmin>) => {
+    const userData : Partial<TUser> = {} ;
+    userData.role = 'admin' ;
+
+    const session = await mongoose.startSession() ;
+    try {
+        
+        session.startTransaction() ;
+        userData.id = await generateFacultyId() ;
+        userData.password = password ;
+
+        const newUser = await UsersModel.create([userData] , {session}) ;
+        if(!newUser?.length){
+            throw new AppError(500 , 'Failed to create user') ;
+        }
+        
+        adminData.id = newUser[0]?.id ;
+        adminData.user = newUser[0]?._id ;
+        
+        const newAdmin = await adminsModel.create([adminData] , {session}) ;
+        if(!newAdmin?.length){
+            throw new AppError(500 , 'Failed to create admin') ;
+        }
+        await session.commitTransaction() ;
+        await session.endSession() ;
+        return newAdmin ;
+
+    } catch (error) {
+        await session.abortTransaction() ;
+        await session.endSession() ;
+        throw new AppError(500 , 'Failed to create admin') ;
+    }
+}
+
 export const userService = {
+    createAdminIntoDb ,
     createStudnetIntoDb ,
     createFacultyIntoDb ,
 }

@@ -27,13 +27,13 @@ const createFaculty : RequestHandler = catchAsync( async (req , res , next) => {
 }) ;
 
 const createAdmin : RequestHandler = catchAsync( async (req , res , next) => { 
-    const {password , faculty} = req.body ;
-    const result = await userService.createFacultyIntoDb(password  , faculty) ;
+    const {password , admin} = req.body ;
+    const result = await userService.createAdminIntoDb(password  , admin) ;
     if(!result){
         return ;
     }
     sendResponse<object>(res , {success : true ,
-    message : "Faculty created success fully !" , 
+    message : "Admin created success fully !" , 
     statusCode : 200 , data : result }) ;
 }) ;
 
