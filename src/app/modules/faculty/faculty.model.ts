@@ -102,6 +102,16 @@ facultySchema.pre("save" , async function(next){
     next() ;
 })
 
+facultySchema.pre("find", async function(next){
+    this.find({isDeleted : {$ne : true}}) ;
+    next() ;
+});
+
+facultySchema.pre("findOne", async function(next){
+    this.findOne({isDeleted : {$ne : true}}) ;
+    next() ;
+});
+
 facultySchema.pre('findOneAndUpdate', async function(next) {
     const faculty = await facultysModel.findOne({id : this.getQuery().id}) ;
     if (!faculty) {

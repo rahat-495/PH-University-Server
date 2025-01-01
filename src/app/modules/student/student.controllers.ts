@@ -16,6 +16,9 @@ const getSpecificStudent : RequestHandler = catchAsync(async (req , res , next) 
     if(data){
         sendResponse<object>(res , {data , statusCode : 200 , success : true , message : "Specific students are retrived !"}) ;
     }
+    else{
+        sendResponse<object>(res , {data : {} , statusCode : 200 , success : true , message : "Can't Get Any student !"}) ;
+    }
 }) ;
 
 const updateAStudent : RequestHandler = catchAsync(async (req , res , next) => {

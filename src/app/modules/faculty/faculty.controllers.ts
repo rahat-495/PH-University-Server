@@ -15,6 +15,9 @@ const getSpecifiFaculty : RequestHandler = catchAsync(async (req , res , next) =
     if(data){
         sendResponse<object>(res , {data , statusCode : 200 , success : true , message : "Specific faculties are retrived !"}) ;
     }
+    else{
+        sendResponse<object>(res , {data : {} , statusCode : 200 , success : true , message : "Can't Get Any Faculty !"}) ;
+    }
 }) ;
 
 const updateFaculty : RequestHandler = catchAsync(async (req , res , next) => {
