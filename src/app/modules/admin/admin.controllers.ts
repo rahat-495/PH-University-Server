@@ -6,14 +6,14 @@ import { adminServices } from "./admin.services";
 
 const getAllAdmin : RequestHandler = catchAsync(async (req , res , next) => {
     const result = await adminServices.getAllAdminFromDb(req.query) ;
-    sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "All faculties are retrived !"}) ;
+    sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "All admin are retrived !"}) ;
 }) ;
 
 const getSpecifiAdmin : RequestHandler = catchAsync(async (req , res , next) => {
     const {adminId} = req.params ;
     const data = await adminServices.getSpecificAdminFromDb(adminId) ;
     if(data){
-        sendResponse<object>(res , {data , statusCode : 200 , success : true , message : "Specific faculties are retrived !"}) ;
+        sendResponse<object>(res , {data , statusCode : 200 , success : true , message : "Specific admin are retrived !"}) ;
     }
     else{
         sendResponse<object>(res , {data : {} , statusCode : 200 , success : true , message : "Can't Get Any admin !"}) ;
