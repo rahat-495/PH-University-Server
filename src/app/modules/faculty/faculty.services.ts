@@ -42,18 +42,18 @@ const deleteAFacultyFromDb = async (id : string) => {
             throw new AppError(400 , "Failed to delete user") ;
         }
 
-        const deletedStudent = await facultysModel.findOneAndUpdate({id} , {isDeleted : true} , {new : true , session}) ;
-        if(!deletedStudent){
-            throw new AppError(400 , "Failed to delete student") ;
+        const deletedFaculty = await facultysModel.findOneAndUpdate({id} , {isDeleted : true} , {new : true , session}) ;
+        if(!deletedFaculty){
+            throw new AppError(400 , "Failed to delete faculty") ;
         }
 
         await session.commitTransaction() ;
         await session.endSession() ;
-        return deletedStudent ;
+        return deletedFaculty ;
     } catch (error) {
         await session.abortTransaction() ;
         await session.endSession() ;
-        throw new AppError(500 , "Failed to delete student") ;
+        throw new AppError(500 , "Failed to delete faculty") ;
     }
 }
 
