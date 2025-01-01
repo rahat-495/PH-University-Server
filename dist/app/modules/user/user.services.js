@@ -21,6 +21,7 @@ const user_model_1 = require("./user.model");
 const user_utils_1 = require("./user.utils");
 const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const faculty_model_1 = require("../faculty/faculty.model");
+const admin_model_1 = require("../admin/admin.model");
 const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const userData = {};
@@ -80,7 +81,37 @@ const createFacultyIntoDb = (password, facultyData) => __awaiter(void 0, void 0,
         throw new AppErrors_1.default(500, 'Failed to create faculty');
     }
 });
+const createAdminIntoDb = (password, adminData) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
+    const userData = {};
+    userData.role = 'admin';
+    const session = yield mongoose_1.default.startSession();
+    try {
+        session.startTransaction();
+        userData.id = yield (0, user_utils_1.generateFacultyId)();
+        userData.password = password;
+        const newUser = yield user_model_1.UsersModel.create([userData], { session });
+        if (!(newUser === null || newUser === void 0 ? void 0 : newUser.length)) {
+            throw new AppErrors_1.default(500, 'Failed to create user');
+        }
+        adminData.id = (_a = newUser[0]) === null || _a === void 0 ? void 0 : _a.id;
+        adminData.user = (_b = newUser[0]) === null || _b === void 0 ? void 0 : _b._id;
+        const newAdmin = yield admin_model_1.adminsModel.create([adminData], { session });
+        if (!(newAdmin === null || newAdmin === void 0 ? void 0 : newAdmin.length)) {
+            throw new AppErrors_1.default(500, 'Failed to create admin');
+        }
+        yield session.commitTransaction();
+        yield session.endSession();
+        return newAdmin;
+    }
+    catch (error) {
+        yield session.abortTransaction();
+        yield session.endSession();
+        throw new AppErrors_1.default(500, 'Failed to create admin');
+    }
+});
 exports.userService = {
+    createAdminIntoDb,
     createStudnetIntoDb,
     createFacultyIntoDb,
 };

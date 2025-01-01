@@ -37,13 +37,13 @@ const createFaculty = (0, catchAsync_1.default)((req, res, next) => __awaiter(vo
         statusCode: 200, data: result });
 }));
 const createAdmin = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { password, faculty } = req.body;
-    const result = yield user_services_1.userService.createFacultyIntoDb(password, faculty);
+    const { password, admin } = req.body;
+    const result = yield user_services_1.userService.createAdminIntoDb(password, admin);
     if (!result) {
         return;
     }
     (0, sendResponse_1.default)(res, { success: true,
-        message: "Faculty created success fully !",
+        message: "Admin created success fully !",
         statusCode: 200, data: result });
 }));
 exports.userControllers = {
