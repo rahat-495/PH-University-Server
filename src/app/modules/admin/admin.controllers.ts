@@ -2,6 +2,7 @@
 import { RequestHandler } from "express"
 import sendResponse from "../../utils/sendResponse";
 import catchAsync from "../../utils/catchAsync";
+import { adminServices } from "./admin.services";
 
 const getAllAdmin : RequestHandler = catchAsync(async (req , res , next) => {
     const result = await adminServices.getAllAdminFromDb(req.query) ;

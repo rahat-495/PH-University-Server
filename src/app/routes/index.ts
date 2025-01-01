@@ -20,7 +20,7 @@ const moduleRoutes = [
         route : studentRoutes ,
     } ,
     {
-        path : '/admin' ,
+        path : '/admins' ,
         route : adminRoutes ,
     } ,
     {
