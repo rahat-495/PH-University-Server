@@ -36,9 +36,6 @@ const updateAStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(v
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Student details udpated success fully !" });
     }
-    else {
-        (0, sendResponse_1.default)(res, { data: {}, statusCode: 200, success: false, message: "Can't student details udpate !" });
-    }
 }));
 const deleteAStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
