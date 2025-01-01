@@ -8,13 +8,13 @@ import { TFaculty } from "./faculty.interfaces";
 import { facultiesSearchAbleFields } from "./faculty.constand";
 
 const getAllFacultiesFromDb = async (query : Record<string , unknown>) => {
-    const studentQuery = new QueryBuilder(facultysModel.find(), query).search(facultiesSearchAbleFields).filter().sort().paginate().fields() ;
+    const studentQuery = new QueryBuilder(facultysModel.find().populate("academicFaculty").populate({path : "academicDepartment"}), query).search(facultiesSearchAbleFields).filter().sort().paginate().fields() ;
     const result = await studentQuery.modelQuery ;
     return result ;
 }
 
 const getSpecificFacultyFromDb = async (id : string) => {
-    const result = await facultysModel.findOne({id}) ;
+    const result = await facultysModel.findOne({id}).populate("academicFaculty").populate({path : "academicDepartment"}) ;
     return result ;
 }
 
