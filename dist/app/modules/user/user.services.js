@@ -88,7 +88,7 @@ const createAdminIntoDb = (password, adminData) => __awaiter(void 0, void 0, voi
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
-        userData.id = yield (0, user_utils_1.generateFacultyId)();
+        userData.id = yield (0, user_utils_1.generateAdminId)();
         userData.password = password;
         const newUser = yield user_model_1.UsersModel.create([userData], { session });
         if (!(newUser === null || newUser === void 0 ? void 0 : newUser.length)) {
