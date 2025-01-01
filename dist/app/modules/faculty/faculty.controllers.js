@@ -29,7 +29,7 @@ const getSpecifiFaculty = (0, catchAsync_1.default)((req, res, next) => __awaite
 }));
 const updateFaculty = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const result = yield faculty_services_1.facultyServices.updateAFacultyIntoDb(id, req.body.student);
+    const result = yield faculty_services_1.facultyServices.updateAFacultyIntoDb(id, req.body.faculty);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Faculty details udpated success fully !" });
     }
