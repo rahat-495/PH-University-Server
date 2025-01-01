@@ -26,6 +26,9 @@ const getSpecifiFaculty = (0, catchAsync_1.default)((req, res, next) => __awaite
     if (data) {
         (0, sendResponse_1.default)(res, { data, statusCode: 200, success: true, message: "Specific faculties are retrived !" });
     }
+    else {
+        (0, sendResponse_1.default)(res, { data: {}, statusCode: 200, success: true, message: "Can't Get Any Faculty !" });
+    }
 }));
 const updateFaculty = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;

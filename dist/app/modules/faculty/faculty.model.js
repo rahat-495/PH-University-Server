@@ -113,6 +113,18 @@ facultySchema.pre("save", function (next) {
         next();
     });
 });
+facultySchema.pre("find", function (next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        this.find({ isDeleted: { $ne: true } });
+        next();
+    });
+});
+facultySchema.pre("findOne", function (next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        this.findOne({ isDeleted: { $ne: true } });
+        next();
+    });
+});
 facultySchema.pre('findOneAndUpdate', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const faculty = yield exports.facultysModel.findOne({ id: this.getQuery().id });

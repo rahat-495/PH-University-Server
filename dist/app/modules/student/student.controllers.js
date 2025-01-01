@@ -26,6 +26,9 @@ const getSpecificStudent = (0, catchAsync_1.default)((req, res, next) => __await
     if (data) {
         (0, sendResponse_1.default)(res, { data, statusCode: 200, success: true, message: "Specific students are retrived !" });
     }
+    else {
+        (0, sendResponse_1.default)(res, { data: {}, statusCode: 200, success: true, message: "Can't Get Any student !" });
+    }
 }));
 const updateAStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
