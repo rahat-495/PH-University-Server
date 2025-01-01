@@ -58,18 +58,18 @@ const deleteAFacultyFromDb = (id) => __awaiter(void 0, void 0, void 0, function*
         if (!deletedUser) {
             throw new AppErrors_1.default(400, "Failed to delete user");
         }
-        const deletedStudent = yield faculty_model_1.facultysModel.findOneAndUpdate({ id }, { isDeleted: true }, { new: true, session });
-        if (!deletedStudent) {
-            throw new AppErrors_1.default(400, "Failed to delete student");
+        const deletedFaculty = yield faculty_model_1.facultysModel.findOneAndUpdate({ id }, { isDeleted: true }, { new: true, session });
+        if (!deletedFaculty) {
+            throw new AppErrors_1.default(400, "Failed to delete faculty");
         }
         yield session.commitTransaction();
         yield session.endSession();
-        return deletedStudent;
+        return deletedFaculty;
     }
     catch (error) {
         yield session.abortTransaction();
         yield session.endSession();
-        throw new AppErrors_1.default(500, "Failed to delete student");
+        throw new AppErrors_1.default(500, "Failed to delete faculty");
     }
 });
 exports.facultyServices = {
