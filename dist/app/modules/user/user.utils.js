@@ -51,7 +51,7 @@ const findLastAdmintId = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 const generateAdminId = () => __awaiter(void 0, void 0, void 0, function* () {
     let currentId = (0).toString();
-    const lastUserId = yield findLastFacultytId();
+    const lastUserId = yield findLastAdmintId();
     if (lastUserId) {
         currentId = lastUserId.substring(2);
     }
