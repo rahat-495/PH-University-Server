@@ -28,13 +28,14 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const user_model_1 = require("../user/user.model");
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
+const admin_model_1 = require("./admin.model");
 const getAllAdminFromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const studentQuery = new QueryBuilder_1.default(adminsModel.find().populate("academicFaculty").populate({ path: "academicDepartment" }), query).search(facultiesSearchAbleFields).filter().sort().paginate().fields();
+    const studentQuery = new QueryBuilder_1.default(admin_model_1.adminsModel.find().populate("academicFaculty").populate({ path: "academicDepartment" }), query).search(facultiesSearchAbleFields).filter().sort().paginate().fields();
     const result = yield studentQuery.modelQuery;
     return result;
 });
 const getSpecificAdminFromDb = (adminId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield adminsModel.findOne({ adminId }).populate("academicFaculty").populate({ path: "academicDepartment" });
+    const result = yield admin_model_1.adminsModel.findOne({ adminId }).populate("academicFaculty").populate({ path: "academicDepartment" });
     return result;
 });
 const updateSingleAdminIntoDb = (adminId, payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -45,7 +46,7 @@ const updateSingleAdminIntoDb = (adminId, payload) => __awaiter(void 0, void 0, 
             modifiedUpdateData[`name.${key}`] = value;
         }
     }
-    const result = yield adminsModel.findOneAndUpdate({ adminId }, modifiedUpdateData, { new: true, runValidators: true });
+    const result = yield admin_model_1.adminsModel.findOneAndUpdate({ adminId }, modifiedUpdateData, { new: true, runValidators: true });
     return result;
 });
 const deleteSingleAdminFromDb = (adminId) => __awaiter(void 0, void 0, void 0, function* () {
@@ -56,7 +57,7 @@ const deleteSingleAdminFromDb = (adminId) => __awaiter(void 0, void 0, void 0, f
         if (!deletedUser) {
             throw new AppErrors_1.default(400, "Failed to delete user");
         }
-        const deletedAdmin = yield adminsModel.findOneAndUpdate({ adminId }, { isDeleted: true }, { new: true, session });
+        const deletedAdmin = yield admin_model_1.adminsModel.findOneAndUpdate({ adminId }, { isDeleted: true }, { new: true, session });
         if (!deletedAdmin) {
             throw new AppErrors_1.default(400, "Failed to delete admin");
         }

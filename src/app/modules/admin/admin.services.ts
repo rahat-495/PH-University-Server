@@ -4,9 +4,11 @@ import AppError from "../../errors/AppErrors";
 import { UsersModel } from "../user/user.model";
 import QueryBuilder from "../../builder/QueryBuilder";
 import { adminsModel } from "./admin.model";
+import { TAdmin } from "./admin.interfaces";
+import { adminsSearchAbleFields } from "./admin.constand";
 
 const getAllAdminFromDb = async (query : Record<string , unknown>) => {
-    const studentQuery = new QueryBuilder(adminsModel.find().populate("academicFaculty").populate({path : "academicDepartment"}), query).search(facultiesSearchAbleFields).filter().sort().paginate().fields() ;
+    const studentQuery = new QueryBuilder(adminsModel.find().populate("academicFaculty").populate({path : "academicDepartment"}), query).search(adminsSearchAbleFields).filter().sort().paginate().fields() ;
     const result = await studentQuery.modelQuery ;
     return result ;
 }
@@ -16,7 +18,7 @@ const getSpecificAdminFromDb = async (adminId : string) => {
     return result ;
 }
 
-const updateSingleAdminIntoDb = async (adminId : string , payload : Partial<TFaculty>) => {
+const updateSingleAdminIntoDb = async (adminId : string , payload : Partial<TAdmin>) => {
     const {name , ...remainingFacultyData} = payload ;
     const modifiedUpdateData : Record<string , unknown> = {...remainingFacultyData} ;
 
