@@ -22,7 +22,7 @@ const moduleRoutes = [
         route: student_routes_1.studentRoutes,
     },
     {
-        path: '/admin',
+        path: '/admins',
         route: admin_routes_1.adminRoutes,
     },
     {

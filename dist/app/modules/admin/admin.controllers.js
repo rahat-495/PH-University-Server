@@ -15,13 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminControllers = void 0;
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
+const admin_services_1 = require("./admin.services");
 const getAllAdmin = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield adminServices.getAllAdminFromDb(req.query);
+    const result = yield admin_services_1.adminServices.getAllAdminFromDb(req.query);
     (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "All faculties are retrived !" });
 }));
 const getSpecifiAdmin = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { adminId } = req.params;
-    const data = yield adminServices.getSpecificAdminFromDb(adminId);
+    const data = yield admin_services_1.adminServices.getSpecificAdminFromDb(adminId);
     if (data) {
         (0, sendResponse_1.default)(res, { data, statusCode: 200, success: true, message: "Specific faculties are retrived !" });
     }
@@ -31,14 +32,14 @@ const getSpecifiAdmin = (0, catchAsync_1.default)((req, res, next) => __awaiter(
 }));
 const updateAdmin = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { adminId } = req.params;
-    const result = yield adminServices.updateSingleAdminIntoDb(adminId, req.body.admin);
+    const result = yield admin_services_1.adminServices.updateSingleAdminIntoDb(adminId, req.body.admin);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "admin details udpated success fully !" });
     }
 }));
 const deleteAdmin = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { adminId } = req.params;
-    const result = yield adminServices.deleteSingleAdminFromDb(adminId);
+    const result = yield admin_services_1.adminServices.deleteSingleAdminFromDb(adminId);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Specific admin are deleted !" });
     }
