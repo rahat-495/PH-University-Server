@@ -48,7 +48,7 @@ const findLastAdmintId = async () => {
 
 export const generateAdminId = async () => {
     let currentId = (0).toString() ;
-    const lastUserId = await findLastFacultytId() ;
+    const lastUserId = await findLastAdmintId() ;
     if(lastUserId){
         currentId = lastUserId.substring(2) ;
     }
