@@ -1,2 +1,2 @@
 
-export const facultiesSearchAbleFields = ["name.firstName" , "email"] ;
+export const adminsSearchAbleFields = ["name.firstName" , "email"] ;
