@@ -40,3 +40,19 @@ export const generateFacultyId = async () => {
     incrementId = `F-${incrementId}` ;
     return incrementId ;
 }
+
+const findLastAdmintId = async () => {
+    const lastStudentId = await UsersModel.findOne({role : "admin"} , {id : 1 , _id : 0}).sort({createdAt : -1}).lean() ;
+    return lastStudentId?.id ? lastStudentId.id : undefined ;
+}
+
+export const generateAdminId = async () => {
+    let currentId = (0).toString() ;
+    const lastUserId = await findLastFacultytId() ;
+    if(lastUserId){
+        currentId = lastUserId.substring(2) ;
+    }
+    let incrementId = (Number(currentId)+1).toString().padStart(4 , "0") ;
+    incrementId = `A-${incrementId}` ;
+    return incrementId ;
+}

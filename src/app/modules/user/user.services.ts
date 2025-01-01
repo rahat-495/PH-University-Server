@@ -7,7 +7,7 @@ import { TStudent } from "../student/student.interfaces";
 import { studentsModel } from "../student/student.model";
 import { TUser } from "./user.interfaces";
 import { UsersModel } from "./user.model";
-import { generateFacultyId, generateStudentId } from "./user.utils";
+import { generateAdminId, generateFacultyId, generateStudentId } from "./user.utils";
 import AppError from "../../errors/AppErrors";
 import { TFaculty } from "../faculty/faculty.interfaces";
 import { facultysModel } from "../faculty/faculty.model";
@@ -93,7 +93,7 @@ const createAdminIntoDb = async (password : string , adminData : Partial<TAdmin>
     try {
         
         session.startTransaction() ;
-        userData.id = await generateFacultyId() ;
+        userData.id = await generateAdminId() ;
         userData.password = password ;
 
         const newUser = await UsersModel.create([userData] , {session}) ;
