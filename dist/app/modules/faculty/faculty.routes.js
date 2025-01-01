@@ -10,7 +10,7 @@ const validateRequest_1 = __importDefault(require("../middlewares/validateReques
 const faculty_validation_1 = require("./faculty.validation");
 const router = express_1.default.Router();
 router.get('/', faculty_controllers_1.facultyControllers.getAlFaculties);
-router.get('/:id', faculty_controllers_1.facultyControllers.getSpecifiFaculty);
-router.patch('/:id', (0, validateRequest_1.default)(faculty_validation_1.facultyValidations.updateFacultyValidationSchema), faculty_controllers_1.facultyControllers.updateFaculty);
-router.delete('/:id', faculty_controllers_1.facultyControllers.deleteFaculty);
+router.get('/:facultyId', faculty_controllers_1.facultyControllers.getSpecifiFaculty);
+router.patch('/:facultyId', (0, validateRequest_1.default)(faculty_validation_1.facultyValidations.updateFacultyValidationSchema), faculty_controllers_1.facultyControllers.updateFaculty);
+router.delete('/:facultyId', faculty_controllers_1.facultyControllers.deleteFaculty);
 exports.facultyRoutes = router;

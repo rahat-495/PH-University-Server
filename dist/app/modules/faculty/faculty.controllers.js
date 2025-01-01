@@ -21,8 +21,8 @@ const getAlFaculties = (0, catchAsync_1.default)((req, res, next) => __awaiter(v
     (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "All faculties are retrived !" });
 }));
 const getSpecifiFaculty = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const data = yield faculty_services_1.facultyServices.getSpecificFacultyFromDb(id);
+    const { facultyId } = req.params;
+    const data = yield faculty_services_1.facultyServices.getSpecificFacultyFromDb(facultyId);
     if (data) {
         (0, sendResponse_1.default)(res, { data, statusCode: 200, success: true, message: "Specific faculties are retrived !" });
     }
@@ -31,15 +31,15 @@ const getSpecifiFaculty = (0, catchAsync_1.default)((req, res, next) => __awaite
     }
 }));
 const updateFaculty = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const result = yield faculty_services_1.facultyServices.updateAFacultyIntoDb(id, req.body.faculty);
+    const { facultyId } = req.params;
+    const result = yield faculty_services_1.facultyServices.updateAFacultyIntoDb(facultyId, req.body.faculty);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Faculty details udpated success fully !" });
     }
 }));
 const deleteFaculty = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const result = yield faculty_services_1.facultyServices.deleteAFacultyFromDb(id);
+    const { facultyId } = req.params;
+    const result = yield faculty_services_1.facultyServices.deleteAFacultyFromDb(facultyId);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Specific faculties are deleted !" });
     }
