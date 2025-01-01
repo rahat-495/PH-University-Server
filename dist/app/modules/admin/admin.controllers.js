@@ -18,13 +18,13 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const admin_services_1 = require("./admin.services");
 const getAllAdmin = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield admin_services_1.adminServices.getAllAdminFromDb(req.query);
-    (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "All faculties are retrived !" });
+    (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "All admin are retrived !" });
 }));
 const getSpecifiAdmin = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { adminId } = req.params;
     const data = yield admin_services_1.adminServices.getSpecificAdminFromDb(adminId);
     if (data) {
-        (0, sendResponse_1.default)(res, { data, statusCode: 200, success: true, message: "Specific faculties are retrived !" });
+        (0, sendResponse_1.default)(res, { data, statusCode: 200, success: true, message: "Specific admin are retrived !" });
     }
     else {
         (0, sendResponse_1.default)(res, { data: {}, statusCode: 200, success: true, message: "Can't Get Any admin !" });
