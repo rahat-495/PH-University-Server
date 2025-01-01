@@ -86,7 +86,7 @@ const createFacultyIntoDb = async (password : string , facultyData : Partial<TFa
 }
 
 const createAdminIntoDb = async (password : string , adminData : Partial<TAdmin>) => {
-    
+    return {} ;
 }
 
 export const userService = {
