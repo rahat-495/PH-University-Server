@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import AppError from "../../errors/AppErrors";
 import { UsersModel } from "../user/user.model";
 import QueryBuilder from "../../builder/QueryBuilder";
+import { adminsModel } from "./admin.model";
 
 const getAllAdminFromDb = async (query : Record<string , unknown>) => {
     const studentQuery = new QueryBuilder(adminsModel.find().populate("academicFaculty").populate({path : "academicDepartment"}), query).search(facultiesSearchAbleFields).filter().sort().paginate().fields() ;
