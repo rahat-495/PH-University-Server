@@ -31,12 +31,12 @@ const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const faculty_model_1 = require("./faculty.model");
 const faculty_constand_1 = require("./faculty.constand");
 const getAllFacultiesFromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const studentQuery = new QueryBuilder_1.default(faculty_model_1.facultysModel.find(), query).search(faculty_constand_1.facultiesSearchAbleFields).filter().sort().paginate().fields();
+    const studentQuery = new QueryBuilder_1.default(faculty_model_1.facultysModel.find().populate("academicFaculty").populate({ path: "academicDepartment" }), query).search(faculty_constand_1.facultiesSearchAbleFields).filter().sort().paginate().fields();
     const result = yield studentQuery.modelQuery;
     return result;
 });
 const getSpecificFacultyFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield faculty_model_1.facultysModel.findOne({ id });
+    const result = yield faculty_model_1.facultysModel.findOne({ id }).populate("academicFaculty").populate({ path: "academicDepartment" });
     return result;
 });
 const updateAFacultyIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
