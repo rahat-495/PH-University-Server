@@ -34,7 +34,7 @@ const createAdmin : RequestHandler = catchAsync( async (req , res , next) => {
     }
     sendResponse<object>(res , {success : true ,
     message : "Admin created success fully !" , 
-    statusCode : 200 , data : result }) ;
+    statusCode : 200 , data : result });
 }) ;
 
 export const userControllers = {
