@@ -13,12 +13,12 @@ const getAllStudentsFromDb = async (query : Record<string , unknown>) => {
     return result ;
 }
 
-const getSpecificStudentFromDb = async (id : string) => {
-    const result = await studentsModel.findOne({id}).populate("admissionSemester").populate({path : "academicDepartment" , populate : {path : "academicFaculty"}}) ;
+const getSpecificStudentFromDb = async (studentId : string) => {
+    const result = await studentsModel.findOne({studentId}).populate("admissionSemester").populate({path : "academicDepartment" , populate : {path : "academicFaculty"}}) ;
     return result ;
 }
 
-const updateAStudentIntoDb = async (id : string , payload : Partial<TStudent>) => {
+const updateAStudentIntoDb = async (studentId : string , payload : Partial<TStudent>) => {
     const {name , guardian , localGuardian , ...remainingStudentData} = payload ;
     const modifiedUpdateData : Record<string , unknown> = {...remainingStudentData} ;
 
@@ -40,21 +40,21 @@ const updateAStudentIntoDb = async (id : string , payload : Partial<TStudent>) =
         }
     }
 
-    const result = await studentsModel.findOneAndUpdate({id} , modifiedUpdateData , {new : true , runValidators : true}) ;
+    const result = await studentsModel.findOneAndUpdate({studentId} , modifiedUpdateData , {new : true , runValidators : true}) ;
     return result ;
 }
 
-const deleteAStudentFromDb = async (id : string) => {
+const deleteAStudentFromDb = async (studentId : string) => {
     const session = await mongoose.startSession() ;
     try {
         
         session.startTransaction() ;
-        const deletedUser = await UsersModel.findOneAndUpdate({id} , {isDeleted : true} , {new : true , session}) ;
+        const deletedUser = await UsersModel.findOneAndUpdate({studentId} , {isDeleted : true} , {new : true , session}) ;
         if(!deletedUser){
             throw new AppError(400 , "Failed to delete user") ;
         }
 
-        const deletedStudent = await studentsModel.findOneAndUpdate({id} , {isDeleted : true} , {new : true , session}) ;
+        const deletedStudent = await studentsModel.findOneAndUpdate({studentId} , {isDeleted : true} , {new : true , session}) ;
         if(!deletedStudent){
             throw new AppError(400 , "Failed to delete student") ;
         }
