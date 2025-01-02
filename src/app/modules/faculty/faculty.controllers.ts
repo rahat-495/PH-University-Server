@@ -29,8 +29,8 @@ const updateFaculty : RequestHandler = catchAsync(async (req , res , next) => {
 }) ;
 
 const deleteFaculty : RequestHandler = catchAsync(async (req , res , next) => {
-    const {facultyId} = req.params ;
-    const result = await facultyServices.deleteAFacultyFromDb(facultyId) ;
+    const {id} = req.params ;
+    const result = await facultyServices.deleteAFacultyFromDb(id) ;
     if(result){
         sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Specific faculties are deleted !"}) ;
     }
