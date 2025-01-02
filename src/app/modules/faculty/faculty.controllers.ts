@@ -10,8 +10,8 @@ const getAlFaculties : RequestHandler = catchAsync(async (req , res , next) => {
 }) ;
 
 const getSpecifiFaculty : RequestHandler = catchAsync(async (req , res , next) => {
-    const {facultyId} = req.params ;
-    const data = await facultyServices.getSpecificFacultyFromDb(facultyId) ;
+    const {id} = req.params ;
+    const data = await facultyServices.getSpecificFacultyFromDb(id) ;
     if(data){
         sendResponse<object>(res , {data , statusCode : 200 , success : true , message : "Specific faculties are retrived !"}) ;
     }

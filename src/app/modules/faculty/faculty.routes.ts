@@ -7,8 +7,8 @@ import { facultyValidations } from "./faculty.validation";
 const router = express.Router() ;
 
 router.get('/' , facultyControllers.getAlFaculties) ;
-router.get('/:facultyId' , facultyControllers.getSpecifiFaculty) ;
-router.patch('/:facultyId' , validateRequest(facultyValidations.updateFacultyValidationSchema) , facultyControllers.updateFaculty) ;
-router.delete('/:facultyId' , facultyControllers.deleteFaculty) ;
+router.get('/:id' , facultyControllers.getSpecifiFaculty) ;
+router.patch('/:id' , validateRequest(facultyValidations.updateFacultyValidationSchema) , facultyControllers.updateFaculty) ;
+router.delete('/:id' , facultyControllers.deleteFaculty) ;
 
 export const facultyRoutes = router ;
