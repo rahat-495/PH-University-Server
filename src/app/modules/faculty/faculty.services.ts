@@ -37,14 +37,14 @@ const deleteAFacultyFromDb = async (id : string) => {
     try {
         
         session.startTransaction() ;
-        const deletedUser = await UsersModel.findByIdAndUpdate(id , {isDeleted : true} , {new : true , session}) ;
-        if(!deletedUser){
-            throw new AppError(400 , "Failed to delete user") ;
-        }
-
         const deletedFaculty = await facultysModel.findByIdAndUpdate(id , {isDeleted : true} , {new : true , session}) ;
         if(!deletedFaculty){
             throw new AppError(400 , "Failed to delete faculty") ;
+        }
+
+        const deletedUser = await UsersModel.findByIdAndUpdate(deletedFaculty.user , {isDeleted : true} , {new : true , session}) ;
+        if(!deletedUser){
+            throw new AppError(400 , "Failed to delete user") ;
         }
 
         await session.commitTransaction() ;
