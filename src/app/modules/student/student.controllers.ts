@@ -10,8 +10,8 @@ const getAllStudents : RequestHandler = catchAsync(async (req , res , next) => {
 }) ;
 
 const getSpecificStudent : RequestHandler = catchAsync(async (req , res , next) => {
-    const {id} = req.params ;
-    const data = await studentServices.getSpecificStudentFromDb(id) ;
+    const {studentId} = req.params ;
+    const data = await studentServices.getSpecificStudentFromDb(studentId) ;
     if(data){
         sendResponse<object>(res , {data , statusCode : 200 , success : true , message : "Specific students are retrived !"}) ;
     }
@@ -21,16 +21,16 @@ const getSpecificStudent : RequestHandler = catchAsync(async (req , res , next) 
 }) ;
 
 const updateAStudent : RequestHandler = catchAsync(async (req , res , next) => {
-    const {id} = req.params ;
-    const result = await studentServices.updateAStudentIntoDb(id , req.body.student) ;
+    const {studentId} = req.params ;
+    const result = await studentServices.updateAStudentIntoDb(studentId , req.body.student) ;
     if(result){
         sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Student details udpated success fully !"}) ;
     }
 }) ;
 
 const deleteAStudent : RequestHandler = catchAsync(async (req , res , next) => {
-    const {id} = req.params ;
-    const result = await studentServices.deleteAStudentFromDb(id) ;
+    const {studentId} = req.params ;
+    const result = await studentServices.deleteAStudentFromDb(studentId) ;
     if(result){
         sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Specific students are deleted !"}) ;
     }
