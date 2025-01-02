@@ -13,12 +13,12 @@ const getAllAdminFromDb = async (query : Record<string , unknown>) => {
     return result ;
 }
 
-const getSpecificAdminFromDb = async (adminId : string) => {
-    const result = await adminsModel.findOne({adminId}).populate("academicFaculty").populate({path : "academicDepartment"}) ;
+const getSpecificAdminFromDb = async (id : string) => {
+    const result = await adminsModel.findOne({_id : id}).populate("academicFaculty").populate({path : "academicDepartment"}) ;
     return result ;
 }
 
-const updateSingleAdminIntoDb = async (adminId : string , payload : Partial<TAdmin>) => {
+const updateSingleAdminIntoDb = async (id : string , payload : Partial<TAdmin>) => {
     const {name , ...remainingFacultyData} = payload ;
     const modifiedUpdateData : Record<string , unknown> = {...remainingFacultyData} ;
 
@@ -28,21 +28,21 @@ const updateSingleAdminIntoDb = async (adminId : string , payload : Partial<TAdm
         }
     }
 
-    const result = await adminsModel.findOneAndUpdate({adminId} , modifiedUpdateData , {new : true , runValidators : true}) ;
+    const result = await adminsModel.findOneAndUpdate({_id : id} , modifiedUpdateData , {new : true , runValidators : true}) ;
     return result ;
 }
 
-const deleteSingleAdminFromDb = async (adminId : string) => {
+const deleteSingleAdminFromDb = async (id : string) => {
     const session = await mongoose.startSession() ;
     try {
         
         session.startTransaction() ;
-        const deletedUser = await UsersModel.findOneAndUpdate({adminId} , {isDeleted : true} , {new : true , session}) ;
+        const deletedUser = await UsersModel.findOneAndUpdate({_id : id} , {isDeleted : true} , {new : true , session}) ;
         if(!deletedUser){
             throw new AppError(400 , "Failed to delete user") ;
         }
 
-        const deletedAdmin = await adminsModel.findOneAndUpdate({adminId} , {isDeleted : true} , {new : true , session}) ;
+        const deletedAdmin = await adminsModel.findOneAndUpdate({_id : id} , {isDeleted : true} , {new : true , session}) ;
         if(!deletedAdmin){
             throw new AppError(400 , "Failed to delete admin") ;
         }
