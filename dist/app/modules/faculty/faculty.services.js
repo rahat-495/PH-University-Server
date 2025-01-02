@@ -36,7 +36,7 @@ const getAllFacultiesFromDb = (query) => __awaiter(void 0, void 0, void 0, funct
     return result;
 });
 const getSpecificFacultyFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield faculty_model_1.facultysModel.findOne({ _id: id }).populate("academicFaculty").populate({ path: "academicDepartment" });
+    const result = yield faculty_model_1.facultysModel.findById(id).populate("academicFaculty").populate({ path: "academicDepartment" });
     return result;
 });
 const updateAFacultyIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -47,18 +47,18 @@ const updateAFacultyIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, 
             modifiedUpdateData[`name.${key}`] = value;
         }
     }
-    const result = yield faculty_model_1.facultysModel.findOneAndUpdate({ _id: id }, modifiedUpdateData, { new: true, runValidators: true });
+    const result = yield faculty_model_1.facultysModel.findByIdAndUpdate(id, modifiedUpdateData, { new: true, runValidators: true });
     return result;
 });
 const deleteAFacultyFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
-        const deletedUser = yield user_model_1.UsersModel.findOneAndUpdate({ _id: id }, { isDeleted: true }, { new: true, session });
+        const deletedUser = yield user_model_1.UsersModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true, session });
         if (!deletedUser) {
             throw new AppErrors_1.default(400, "Failed to delete user");
         }
-        const deletedFaculty = yield faculty_model_1.facultysModel.findOneAndUpdate({ _id: id }, { isDeleted: true }, { new: true, session });
+        const deletedFaculty = yield faculty_model_1.facultysModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true, session });
         if (!deletedFaculty) {
             throw new AppErrors_1.default(400, "Failed to delete faculty");
         }
