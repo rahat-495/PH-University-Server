@@ -23,8 +23,13 @@ const getSingleCourseFromDb = () => __awaiter(void 0, void 0, void 0, function* 
     const result = yield course_model_1.coursesModel.find();
     return result;
 });
+const deleteCourseFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield course_model_1.coursesModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
+    return result;
+});
 exports.courseServices = {
     createCourseIntoDb,
     getAllCourseFromDb,
+    deleteCourseFromDb,
     getSingleCourseFromDb,
 };
