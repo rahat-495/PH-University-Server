@@ -21,8 +21,8 @@ const getAllStudents = (0, catchAsync_1.default)((req, res, next) => __awaiter(v
     (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "All students are retrived !" });
 }));
 const getSpecificStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const data = yield student_services_1.studentServices.getSpecificStudentFromDb(id);
+    const { studentId } = req.params;
+    const data = yield student_services_1.studentServices.getSpecificStudentFromDb(studentId);
     if (data) {
         (0, sendResponse_1.default)(res, { data, statusCode: 200, success: true, message: "Specific students are retrived !" });
     }
@@ -31,15 +31,15 @@ const getSpecificStudent = (0, catchAsync_1.default)((req, res, next) => __await
     }
 }));
 const updateAStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const result = yield student_services_1.studentServices.updateAStudentIntoDb(id, req.body.student);
+    const { studentId } = req.params;
+    const result = yield student_services_1.studentServices.updateAStudentIntoDb(studentId, req.body.student);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Student details udpated success fully !" });
     }
 }));
 const deleteAStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const result = yield student_services_1.studentServices.deleteAStudentFromDb(id);
+    const { studentId } = req.params;
+    const result = yield student_services_1.studentServices.deleteAStudentFromDb(studentId);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Specific students are deleted !" });
     }
