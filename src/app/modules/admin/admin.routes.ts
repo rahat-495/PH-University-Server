@@ -7,8 +7,8 @@ import { adminValidations } from "./admin.validation";
 const router = express.Router() ;
 
 router.get('/' , adminControllers.getAllAdmin) ;
-router.get('/:adminId' , adminControllers.getSpecifiAdmin) ;
-router.patch('/:adminId'  , validateRequest(adminValidations.updateAdminValidationSchema) , adminControllers.updateAdmin) ;
-router.delete('/:adminId' , adminControllers.deleteAdmin) ;
+router.get('/:id' , adminControllers.getSpecifiAdmin) ;
+router.patch('/:id'  , validateRequest(adminValidations.updateAdminValidationSchema) , adminControllers.updateAdmin) ;
+router.delete('/:id' , adminControllers.deleteAdmin) ;
 
 export const adminRoutes = router ;
