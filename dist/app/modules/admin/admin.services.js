@@ -54,13 +54,13 @@ const deleteSingleAdminFromDb = (id) => __awaiter(void 0, void 0, void 0, functi
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
-        const deletedUser = yield user_model_1.UsersModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true, session });
-        if (!deletedUser) {
-            throw new AppErrors_1.default(400, "Failed to delete user");
-        }
         const deletedAdmin = yield admin_model_1.adminsModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true, session });
         if (!deletedAdmin) {
             throw new AppErrors_1.default(400, "Failed to delete admin");
+        }
+        const deletedUser = yield user_model_1.UsersModel.findByIdAndUpdate(deletedAdmin.user, { isDeleted: true }, { new: true, session });
+        if (!deletedUser) {
+            throw new AppErrors_1.default(400, "Failed to delete user");
         }
         yield session.commitTransaction();
         yield session.endSession();
