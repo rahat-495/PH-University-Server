@@ -35,11 +35,11 @@ const getAllStudentsFromDb = (query) => __awaiter(void 0, void 0, void 0, functi
     const result = yield studentQuery.modelQuery;
     return result;
 });
-const getSpecificStudentFromDb = (studentId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield student_model_1.studentsModel.findOne({ studentId }).populate("admissionSemester").populate({ path: "academicDepartment", populate: { path: "academicFaculty" } });
+const getSpecificStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield student_model_1.studentsModel.findById(id).populate("admissionSemester").populate({ path: "academicDepartment", populate: { path: "academicFaculty" } });
     return result;
 });
-const updateAStudentIntoDb = (studentId, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const updateAStudentIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, guardian, localGuardian } = payload, remainingStudentData = __rest(payload, ["name", "guardian", "localGuardian"]);
     const modifiedUpdateData = Object.assign({}, remainingStudentData);
     if (name && Object.keys(name).length) {
@@ -57,20 +57,20 @@ const updateAStudentIntoDb = (studentId, payload) => __awaiter(void 0, void 0, v
             modifiedUpdateData[`localGuardian.${key}`] = value;
         }
     }
-    const result = yield student_model_1.studentsModel.findOneAndUpdate({ studentId }, modifiedUpdateData, { new: true, runValidators: true });
+    const result = yield student_model_1.studentsModel.findByIdAndUpdate(id, modifiedUpdateData, { new: true, runValidators: true });
     return result;
 });
-const deleteAStudentFromDb = (studentId) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteAStudentFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
-        const deletedUser = yield user_model_1.UsersModel.findOneAndUpdate({ studentId }, { isDeleted: true }, { new: true, session });
-        if (!deletedUser) {
-            throw new AppErrors_1.default(400, "Failed to delete user");
-        }
-        const deletedStudent = yield student_model_1.studentsModel.findOneAndUpdate({ studentId }, { isDeleted: true }, { new: true, session });
+        const deletedStudent = yield student_model_1.studentsModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true, session });
         if (!deletedStudent) {
             throw new AppErrors_1.default(400, "Failed to delete student");
+        }
+        const deletedUser = yield user_model_1.UsersModel.findByIdAndUpdate(deletedStudent.user, { isDeleted: true }, { new: true, session });
+        if (!deletedUser) {
+            throw new AppErrors_1.default(400, "Failed to delete user");
         }
         yield session.commitTransaction();
         yield session.endSession();

@@ -10,7 +10,7 @@ const validateRequest_1 = __importDefault(require("../middlewares/validateReques
 const student_validation_1 = require("./student.validation");
 const router = express_1.default.Router();
 router.get('/', student_controllers_1.studentControllers.getAllStudents);
-router.get('/:studentId', student_controllers_1.studentControllers.getSpecificStudent);
-router.patch('/:studentId', (0, validateRequest_1.default)(student_validation_1.studentValidations.updateStudentValidationSchema), student_controllers_1.studentControllers.updateAStudent);
-router.delete('/:studentId', student_controllers_1.studentControllers.deleteAStudent);
+router.get('/:id', student_controllers_1.studentControllers.getSpecificStudent);
+router.patch('/:id', (0, validateRequest_1.default)(student_validation_1.studentValidations.updateStudentValidationSchema), student_controllers_1.studentControllers.updateAStudent);
+router.delete('/:id', student_controllers_1.studentControllers.deleteAStudent);
 exports.studentRoutes = router;
