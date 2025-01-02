@@ -36,7 +36,7 @@ const getAllAdminFromDb = (query) => __awaiter(void 0, void 0, void 0, function*
     return result;
 });
 const getSpecificAdminFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield admin_model_1.adminsModel.findOne({ _id: id }).populate("academicFaculty").populate({ path: "academicDepartment" });
+    const result = yield admin_model_1.adminsModel.findById(id).populate("academicFaculty").populate({ path: "academicDepartment" });
     return result;
 });
 const updateSingleAdminIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -47,18 +47,18 @@ const updateSingleAdminIntoDb = (id, payload) => __awaiter(void 0, void 0, void 
             modifiedUpdateData[`name.${key}`] = value;
         }
     }
-    const result = yield admin_model_1.adminsModel.findOneAndUpdate({ _id: id }, modifiedUpdateData, { new: true, runValidators: true });
+    const result = yield admin_model_1.adminsModel.findByIdAndUpdate(id, modifiedUpdateData, { new: true, runValidators: true });
     return result;
 });
 const deleteSingleAdminFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
-        const deletedUser = yield user_model_1.UsersModel.findOneAndUpdate({ _id: id }, { isDeleted: true }, { new: true, session });
+        const deletedUser = yield user_model_1.UsersModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true, session });
         if (!deletedUser) {
             throw new AppErrors_1.default(400, "Failed to delete user");
         }
-        const deletedAdmin = yield admin_model_1.adminsModel.findOneAndUpdate({ _id: id }, { isDeleted: true }, { new: true, session });
+        const deletedAdmin = yield admin_model_1.adminsModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true, session });
         if (!deletedAdmin) {
             throw new AppErrors_1.default(400, "Failed to delete admin");
         }
