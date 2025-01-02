@@ -10,8 +10,8 @@ const getAllAdmin : RequestHandler = catchAsync(async (req , res , next) => {
 }) ;
 
 const getSpecifiAdmin : RequestHandler = catchAsync(async (req , res , next) => {
-    const {adminId} = req.params ;
-    const data = await adminServices.getSpecificAdminFromDb(adminId) ;
+    const {id} = req.params ;
+    const data = await adminServices.getSpecificAdminFromDb(id) ;
     if(data){
         sendResponse<object>(res , {data , statusCode : 200 , success : true , message : "Specific admin are retrived !"}) ;
     }
@@ -21,16 +21,16 @@ const getSpecifiAdmin : RequestHandler = catchAsync(async (req , res , next) => 
 }) ;
 
 const updateAdmin : RequestHandler = catchAsync(async (req , res , next) => {
-    const {adminId} = req.params ;
-    const result = await adminServices.updateSingleAdminIntoDb(adminId , req.body.admin) ;
+    const {id} = req.params ;
+    const result = await adminServices.updateSingleAdminIntoDb(id , req.body.admin) ;
     if(result){
         sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "admin details udpated success fully !"}) ;
     }
 }) ;
 
 const deleteAdmin : RequestHandler = catchAsync(async (req , res , next) => {
-    const {adminId} = req.params ;
-    const result = await adminServices.deleteSingleAdminFromDb(adminId) ;
+    const {id} = req.params ;
+    const result = await adminServices.deleteSingleAdminFromDb(id) ;
     if(result){
         sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Specific admin are deleted !"}) ;
     }
