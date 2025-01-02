@@ -38,8 +38,8 @@ const updateFaculty = (0, catchAsync_1.default)((req, res, next) => __awaiter(vo
     }
 }));
 const deleteFaculty = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { facultyId } = req.params;
-    const result = yield faculty_services_1.facultyServices.deleteAFacultyFromDb(facultyId);
+    const { id } = req.params;
+    const result = yield faculty_services_1.facultyServices.deleteAFacultyFromDb(id);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Specific faculties are deleted !" });
     }
