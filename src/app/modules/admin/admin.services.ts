@@ -14,7 +14,7 @@ const getAllAdminFromDb = async (query : Record<string , unknown>) => {
 }
 
 const getSpecificAdminFromDb = async (id : string) => {
-    const result = await adminsModel.findOne({_id : id}).populate("academicFaculty").populate({path : "academicDepartment"}) ;
+    const result = await adminsModel.findById(id).populate("academicFaculty").populate({path : "academicDepartment"}) ;
     return result ;
 }
 
@@ -28,7 +28,7 @@ const updateSingleAdminIntoDb = async (id : string , payload : Partial<TAdmin>) 
         }
     }
 
-    const result = await adminsModel.findOneAndUpdate({_id : id} , modifiedUpdateData , {new : true , runValidators : true}) ;
+    const result = await adminsModel.findByIdAndUpdate(id , modifiedUpdateData , {new : true , runValidators : true}) ;
     return result ;
 }
 
@@ -37,12 +37,12 @@ const deleteSingleAdminFromDb = async (id : string) => {
     try {
         
         session.startTransaction() ;
-        const deletedUser = await UsersModel.findOneAndUpdate({_id : id} , {isDeleted : true} , {new : true , session}) ;
+        const deletedUser = await UsersModel.findByIdAndUpdate(id , {isDeleted : true} , {new : true , session}) ;
         if(!deletedUser){
             throw new AppError(400 , "Failed to delete user") ;
         }
 
-        const deletedAdmin = await adminsModel.findOneAndUpdate({_id : id} , {isDeleted : true} , {new : true , session}) ;
+        const deletedAdmin = await adminsModel.findByIdAndUpdate(id , {isDeleted : true} , {new : true , session}) ;
         if(!deletedAdmin){
             throw new AppError(400 , "Failed to delete admin") ;
         }
