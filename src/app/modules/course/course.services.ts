@@ -12,7 +12,13 @@ const getAllCourseFromDb = async () => {
     return result ;
 }
 
+const getSingleCourseFromDb = async () => {
+    const result = await coursesModel.find() ;
+    return result ;
+}
+
 export const courseServices = {
     createCourseIntoDb ,
     getAllCourseFromDb ,
+    getSingleCourseFromDb ,
 }
