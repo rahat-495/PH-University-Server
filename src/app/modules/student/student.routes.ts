@@ -7,8 +7,8 @@ import { studentValidations } from "./student.validation";
 const router = express.Router() ;
 
 router.get('/' , studentControllers.getAllStudents) ;
-router.get('/:studentId' , studentControllers.getSpecificStudent) ;
-router.patch('/:studentId' , validateRequest(studentValidations.updateStudentValidationSchema) , studentControllers.updateAStudent) ;
-router.delete('/:studentId' , studentControllers.deleteAStudent) ;
+router.get('/:id' , studentControllers.getSpecificStudent) ;
+router.patch('/:id' , validateRequest(studentValidations.updateStudentValidationSchema) , studentControllers.updateAStudent) ;
+router.delete('/:id' , studentControllers.deleteAStudent) ;
 
 export const studentRoutes = router ;
