@@ -13,12 +13,12 @@ const getAllFacultiesFromDb = async (query : Record<string , unknown>) => {
     return result ;
 }
 
-const getSpecificFacultyFromDb = async (facultyId : string) => {
-    const result = await facultysModel.findOne({facultyId}).populate("academicFaculty").populate({path : "academicDepartment"}) ;
+const getSpecificFacultyFromDb = async (id : string) => {
+    const result = await facultysModel.findOne({_id : id}).populate("academicFaculty").populate({path : "academicDepartment"}) ;
     return result ;
 }
 
-const updateAFacultyIntoDb = async (facultyId : string , payload : Partial<TFaculty>) => {
+const updateAFacultyIntoDb = async (id : string , payload : Partial<TFaculty>) => {
     const {name , ...remainingFacultyData} = payload ;
     const modifiedUpdateData : Record<string , unknown> = {...remainingFacultyData} ;
 
@@ -28,21 +28,21 @@ const updateAFacultyIntoDb = async (facultyId : string , payload : Partial<TFacu
         }
     }
 
-    const result = await facultysModel.findOneAndUpdate({facultyId} , modifiedUpdateData , {new : true , runValidators : true}) ;
+    const result = await facultysModel.findOneAndUpdate({_id : id} , modifiedUpdateData , {new : true , runValidators : true}) ;
     return result ;
 }
 
-const deleteAFacultyFromDb = async (facultyId : string) => {
+const deleteAFacultyFromDb = async (id : string) => {
     const session = await mongoose.startSession() ;
     try {
         
         session.startTransaction() ;
-        const deletedUser = await UsersModel.findOneAndUpdate({facultyId} , {isDeleted : true} , {new : true , session}) ;
+        const deletedUser = await UsersModel.findOneAndUpdate({_id : id} , {isDeleted : true} , {new : true , session}) ;
         if(!deletedUser){
             throw new AppError(400 , "Failed to delete user") ;
         }
 
-        const deletedFaculty = await facultysModel.findOneAndUpdate({facultyId} , {isDeleted : true} , {new : true , session}) ;
+        const deletedFaculty = await facultysModel.findOneAndUpdate({_id : id} , {isDeleted : true} , {new : true , session}) ;
         if(!deletedFaculty){
             throw new AppError(400 , "Failed to delete faculty") ;
         }
