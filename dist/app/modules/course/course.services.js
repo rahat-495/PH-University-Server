@@ -15,6 +15,11 @@ const createCourseIntoDb = (payload) => __awaiter(void 0, void 0, void 0, functi
     const result = yield course_model_1.coursesModel.create(payload);
     return result;
 });
+const getAllCourseFromDb = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield course_model_1.coursesModel.find();
+    return result;
+});
 exports.courseServices = {
     createCourseIntoDb,
+    getAllCourseFromDb,
 };
