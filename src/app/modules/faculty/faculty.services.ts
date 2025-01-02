@@ -14,7 +14,7 @@ const getAllFacultiesFromDb = async (query : Record<string , unknown>) => {
 }
 
 const getSpecificFacultyFromDb = async (id : string) => {
-    const result = await facultysModel.findOne({_id : id}).populate("academicFaculty").populate({path : "academicDepartment"}) ;
+    const result = await facultysModel.findById(id).populate("academicFaculty").populate({path : "academicDepartment"}) ;
     return result ;
 }
 
@@ -28,7 +28,7 @@ const updateAFacultyIntoDb = async (id : string , payload : Partial<TFaculty>) =
         }
     }
 
-    const result = await facultysModel.findOneAndUpdate({_id : id} , modifiedUpdateData , {new : true , runValidators : true}) ;
+    const result = await facultysModel.findByIdAndUpdate(id , modifiedUpdateData , {new : true , runValidators : true}) ;
     return result ;
 }
 
@@ -37,12 +37,12 @@ const deleteAFacultyFromDb = async (id : string) => {
     try {
         
         session.startTransaction() ;
-        const deletedUser = await UsersModel.findOneAndUpdate({_id : id} , {isDeleted : true} , {new : true , session}) ;
+        const deletedUser = await UsersModel.findByIdAndUpdate(id , {isDeleted : true} , {new : true , session}) ;
         if(!deletedUser){
             throw new AppError(400 , "Failed to delete user") ;
         }
 
-        const deletedFaculty = await facultysModel.findOneAndUpdate({_id : id} , {isDeleted : true} , {new : true , session}) ;
+        const deletedFaculty = await facultysModel.findByIdAndUpdate(id , {isDeleted : true} , {new : true , session}) ;
         if(!deletedFaculty){
             throw new AppError(400 , "Failed to delete faculty") ;
         }
