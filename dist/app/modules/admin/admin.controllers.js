@@ -21,8 +21,8 @@ const getAllAdmin = (0, catchAsync_1.default)((req, res, next) => __awaiter(void
     (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "All admin are retrived !" });
 }));
 const getSpecifiAdmin = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { adminId } = req.params;
-    const data = yield admin_services_1.adminServices.getSpecificAdminFromDb(adminId);
+    const { id } = req.params;
+    const data = yield admin_services_1.adminServices.getSpecificAdminFromDb(id);
     if (data) {
         (0, sendResponse_1.default)(res, { data, statusCode: 200, success: true, message: "Specific admin are retrived !" });
     }
@@ -31,15 +31,15 @@ const getSpecifiAdmin = (0, catchAsync_1.default)((req, res, next) => __awaiter(
     }
 }));
 const updateAdmin = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { adminId } = req.params;
-    const result = yield admin_services_1.adminServices.updateSingleAdminIntoDb(adminId, req.body.admin);
+    const { id } = req.params;
+    const result = yield admin_services_1.adminServices.updateSingleAdminIntoDb(id, req.body.admin);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "admin details udpated success fully !" });
     }
 }));
 const deleteAdmin = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { adminId } = req.params;
-    const result = yield admin_services_1.adminServices.deleteSingleAdminFromDb(adminId);
+    const { id } = req.params;
+    const result = yield admin_services_1.adminServices.deleteSingleAdminFromDb(id);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Specific admin are deleted !" });
     }
