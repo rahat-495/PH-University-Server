@@ -21,8 +21,8 @@ const getSpecifiFaculty : RequestHandler = catchAsync(async (req , res , next) =
 }) ;
 
 const updateFaculty : RequestHandler = catchAsync(async (req , res , next) => {
-    const {facultyId} = req.params ;
-    const result = await facultyServices.updateAFacultyIntoDb(facultyId , req.body.faculty) ;
+    const {id} = req.params ;
+    const result = await facultyServices.updateAFacultyIntoDb(id , req.body.faculty) ;
     if(result){
         sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Faculty details udpated success fully !"}) ;
     }
