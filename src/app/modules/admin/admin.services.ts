@@ -37,14 +37,14 @@ const deleteSingleAdminFromDb = async (id : string) => {
     try {
         
         session.startTransaction() ;
-        const deletedUser = await UsersModel.findByIdAndUpdate(id , {isDeleted : true} , {new : true , session}) ;
-        if(!deletedUser){
-            throw new AppError(400 , "Failed to delete user") ;
-        }
-
         const deletedAdmin = await adminsModel.findByIdAndUpdate(id , {isDeleted : true} , {new : true , session}) ;
         if(!deletedAdmin){
             throw new AppError(400 , "Failed to delete admin") ;
+        }
+        
+        const deletedUser = await UsersModel.findByIdAndUpdate(deletedAdmin.user , {isDeleted : true} , {new : true , session}) ;
+        if(!deletedUser){
+            throw new AppError(400 , "Failed to delete user") ;
         }
 
         await session.commitTransaction() ;
