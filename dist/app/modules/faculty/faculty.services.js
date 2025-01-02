@@ -54,13 +54,13 @@ const deleteAFacultyFromDb = (id) => __awaiter(void 0, void 0, void 0, function*
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
-        const deletedUser = yield user_model_1.UsersModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true, session });
-        if (!deletedUser) {
-            throw new AppErrors_1.default(400, "Failed to delete user");
-        }
         const deletedFaculty = yield faculty_model_1.facultysModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true, session });
         if (!deletedFaculty) {
             throw new AppErrors_1.default(400, "Failed to delete faculty");
+        }
+        const deletedUser = yield user_model_1.UsersModel.findByIdAndUpdate(deletedFaculty.user, { isDeleted: true }, { new: true, session });
+        if (!deletedUser) {
+            throw new AppErrors_1.default(400, "Failed to delete user");
         }
         yield session.commitTransaction();
         yield session.endSession();
