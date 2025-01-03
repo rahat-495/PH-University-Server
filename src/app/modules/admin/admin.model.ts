@@ -107,9 +107,9 @@ adminSchema.pre("findOne", async function(next){
 });
 
 adminSchema.pre('findOneAndUpdate', async function(next) {
-    const faculty = await adminsModel.findOne({id : this.getQuery().id}) ;
-    if (!faculty) {
-        throw new AppError(404, "faculty not found!");
+    const admin = await adminsModel.findOne(this.getQuery().id) ;
+    if (!admin) {
+        throw new AppError(404, "admin not found!");
     }
     next();
 });
