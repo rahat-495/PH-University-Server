@@ -20,7 +20,7 @@ const createCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course Created Successfully !" });
 });
 const getAllCourses = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield course_services_1.courseServices.getAllCourseFromDb();
+    const result = yield course_services_1.courseServices.getAllCourseFromDb(req.params);
     (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "All courses are retrive Successfully !" });
 });
 const getSingleCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
