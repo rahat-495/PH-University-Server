@@ -8,6 +8,12 @@ const createCourse : RequestHandler = async (req , res) => {
     sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course Created Successfully !"}) ;
 }
 
-const courseControllers = {
+const getAllCourses : RequestHandler = async (req , res) => {
+    const result = await courseServices.getAllCourseFromDb() ;
+    sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "All courses are retrive Successfully !"}) ;
+}
+
+export const courseControllers = {
     createCourse ,
+    getAllCourses ,
 }
