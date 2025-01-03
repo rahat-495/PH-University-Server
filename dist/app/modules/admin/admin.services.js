@@ -31,12 +31,12 @@ const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const admin_model_1 = require("./admin.model");
 const admin_constand_1 = require("./admin.constand");
 const getAllAdminFromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const studentQuery = new QueryBuilder_1.default(admin_model_1.adminsModel.find().populate("academicFaculty").populate({ path: "academicDepartment" }), query).search(admin_constand_1.adminsSearchAbleFields).filter().sort().paginate().fields();
+    const studentQuery = new QueryBuilder_1.default(admin_model_1.adminsModel.find().populate("managementDepartment"), query).search(admin_constand_1.adminsSearchAbleFields).filter().sort().paginate().fields();
     const result = yield studentQuery.modelQuery;
     return result;
 });
 const getSpecificAdminFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield admin_model_1.adminsModel.findById(id).populate("academicFaculty").populate({ path: "academicDepartment" });
+    const result = yield admin_model_1.adminsModel.findById(id).populate("managementDepartment");
     return result;
 });
 const updateSingleAdminIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
