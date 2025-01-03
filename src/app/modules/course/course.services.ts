@@ -10,7 +10,7 @@ const createCourseIntoDb = async (payload: TCourse) => {
 }
 
 const getAllCourseFromDb = async (query : Record<string , unknown>) => {
-    const courseQuery = new QueryBuilder(coursesModel.find() , query).search(courseSearchAbleFields).filter().sort().paginate().fields() ;
+    const courseQuery = new QueryBuilder(coursesModel.find().populate("preRequisiteCourses.course") , query).search(courseSearchAbleFields).filter().sort().paginate().fields() ;
     const result = await courseQuery.modelQuery ;
     return result ;
 }
