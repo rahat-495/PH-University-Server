@@ -8,13 +8,13 @@ import { TAdmin } from "./admin.interfaces";
 import { adminsSearchAbleFields } from "./admin.constand";
 
 const getAllAdminFromDb = async (query : Record<string , unknown>) => {
-    const studentQuery = new QueryBuilder(adminsModel.find().populate("managementDepartment") , query).search(adminsSearchAbleFields).filter().sort().paginate().fields() ;
+    const studentQuery = new QueryBuilder(adminsModel.find() , query).search(adminsSearchAbleFields).filter().sort().paginate().fields() ;
     const result = await studentQuery.modelQuery ;
     return result ;
 }
 
 const getSpecificAdminFromDb = async (id : string) => {
-    const result = await adminsModel.findById(id).populate("managementDepartment") ;
+    const result = await adminsModel.findById(id) ;
     return result ;
 }
 
