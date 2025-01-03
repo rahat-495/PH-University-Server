@@ -42,7 +42,9 @@ const deleteSingleAdminFromDb = async (id : string) => {
             throw new AppError(400 , "Failed to delete admin") ;
         }
         
-        const deletedUser = await UsersModel.findByIdAndUpdate(deletedAdmin.user , {isDeleted : true} , {new : true , session}) ;
+        const userId = deletedAdmin.user ;
+        const deletedUser = await UsersModel.findByIdAndUpdate({_id : userId} , {isDeleted : true} , {new : true , session}) ;
+        console.log(await UsersModel.findById(userId))
         if(!deletedUser){
             throw new AppError(400 , "Failed to delete user") ;
         }
@@ -51,6 +53,7 @@ const deleteSingleAdminFromDb = async (id : string) => {
         await session.endSession() ;
         return deletedAdmin ;
     } catch (error) {
+        console.log(error)
         await session.abortTransaction() ;
         await session.endSession() ;
         throw new AppError(500 , "Failed to delete admin") ;
