@@ -119,9 +119,9 @@ adminSchema.pre("findOne", function (next) {
 });
 adminSchema.pre('findOneAndUpdate', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        const faculty = yield exports.adminsModel.findOne({ id: this.getQuery().id });
-        if (!faculty) {
-            throw new AppErrors_1.default(404, "faculty not found!");
+        const admin = yield exports.adminsModel.findOne(this.getQuery().id);
+        if (!admin) {
+            throw new AppErrors_1.default(404, "admin not found!");
         }
         next();
     });
