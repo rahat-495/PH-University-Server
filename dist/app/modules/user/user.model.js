@@ -76,7 +76,7 @@ userSchema.pre("findOne", function (next) {
 });
 userSchema.pre('findOneAndUpdate', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        const student = yield exports.UsersModel.findOne({ id: this.getQuery().id });
+        const student = yield exports.UsersModel.findOne(this.getQuery());
         if (!student) {
             throw new AppErrors_1.default(404, "User not found!");
         }

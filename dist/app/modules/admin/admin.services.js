@@ -58,7 +58,9 @@ const deleteSingleAdminFromDb = (id) => __awaiter(void 0, void 0, void 0, functi
         if (!deletedAdmin) {
             throw new AppErrors_1.default(400, "Failed to delete admin");
         }
-        const deletedUser = yield user_model_1.UsersModel.findByIdAndUpdate(deletedAdmin.user, { isDeleted: true }, { new: true, session });
+        const userId = deletedAdmin.user;
+        const deletedUser = yield user_model_1.UsersModel.findByIdAndUpdate({ _id: userId }, { isDeleted: true }, { new: true, session });
+        console.log(yield user_model_1.UsersModel.findById(userId));
         if (!deletedUser) {
             throw new AppErrors_1.default(400, "Failed to delete user");
         }
@@ -67,6 +69,7 @@ const deleteSingleAdminFromDb = (id) => __awaiter(void 0, void 0, void 0, functi
         return deletedAdmin;
     }
     catch (error) {
+        console.log(error);
         yield session.abortTransaction();
         yield session.endSession();
         throw new AppErrors_1.default(500, "Failed to delete admin");
