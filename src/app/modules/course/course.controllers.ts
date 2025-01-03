@@ -13,7 +13,13 @@ const getAllCourses : RequestHandler = async (req , res) => {
     sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "All courses are retrive Successfully !"}) ;
 }
 
+const getSingleCourse : RequestHandler = async (req , res) => {
+    const result = await courseServices.getSingleCourseFromDb() ;
+    sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Courses are retrive Successfully !"}) ;
+}
+
 export const courseControllers = {
     createCourse ,
     getAllCourses ,
+    getSingleCourse ,
 }
