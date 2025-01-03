@@ -60,8 +60,8 @@ userSchema.pre("findOne" , async function(next){
 })
 
 userSchema.pre('findOneAndUpdate', async function(next) {
-    const student = await UsersModel.findOne(this.getQuery()) ;
-    if (!student) {
+    const user = await UsersModel.findOne(this.getQuery()) ;
+    if (!user) {
         throw new AppError(404, "User not found!");
     }
     next();
