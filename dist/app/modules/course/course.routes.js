@@ -9,6 +9,7 @@ const course_controllers_1 = require("./course.controllers");
 const validateRequest_1 = __importDefault(require("../middlewares/validateRequest"));
 const course_validation_1 = require("./course.validation");
 const router = (0, express_1.Router)();
-router.post("/create-course", (0, validateRequest_1.default)(course_validation_1.courseValidations.createCourseValidation), course_controllers_1.courseControllers.createCourse);
 router.get("/", course_controllers_1.courseControllers.getAllCourses);
+router.get("/:id", course_controllers_1.courseControllers.getSingleCourse);
+router.post("/create-course", (0, validateRequest_1.default)(course_validation_1.courseValidations.createCourseValidation), course_controllers_1.courseControllers.createCourse);
 exports.courseRoutes = router;
