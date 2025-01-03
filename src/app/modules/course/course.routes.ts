@@ -8,6 +8,7 @@ const router = Router() ;
 
 router.get("/" , courseControllers.getAllCourses) ;
 router.get("/:id" , courseControllers.getSingleCourse) ;
+router.delete("/:id" , courseControllers.deleteCourse) ;
 router.post("/create-course" , validateRequest(courseValidations.createCourseValidation) , courseControllers.createCourse) ;
 
 export const courseRoutes = router ;
