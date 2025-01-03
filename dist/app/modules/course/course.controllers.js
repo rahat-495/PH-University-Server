@@ -23,7 +23,12 @@ const getAllCourses = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const result = yield course_services_1.courseServices.getAllCourseFromDb();
     (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "All courses are retrive Successfully !" });
 });
+const getSingleCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield course_services_1.courseServices.getSingleCourseFromDb();
+    (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Courses are retrive Successfully !" });
+});
 exports.courseControllers = {
     createCourse,
     getAllCourses,
+    getSingleCourse,
 };
