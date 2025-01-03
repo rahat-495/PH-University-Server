@@ -12,12 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.courseControllers = void 0;
 const course_services_1 = require("./course.services");
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const createCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_services_1.courseServices.createCourseIntoDb(req.body);
     (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course Created Successfully !" });
 });
-const courseControllers = {
+const getAllCourses = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield course_services_1.courseServices.getAllCourseFromDb();
+    (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "All courses are retrive Successfully !" });
+});
+exports.courseControllers = {
     createCourse,
+    getAllCourses,
 };
