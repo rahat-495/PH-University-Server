@@ -9,7 +9,7 @@ const createCourse : RequestHandler = async (req , res) => {
 }
 
 const getAllCourses : RequestHandler = async (req , res) => {
-    const result = await courseServices.getAllCourseFromDb() ;
+    const result = await courseServices.getAllCourseFromDb(req.params) ;
     sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "All courses are retrive Successfully !"}) ;
 }
 
