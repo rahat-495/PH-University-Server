@@ -52,7 +52,6 @@ const deleteSingleAdminFromDb = async (id : string) => {
         await session.endSession() ;
         return deletedAdmin ;
     } catch (error) {
-        console.log(error)
         await session.abortTransaction() ;
         await session.endSession() ;
         throw new AppError(500 , "Failed to delete admin") ;
