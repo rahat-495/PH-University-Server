@@ -44,7 +44,6 @@ const deleteSingleAdminFromDb = async (id : string) => {
         
         const userId = deletedAdmin.user ;
         const deletedUser = await UsersModel.findByIdAndUpdate({_id : userId} , {isDeleted : true} , {new : true , session}) ;
-        console.log(await UsersModel.findById(userId))
         if(!deletedUser){
             throw new AppError(400 , "Failed to delete user") ;
         }
