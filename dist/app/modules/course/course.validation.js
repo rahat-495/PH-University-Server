@@ -13,6 +13,7 @@ const createCourseValidation = zod_1.z.object({
         code: zod_1.z.number(),
         credits: zod_1.z.number(),
         preRequisiteCourses: zod_1.z.array(preRequisiteCoursevalidationSchema).optional(),
+        isdeleted: zod_1.z.boolean().optional(),
     })
 });
 exports.courseValidations = {
