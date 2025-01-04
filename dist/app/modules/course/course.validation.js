@@ -16,6 +16,8 @@ const createCourseValidation = zod_1.z.object({
         isdeleted: zod_1.z.boolean().optional(),
     })
 });
+const updateCourseValidation = createCourseValidation.optional();
 exports.courseValidations = {
     createCourseValidation,
+    updateCourseValidation,
 };
