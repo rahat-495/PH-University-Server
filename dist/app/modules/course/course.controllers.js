@@ -29,6 +29,12 @@ const getSingleCourse = (req, res) => __awaiter(void 0, void 0, void 0, function
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course are retrive Successfully !" });
     }
 });
+const updateCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield course_services_1.courseServices.updateCourseIntoDb(req.params.id, req.body);
+    if (result) {
+        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course are updated Successfully !" });
+    }
+});
 const deleteCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_services_1.courseServices.deleteCourseIntoDb(req.params.id);
     if (result) {
@@ -37,6 +43,7 @@ const deleteCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.courseControllers = {
     deleteCourse,
+    updateCourse,
     createCourse,
     getAllCourses,
     getSingleCourse,

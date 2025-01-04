@@ -29,12 +29,17 @@ const getSingleCourseFromDb = (id) => __awaiter(void 0, void 0, void 0, function
     const result = yield course_model_1.coursesModel.findById(id);
     return result;
 });
+const updateCourseIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield course_model_1.coursesModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
+    return result;
+});
 const deleteCourseIntoDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_model_1.coursesModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
     return result;
 });
 exports.courseServices = {
     createCourseIntoDb,
+    updateCourseIntoDb,
     getAllCourseFromDb,
     deleteCourseIntoDb,
     getSingleCourseFromDb,
