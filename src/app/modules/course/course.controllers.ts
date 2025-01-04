@@ -9,19 +9,21 @@ const createCourse : RequestHandler = async (req , res) => {
 }
 
 const getAllCourses : RequestHandler = async (req , res) => {
-    const result = await courseServices.getAllCourseFromDb(req.params) ;
+    const result = await courseServices.getAllCourseFromDb(req.query) ;
     sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "All courses are retrive Successfully !"}) ;
 }
 
 const getSingleCourse : RequestHandler = async (req , res) => {
-    const result = await courseServices.getSingleCourseFromDb() ;
-    sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Courses are retrive Successfully !"}) ;
+    const result = await courseServices.getSingleCourseFromDb(req.params.id) ;
+    if(result){
+        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course are retrive Successfully !"}) ;
+    }
 }
 
 const deleteCourse : RequestHandler = async (req , res) => {
     const result = await courseServices.deleteCourseIntoDb(req.params.id) ;
     if(result){
-        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Courses are deleted Successfully !"}) ;
+        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course are deleted Successfully !"}) ;
     }
 }
 

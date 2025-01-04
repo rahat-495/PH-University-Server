@@ -15,8 +15,8 @@ const getAllCourseFromDb = async (query : Record<string , unknown>) => {
     return result ;
 }
 
-const getSingleCourseFromDb = async () => {
-    const result = await coursesModel.find() ;
+const getSingleCourseFromDb = async (id : string) => {
+    const result = await coursesModel.findById(id) ;
     return result ;
 }
 
