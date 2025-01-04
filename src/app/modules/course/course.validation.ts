@@ -17,6 +17,9 @@ const createCourseValidation = z.object({
     })
 })
 
+const updateCourseValidation = createCourseValidation.optional() ;
+
 export const courseValidations = {
     createCourseValidation ,
+    updateCourseValidation ,
 }
