@@ -25,8 +25,8 @@ const getAllCourseFromDb = (query) => __awaiter(void 0, void 0, void 0, function
     const result = yield courseQuery.modelQuery;
     return result;
 });
-const getSingleCourseFromDb = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield course_model_1.coursesModel.find();
+const getSingleCourseFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield course_model_1.coursesModel.findById(id);
     return result;
 });
 const deleteCourseIntoDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
