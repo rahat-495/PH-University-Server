@@ -20,6 +20,11 @@ const getSingleCourseFromDb = async (id : string) => {
     return result ;
 }
 
+const updateCourseIntoDb = async (id : string , payload : Partial<TCourse>) => {
+    const result = await coursesModel.findByIdAndUpdate(id , {isDeleted : true} , {new : true}) ;
+    return result ;
+}
+
 const deleteCourseIntoDb = async (id : string) => {
     const result = await coursesModel.findByIdAndUpdate(id , {isDeleted : true} , {new : true}) ;
     return result ;
@@ -27,6 +32,7 @@ const deleteCourseIntoDb = async (id : string) => {
 
 export const courseServices = {
     createCourseIntoDb ,
+    updateCourseIntoDb ,
     getAllCourseFromDb ,
     deleteCourseIntoDb ,
     getSingleCourseFromDb ,

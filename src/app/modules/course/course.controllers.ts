@@ -20,6 +20,13 @@ const getSingleCourse : RequestHandler = async (req , res) => {
     }
 }
 
+const updateCourse : RequestHandler = async (req , res) => {
+    const result = await courseServices.updateCourseIntoDb(req.params.id , req.body) ;
+    if(result){
+        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course are updated Successfully !"}) ;
+    }
+}
+
 const deleteCourse : RequestHandler = async (req , res) => {
     const result = await courseServices.deleteCourseIntoDb(req.params.id) ;
     if(result){
@@ -29,6 +36,7 @@ const deleteCourse : RequestHandler = async (req , res) => {
 
 export const courseControllers = {
     deleteCourse,
+    updateCourse, 
     createCourse ,
     getAllCourses ,
     getSingleCourse ,
