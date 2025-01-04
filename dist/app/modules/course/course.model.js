@@ -29,5 +29,9 @@ const courseSchema = new mongoose_1.Schema({
         required: [true, "credits is required !"],
     },
     preRequisiteCourses: [preRequisiteCoursesSchema],
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    },
 });
 exports.coursesModel = (0, mongoose_1.model)("course", courseSchema);
