@@ -21,8 +21,10 @@ const getSingleCourseFromDb = async (id : string) => {
 }
 
 const updateCourseIntoDb = async (id : string , payload : Partial<TCourse>) => {
-    const result = await coursesModel.findByIdAndUpdate(id , {isDeleted : true} , {new : true}) ;
-    return result ;
+    const {preRequisiteCourses , ...courseRemainingData} = payload ;
+
+    const updateBasicCourseIntoDb = await coursesModel.findByIdAndUpdate(id , courseRemainingData , {new : true , runValidators : true}) ;
+    return updateBasicCourseIntoDb ;
 }
 
 const deleteCourseIntoDb = async (id : string) => {
