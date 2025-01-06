@@ -16,12 +16,12 @@ exports.courseControllers = void 0;
 const course_services_1 = require("./course.services");
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
-const createCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_services_1.courseServices.createCourseIntoDb(req.body);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course Created Successfully !" });
     }
-});
+}));
 const getAllCourses = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_services_1.courseServices.getAllCourseFromDb(req.query);
     if (result) {
