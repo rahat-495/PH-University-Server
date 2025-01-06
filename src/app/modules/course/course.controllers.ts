@@ -11,12 +11,12 @@ const createCourse : RequestHandler = async (req , res) => {
     }
 }
 
-const getAllCourses : RequestHandler = async (req , res) => {
+const getAllCourses : RequestHandler = catchAsync(async (req , res) => {
     const result = await courseServices.getAllCourseFromDb(req.query) ;
     if(result){
         sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "All courses are retrive Successfully !"}) ;
     }
-}
+})
 
 const getSingleCourse : RequestHandler = catchAsync(async (req , res) => {
     const result = await courseServices.getSingleCourseFromDb(req.params.id) ;
