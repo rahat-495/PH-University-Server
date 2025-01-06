@@ -28,12 +28,12 @@ const getAllCourses = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "All courses are retrive Successfully !" });
     }
 });
-const getSingleCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getSingleCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_services_1.courseServices.getSingleCourseFromDb(req.params.id);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course are retrive Successfully !" });
     }
-});
+}));
 const updateCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_services_1.courseServices.updateCourseIntoDb(req.params.id, req.body);
     if (result) {
