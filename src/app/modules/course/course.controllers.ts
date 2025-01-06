@@ -4,12 +4,12 @@ import { courseServices } from "./course.services";
 import sendResponse from "../../utils/sendResponse";
 import catchAsync from "../../utils/catchAsync";
 
-const createCourse : RequestHandler = async (req , res) => {
+const createCourse : RequestHandler = catchAsync(async (req , res) => {
     const result = await courseServices.createCourseIntoDb(req.body) ;
     if(result){
         sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course Created Successfully !"}) ;
     }
-}
+})
 
 const getAllCourses : RequestHandler = catchAsync(async (req , res) => {
     const result = await courseServices.getAllCourseFromDb(req.query) ;
