@@ -22,8 +22,14 @@ const getSingleCourseFromDb = async (id : string) => {
 
 const updateCourseIntoDb = async (id : string , payload : Partial<TCourse>) => {
     const {preRequisiteCourses , ...courseRemainingData} = payload ;
+    const updateBasicCourseIntoDb = await coursesModel.findByIdAndUpdate(id , { $set : {...courseRemainingData} } , {new : true , runValidators : true}) ;
+    
+    if(preRequisiteCourses && preRequisiteCourses.length){
+        const deletedPreRequisites = preRequisiteCourses.filter((el) => el.course && el.isDeleted).map(el => el.course) ;
+        const deletedPreRequisiteCourses = await coursesModel.findByIdAndUpdate(id , { $pull : { preRequisiteCourses : { course : { $in : deletedPreRequisites } } } }) ;
+        return deletedPreRequisiteCourses ;
+    }
 
-    const updateBasicCourseIntoDb = await coursesModel.findByIdAndUpdate(id , courseRemainingData , {new : true , runValidators : true}) ;
     return updateBasicCourseIntoDb ;
 }
 

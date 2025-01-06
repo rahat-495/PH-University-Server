@@ -2,15 +2,20 @@
 import { RequestHandler } from "express";
 import { courseServices } from "./course.services";
 import sendResponse from "../../utils/sendResponse";
+import catchAsync from "../../utils/catchAsync";
 
 const createCourse : RequestHandler = async (req , res) => {
     const result = await courseServices.createCourseIntoDb(req.body) ;
-    sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course Created Successfully !"}) ;
+    if(result){
+        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course Created Successfully !"}) ;
+    }
 }
 
 const getAllCourses : RequestHandler = async (req , res) => {
     const result = await courseServices.getAllCourseFromDb(req.query) ;
-    sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "All courses are retrive Successfully !"}) ;
+    if(result){
+        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "All courses are retrive Successfully !"}) ;
+    }
 }
 
 const getSingleCourse : RequestHandler = async (req , res) => {
@@ -20,12 +25,12 @@ const getSingleCourse : RequestHandler = async (req , res) => {
     }
 }
 
-const updateCourse : RequestHandler = async (req , res) => {
+const updateCourse : RequestHandler = catchAsync(async (req , res) => {
     const result = await courseServices.updateCourseIntoDb(req.params.id , req.body) ;
     if(result){
         sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course are updated Successfully !"}) ;
     }
-}
+})
 
 const deleteCourse : RequestHandler = async (req , res) => {
     const result = await courseServices.deleteCourseIntoDb(req.params.id) ;

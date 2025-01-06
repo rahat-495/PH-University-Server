@@ -15,6 +15,8 @@ const globalErrorHandler : ErrorRequestHandler = (err , req , res , next : NextF
     let message = "some thing wen't wrong" ;
     let errorSources : TErrorSources = [{ path : "" , message : "Some thing went wrong" }] ;
 
+    console.log(err) ;
+
     if(err instanceof ZodError){
         const simplifiedError = handleZodError(err) ;
         statusCode = simplifiedError.statusCode ;
