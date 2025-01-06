@@ -42,13 +42,15 @@ const getSingleCourseFromDb = (id) => __awaiter(void 0, void 0, void 0, function
 });
 const updateCourseIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { preRequisiteCourses } = payload, courseRemainingData = __rest(payload, ["preRequisiteCourses"]);
-    const updateBasicCourseIntoDb = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $set: Object.assign({}, courseRemainingData) }, { new: true, runValidators: true });
+    const updateBasicCourseIntoDb = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $set: Object.assign({}, courseRemainingData) }, { runValidators: true });
     if (preRequisiteCourses && preRequisiteCourses.length) {
         const deletedPreRequisites = preRequisiteCourses.filter((el) => el.course && el.isDeleted).map(el => el.course);
-        const deletedPreRequisiteCourses = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $pull: { preRequisiteCourses: { course: { $in: deletedPreRequisites } } } }, { new: true, runValidators: true });
-        return deletedPreRequisiteCourses;
+        const deletedPreRequisiteCourses = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $pull: { preRequisiteCourses: { course: { $in: deletedPreRequisites } } } }, { runValidators: true });
+        const addingPreRequisites = preRequisiteCourses === null || preRequisiteCourses === void 0 ? void 0 : preRequisiteCourses.filter((el) => el.course && !el.isDeleted).map((el) => ({ course: el.course }));
+        const addingPreRequisitesCourses = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $addToSet: { preRequisiteCourses: { $each: addingPreRequisites } } }, { runValidators: true });
     }
-    return updateBasicCourseIntoDb;
+    const result = yield course_model_1.coursesModel.findById(id).populate("preRequisiteCourses.course");
+    return result;
 });
 const deleteCourseIntoDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_model_1.coursesModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
