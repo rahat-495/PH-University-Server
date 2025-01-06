@@ -53,6 +53,7 @@ const globalErrorHandler : ErrorRequestHandler = (err , req , res , next : NextF
         success : false ,
         message ,
         errorSources ,
+        error : config.nodeEnv === "development" ? err : null ,
         stack : config.nodeEnv === "development" ? err.stack : null ,
     })
 }
