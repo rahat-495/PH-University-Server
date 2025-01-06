@@ -42,7 +42,12 @@ const getSingleCourseFromDb = (id) => __awaiter(void 0, void 0, void 0, function
 });
 const updateCourseIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { preRequisiteCourses } = payload, courseRemainingData = __rest(payload, ["preRequisiteCourses"]);
-    const updateBasicCourseIntoDb = yield course_model_1.coursesModel.findByIdAndUpdate(id, courseRemainingData, { new: true, runValidators: true });
+    const updateBasicCourseIntoDb = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $set: Object.assign({}, courseRemainingData) }, { new: true, runValidators: true });
+    if (preRequisiteCourses && preRequisiteCourses.length) {
+        const deletedPreRequisites = preRequisiteCourses.filter((el) => el.course && el.isDeleted).map(el => el.course);
+        const deletedPreRequisiteCourses = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $pull: { preRequisiteCourses: { course: { $in: deletedPreRequisites } } } });
+        return deletedPreRequisiteCourses;
+    }
     return updateBasicCourseIntoDb;
 });
 const deleteCourseIntoDb = (id) => __awaiter(void 0, void 0, void 0, function* () {

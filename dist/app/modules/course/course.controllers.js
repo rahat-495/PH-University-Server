@@ -15,13 +15,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.courseControllers = void 0;
 const course_services_1 = require("./course.services");
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
+const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const createCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_services_1.courseServices.createCourseIntoDb(req.body);
-    (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course Created Successfully !" });
+    if (result) {
+        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course Created Successfully !" });
+    }
 });
 const getAllCourses = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_services_1.courseServices.getAllCourseFromDb(req.query);
-    (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "All courses are retrive Successfully !" });
+    if (result) {
+        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "All courses are retrive Successfully !" });
+    }
 });
 const getSingleCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_services_1.courseServices.getSingleCourseFromDb(req.params.id);
@@ -29,12 +34,12 @@ const getSingleCourse = (req, res) => __awaiter(void 0, void 0, void 0, function
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course are retrive Successfully !" });
     }
 });
-const updateCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const updateCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_services_1.courseServices.updateCourseIntoDb(req.params.id, req.body);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course are updated Successfully !" });
     }
-});
+}));
 const deleteCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_services_1.courseServices.deleteCourseIntoDb(req.params.id);
     if (result) {
