@@ -14,7 +14,6 @@ const globalErrorHandler = (err, req, res, next) => {
     let statusCode = 500;
     let message = "some thing wen't wrong";
     let errorSources = [{ path: "", message: "Some thing went wrong" }];
-    console.log(err);
     if (err instanceof zod_1.ZodError) {
         const simplifiedError = (0, HandleZodError_1.default)(err);
         statusCode = simplifiedError.statusCode;
