@@ -70,7 +70,7 @@ const deleteCourseIntoDb = async (id : string) => {
 }
 
 const assignFacultiesWithCourseIntoDb = async (id : string , payload : Partial<TCourseFaculties>) => {
-    const result = await courseFacultiesModel.findByIdAndUpdate(id , { $addToSet : { faculties : { $each : payload } } } , {new : true , upsert : true}) ;
+    const result = await courseFacultiesModel.findByIdAndUpdate(id , { course : id , $addToSet : { faculties : { $each : payload } } } , {new : true , upsert : true}) ;
     return result ;
 }
 
