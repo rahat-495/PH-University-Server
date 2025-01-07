@@ -50,3 +50,4 @@ const courseFacultiesSchema = new Schema<TCourseFaculties>({
 })
 
 export const coursesModel = model<TCourse>("course" , courseSchema) ;
+export const courseFacultiesModel = model<TCourseFaculties>("courseFaculty" , courseFacultiesSchema) ;
