@@ -39,8 +39,8 @@ const deleteCourse : RequestHandler = catchAsync(async (req , res) => {
     }
 })
 
-const assignFaculties : RequestHandler = catchAsync(async (req , res) => {
-    const result = await courseServices.assignFacultiesIntoDb(req.params.courseId , req.body) ;
+const assignFacultiesWithCourse : RequestHandler = catchAsync(async (req , res) => {
+    const result = await courseServices.assignFacultiesWithCourseIntoDb(req.params.courseId , req.body) ;
     if(result){
         sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course are deleted Successfully !"}) ;
     }
@@ -51,6 +51,6 @@ export const courseControllers = {
     updateCourse, 
     createCourse ,
     getAllCourses ,
-    assignFaculties,
+    assignFacultiesWithCourse,
     getSingleCourse ,
 }
