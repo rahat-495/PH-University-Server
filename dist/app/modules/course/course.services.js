@@ -79,7 +79,7 @@ const deleteCourseIntoDb = (id) => __awaiter(void 0, void 0, void 0, function* (
     const result = yield course_model_1.coursesModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
     return result;
 });
-const assignFacultiesIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const assignFacultiesWithCourseIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_model_1.coursesModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
     return result;
 });
@@ -89,5 +89,5 @@ exports.courseServices = {
     getAllCourseFromDb,
     deleteCourseIntoDb,
     getSingleCourseFromDb,
-    assignFacultiesIntoDb,
+    assignFacultiesWithCourseIntoDb,
 };
