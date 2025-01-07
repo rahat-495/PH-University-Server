@@ -1,7 +1,7 @@
 
 import QueryBuilder from "../../builder/QueryBuilder";
 import { courseSearchAbleFields } from "./course.constant";
-import { TCourse } from "./course.interfaces";
+import { TCourse, TCourseFaculties } from "./course.interfaces";
 import { coursesModel } from "./course.model";
 import AppError from "../../errors/AppErrors";
 import mongoose from "mongoose";
@@ -69,7 +69,7 @@ const deleteCourseIntoDb = async (id : string) => {
     return result ;
 }
 
-const assignFacultiesIntoDb = async (id : string , payload) => {
+const assignFacultiesIntoDb = async (id : string , payload : Partial<TCourseFaculties>) => {
     const result = await coursesModel.findByIdAndUpdate(id , {isDeleted : true} , {new : true}) ;
     return result ;
 }
