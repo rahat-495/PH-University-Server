@@ -24,9 +24,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.courseServices = void 0;
+const mongoose_1 = require("mongoose");
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const course_constant_1 = require("./course.constant");
 const course_model_1 = require("./course.model");
+const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const createCourseIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_model_1.coursesModel.create(payload);
     return result;
@@ -42,15 +44,24 @@ const getSingleCourseFromDb = (id) => __awaiter(void 0, void 0, void 0, function
 });
 const updateCourseIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { preRequisiteCourses } = payload, courseRemainingData = __rest(payload, ["preRequisiteCourses"]);
-    const updateBasicCourseIntoDb = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $set: Object.assign({}, courseRemainingData) }, { runValidators: true });
-    if (preRequisiteCourses && preRequisiteCourses.length) {
-        const deletedPreRequisites = preRequisiteCourses.filter((el) => el.course && el.isDeleted).map(el => el.course);
-        const deletedPreRequisiteCourses = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $pull: { preRequisiteCourses: { course: { $in: deletedPreRequisites } } } }, { runValidators: true });
-        const addingPreRequisites = preRequisiteCourses === null || preRequisiteCourses === void 0 ? void 0 : preRequisiteCourses.filter((el) => el.course && !el.isDeleted).map((el) => ({ course: el.course }));
-        const addingPreRequisitesCourses = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $addToSet: { preRequisiteCourses: { $each: addingPreRequisites } } }, { runValidators: true });
+    const session = yield (0, mongoose_1.startSession)();
+    try {
+        session.startTransaction();
+        const updateBasicCourseIntoDb = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $set: Object.assign({}, courseRemainingData) }, { runValidators: true, session });
+        if (preRequisiteCourses && preRequisiteCourses.length) {
+            const deletedPreRequisites = preRequisiteCourses.filter((el) => el.course && el.isDeleted).map(el => el.course);
+            const deletedPreRequisiteCourses = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $pull: { preRequisiteCourses: { course: { $in: deletedPreRequisites } } } }, { runValidators: true });
+            const addingPreRequisites = preRequisiteCourses === null || preRequisiteCourses === void 0 ? void 0 : preRequisiteCourses.filter((el) => el.course && !el.isDeleted).map((el) => ({ course: el.course }));
+            const addingPreRequisitesCourses = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $addToSet: { preRequisiteCourses: { $each: addingPreRequisites } } }, { runValidators: true });
+        }
+        const result = yield course_model_1.coursesModel.findById(id).populate("preRequisiteCourses.course");
+        return result;
     }
-    const result = yield course_model_1.coursesModel.findById(id).populate("preRequisiteCourses.course");
-    return result;
+    catch (error) {
+        session.abortTransaction();
+        session.endSession();
+        throw new AppErrors_1.default(400, "Course Update Failed !");
+    }
 });
 const deleteCourseIntoDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_model_1.coursesModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
