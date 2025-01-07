@@ -47,9 +47,9 @@ const deleteCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
     }
 }));
 const assignFacultiesWithCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield course_services_1.courseServices.assignFacultiesWithCourseIntoDb(req.params.courseId, req.body);
+    const result = yield course_services_1.courseServices.assignFacultiesWithCourseIntoDb(req.params.courseId, req.body.faculties);
     if (result) {
-        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course are deleted Successfully !" });
+        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course with faculties added Successfully !" });
     }
 }));
 exports.courseControllers = {
