@@ -23,8 +23,8 @@ const getSingleCourseFromDb = async (id : string) => {
 }
 
 const updateCourseIntoDb = async (id : string , payload : Partial<TCourse>) => {
+    
     const {preRequisiteCourses , ...courseRemainingData} = payload ;
-
     const session = await startSession() ;
 
     try {
@@ -33,10 +33,10 @@ const updateCourseIntoDb = async (id : string , payload : Partial<TCourse>) => {
     
         if(preRequisiteCourses && preRequisiteCourses.length){
             const deletedPreRequisites = preRequisiteCourses.filter((el) => el.course && el.isDeleted).map(el => el.course) ;
-            const deletedPreRequisiteCourses = await coursesModel.findByIdAndUpdate(id , { $pull : { preRequisiteCourses : { course : { $in : deletedPreRequisites } } } } , { runValidators : true }) ;
+            const deletedPreRequisiteCourses = await coursesModel.findByIdAndUpdate(id , { $pull : { preRequisiteCourses : { course : { $in : deletedPreRequisites } } } } , { runValidators : true , session }) ;
             
             const addingPreRequisites = preRequisiteCourses?.filter((el) => el.course && !el.isDeleted).map((el) => ({course : el.course})) ;
-            const addingPreRequisitesCourses = await coursesModel.findByIdAndUpdate(id , { $addToSet : { preRequisiteCourses : { $each : addingPreRequisites } } } , { runValidators : true }) ;
+            const addingPreRequisitesCourses = await coursesModel.findByIdAndUpdate(id , { $addToSet : { preRequisiteCourses : { $each : addingPreRequisites } } } , { runValidators : true , session }) ;
         }
     
         const result = await coursesModel.findById(id).populate("preRequisiteCourses.course") ;
