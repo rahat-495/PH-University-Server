@@ -69,10 +69,16 @@ const deleteCourseIntoDb = async (id : string) => {
     return result ;
 }
 
+const assignFacultiesIntoDb = async (id : string , payload) => {
+    const result = await coursesModel.findByIdAndUpdate(id , {isDeleted : true} , {new : true}) ;
+    return result ;
+}
+
 export const courseServices = {
     createCourseIntoDb ,
     updateCourseIntoDb ,
     getAllCourseFromDb ,
     deleteCourseIntoDb ,
     getSingleCourseFromDb ,
+    assignFacultiesIntoDb ,
 }
