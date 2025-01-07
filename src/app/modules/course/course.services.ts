@@ -1,10 +1,10 @@
 
-import { startSession } from "mongoose";
 import QueryBuilder from "../../builder/QueryBuilder";
 import { courseSearchAbleFields } from "./course.constant";
 import { TCourse } from "./course.interfaces";
 import { coursesModel } from "./course.model";
 import AppError from "../../errors/AppErrors";
+import mongoose from "mongoose";
 
 const createCourseIntoDb = async (payload: TCourse) => {
     const result = await coursesModel.create(payload) ;
@@ -25,26 +25,41 @@ const getSingleCourseFromDb = async (id : string) => {
 const updateCourseIntoDb = async (id : string , payload : Partial<TCourse>) => {
     
     const {preRequisiteCourses , ...courseRemainingData} = payload ;
-    const session = await startSession() ;
+    const session = await mongoose.startSession() ;
 
     try {
         session.startTransaction() ;
         const updateBasicCourseIntoDb = await coursesModel.findByIdAndUpdate(id , { $set : {...courseRemainingData} } , {runValidators : true , session}) ;
-    
+        if(!updateBasicCourseIntoDb){
+            throw new AppError(400 , "Course Basic Update Failed !") ;
+        }
+
+
         if(preRequisiteCourses && preRequisiteCourses.length){
             const deletedPreRequisites = preRequisiteCourses.filter((el) => el.course && el.isDeleted).map(el => el.course) ;
             const deletedPreRequisiteCourses = await coursesModel.findByIdAndUpdate(id , { $pull : { preRequisiteCourses : { course : { $in : deletedPreRequisites } } } } , { runValidators : true , session }) ;
+            if(!deletedPreRequisiteCourses){
+                throw new AppError(400 , "Delete PreRequisite Course Update Failed !") ;
+            }
             
             const addingPreRequisites = preRequisiteCourses?.filter((el) => el.course && !el.isDeleted).map((el) => ({course : el.course})) ;
             const addingPreRequisitesCourses = await coursesModel.findByIdAndUpdate(id , { $addToSet : { preRequisiteCourses : { $each : addingPreRequisites } } } , { runValidators : true , session }) ;
+            if(!addingPreRequisitesCourses){
+                throw new AppError(400 , "Adding PreRequisite Course Update Failed !") ;
+            }
+
         }
+
+        await session.commitTransaction() ;
+        await session.endSession() ;
     
         const result = await coursesModel.findById(id).populate("preRequisiteCourses.course") ;
         return result ;
 
     } catch (error) {
-        session.abortTransaction() ;
-        session.endSession() ;
+        console.log(error)
+        await session.abortTransaction() ;
+        await session.endSession() ;
         throw new AppError(400 , "Course Update Failed !") ;
     }
 }
