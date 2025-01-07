@@ -34,4 +34,16 @@ const courseSchema = new mongoose_1.Schema({
         default: false,
     },
 });
+const courseFacultiesSchema = new mongoose_1.Schema({
+    course: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        required: true,
+        ref: "course",
+        unique: true,
+    },
+    faculties: [{
+            type: mongoose_1.Schema.Types.ObjectId,
+            ref: "faculty"
+        }]
+});
 exports.coursesModel = (0, mongoose_1.model)("course", courseSchema);
