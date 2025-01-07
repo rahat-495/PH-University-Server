@@ -50,9 +50,9 @@ const updateCourseIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, fu
         const updateBasicCourseIntoDb = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $set: Object.assign({}, courseRemainingData) }, { runValidators: true, session });
         if (preRequisiteCourses && preRequisiteCourses.length) {
             const deletedPreRequisites = preRequisiteCourses.filter((el) => el.course && el.isDeleted).map(el => el.course);
-            const deletedPreRequisiteCourses = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $pull: { preRequisiteCourses: { course: { $in: deletedPreRequisites } } } }, { runValidators: true });
+            const deletedPreRequisiteCourses = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $pull: { preRequisiteCourses: { course: { $in: deletedPreRequisites } } } }, { runValidators: true, session });
             const addingPreRequisites = preRequisiteCourses === null || preRequisiteCourses === void 0 ? void 0 : preRequisiteCourses.filter((el) => el.course && !el.isDeleted).map((el) => ({ course: el.course }));
-            const addingPreRequisitesCourses = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $addToSet: { preRequisiteCourses: { $each: addingPreRequisites } } }, { runValidators: true });
+            const addingPreRequisitesCourses = yield course_model_1.coursesModel.findByIdAndUpdate(id, { $addToSet: { preRequisiteCourses: { $each: addingPreRequisites } } }, { runValidators: true, session });
         }
         const result = yield course_model_1.coursesModel.findById(id).populate("preRequisiteCourses.course");
         return result;
