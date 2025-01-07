@@ -40,9 +40,9 @@ const deleteCourse : RequestHandler = catchAsync(async (req , res) => {
 })
 
 const assignFacultiesWithCourse : RequestHandler = catchAsync(async (req , res) => {
-    const result = await courseServices.assignFacultiesWithCourseIntoDb(req.params.courseId , req.body) ;
+    const result = await courseServices.assignFacultiesWithCourseIntoDb(req.params.courseId , req.body.faculties) ;
     if(result){
-        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course are deleted Successfully !"}) ;
+        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course with faculties added Successfully !"}) ;
     }
 })
 

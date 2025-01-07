@@ -2,7 +2,7 @@
 import QueryBuilder from "../../builder/QueryBuilder";
 import { courseSearchAbleFields } from "./course.constant";
 import { TCourse, TCourseFaculties } from "./course.interfaces";
-import { coursesModel } from "./course.model";
+import { courseFacultiesModel, coursesModel } from "./course.model";
 import AppError from "../../errors/AppErrors";
 import mongoose from "mongoose";
 
@@ -70,7 +70,7 @@ const deleteCourseIntoDb = async (id : string) => {
 }
 
 const assignFacultiesWithCourseIntoDb = async (id : string , payload : Partial<TCourseFaculties>) => {
-    const result = await coursesModel.findByIdAndUpdate(id , {isDeleted : true} , {new : true}) ;
+    const result = await courseFacultiesModel.findByIdAndUpdate(id , { $addToSet : { faculties : { $each : payload } } } , {new : true , upsert : true}) ;
     return result ;
 }
 
