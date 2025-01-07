@@ -52,11 +52,18 @@ const assignFacultiesWithCourse = (0, catchAsync_1.default)((req, res) => __awai
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course with faculties added Successfully !" });
     }
 }));
+const removeFacultiesWithCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield course_services_1.courseServices.removeFacultiesWithCourseFromDb(req.params.courseId, req.body.faculties);
+    if (result) {
+        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course with faculties removed Successfully !" });
+    }
+}));
 exports.courseControllers = {
     deleteCourse,
     updateCourse,
     createCourse,
     getAllCourses,
-    assignFacultiesWithCourse,
     getSingleCourse,
+    assignFacultiesWithCourse,
+    removeFacultiesWithCourse,
 };
