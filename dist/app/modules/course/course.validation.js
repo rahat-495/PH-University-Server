@@ -26,7 +26,13 @@ const updateCourseValidation = zod_1.z.object({
         isdeleted: zod_1.z.boolean().optional(),
     })
 });
+const assignFacultyWithCourseValidationSchema = zod_1.z.object({
+    body: zod_1.z.object({
+        faculties: zod_1.z.array(zod_1.z.string()),
+    })
+});
 exports.courseValidations = {
     createCourseValidation,
     updateCourseValidation,
+    assignFacultyWithCourseValidationSchema,
 };
