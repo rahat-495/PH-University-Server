@@ -11,7 +11,7 @@ router.get("/:id" , courseControllers.getSingleCourse) ;
 router.delete("/:id" , courseControllers.deleteCourse) ;
 router.patch("/:id" , validateRequest(courseValidations.updateCourseValidation) , courseControllers.updateCourse) ;
 router.post("/create-course" , validateRequest(courseValidations.createCourseValidation) , courseControllers.createCourse) ;
-router.put('/:courseId/remove-faculties' , validateRequest(courseValidations.facultiesWithCourseValidationSchema) , courseControllers.removeFacultiesWithCourse) ;
-router.delete('/:courseId/assign-faculties' , validateRequest(courseValidations.facultiesWithCourseValidationSchema) , courseControllers.assignFacultiesWithCourse) ;
+router.put('/:courseId/assign-faculties' , validateRequest(courseValidations.facultiesWithCourseValidationSchema) , courseControllers.assignFacultiesWithCourse) ;
+router.delete('/:courseId/remove-faculties' , validateRequest(courseValidations.facultiesWithCourseValidationSchema) , courseControllers.removeFacultiesWithCourse) ;
 
 export const courseRoutes = router ;
