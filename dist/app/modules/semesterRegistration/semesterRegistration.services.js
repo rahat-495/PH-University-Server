@@ -26,7 +26,7 @@ const getAllSemesterRegistrationFromDb = (query) => __awaiter(void 0, void 0, vo
     return result;
 });
 const getSingleSemesterRegistrationFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield semesterRegistration_model_1.semesterRegistrationsModel.findById(id);
+    const result = yield semesterRegistration_model_1.semesterRegistrationsModel.findById(id).populate("academicSemester");
     return result;
 });
 const updateSemesterRegistrationIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
