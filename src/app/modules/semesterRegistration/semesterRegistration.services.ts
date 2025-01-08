@@ -15,7 +15,7 @@ const getAllSemesterRegistrationFromDb = async (query : Record<string , unknown>
 }
 
 const getSingleSemesterRegistrationFromDb = async (id : string) => {
-    const result = await semesterRegistrationsModel.findById(id) ;
+    const result = await semesterRegistrationsModel.findById(id).populate("academicSemester") ;
     return result ;
 }
 
