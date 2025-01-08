@@ -9,7 +9,7 @@ const createSemesterRegistrationIntoDb = async (payload: TSemesterRegistration) 
 }
 
 const getAllSemesterRegistrationFromDb = async (query : Record<string , unknown>) => {
-    const courseQuery = new QueryBuilder(semesterRegistrationsModel.find().populate("preRequisiteCourses.course") , query).search(semesterRegistrationSearchAbleFields).filter().sort().paginate().fields() ;
+    const courseQuery = new QueryBuilder(semesterRegistrationsModel.find().populate("academicSemester") , query).search(semesterRegistrationSearchAbleFields).filter().sort().paginate().fields() ;
     const result = await courseQuery.modelQuery ;
     return result ;
 }
