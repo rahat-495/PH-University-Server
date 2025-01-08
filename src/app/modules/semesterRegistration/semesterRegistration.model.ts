@@ -2,6 +2,8 @@
 import { model, Schema } from "mongoose";
 import { TSemesterRegistration } from "./semesterRegistration.interface";
 import { semesterRegistrationStatus } from "./semesterRegistration.constant";
+import AppError from "../../errors/AppErrors";
+import academicSemestersModel from "../academicSemester/academicSemester.model";
 
 const semesterRegistrationSchema = new Schema<TSemesterRegistration>({
     academicSemester : {
@@ -34,5 +36,18 @@ const semesterRegistrationSchema = new Schema<TSemesterRegistration>({
 },{
     timestamps : true ,
 }) ;
+
+semesterRegistrationSchema.pre("save" , async function(next){
+    const payload = this ;
+    const isAcademicSemesterAxist = await academicSemestersModel.findOne({ _id : payload.academicSemester}) ;
+    if(!isAcademicSemesterAxist){
+        throw new AppError(400 , "Academic Semester Ins't Axist !") ;
+    }
+    const isSemesterRegistrationAxist = await semesterRegistrationsModel.findOne({academicSemester : payload.academicSemester}) ;
+    if(isSemesterRegistrationAxist){
+        throw new AppError(400 , "Semester registration already axist !") ;
+    }
+    next() ;
+})
 
 export const semesterRegistrationsModel = model<TSemesterRegistration>("semesterRegistration" , semesterRegistrationSchema) ;
