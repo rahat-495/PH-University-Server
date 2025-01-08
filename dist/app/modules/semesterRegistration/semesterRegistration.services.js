@@ -21,7 +21,7 @@ const createSemesterRegistrationIntoDb = (payload) => __awaiter(void 0, void 0, 
     return result;
 });
 const getAllSemesterRegistrationFromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const courseQuery = new QueryBuilder_1.default(semesterRegistration_model_1.semesterRegistrationsModel.find().populate("preRequisiteCourses.course"), query).search(semesterRegistration_constant_1.semesterRegistrationSearchAbleFields).filter().sort().paginate().fields();
+    const courseQuery = new QueryBuilder_1.default(semesterRegistration_model_1.semesterRegistrationsModel.find().populate("academicSemester"), query).search(semesterRegistration_constant_1.semesterRegistrationSearchAbleFields).filter().sort().paginate().fields();
     const result = yield courseQuery.modelQuery;
     return result;
 });
