@@ -8,8 +8,8 @@ const createSemesterRegistrationIntoDb = async (payload: TSemesterRegistration) 
 }
 
 const getAllSemesterRegistrationFromDb = async (query : Record<string , unknown>) => {
-    const courseQuery = new QueryBuilder(semesterRegistrationsModel.find().populate("academicSemester") , query).filter().sort().paginate().fields() ;
-    const result = await courseQuery.modelQuery ;
+    const semesterRegistratoinQuery = new QueryBuilder(semesterRegistrationsModel.find().populate("academicSemester") , query).filter().sort().paginate().fields() ;
+    const result = await semesterRegistratoinQuery.modelQuery ;
     return result ;
 }
 
