@@ -14,14 +14,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.semesterRegistrationServices = void 0;
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
-const semesterRegistration_constant_1 = require("./semesterRegistration.constant");
 const semesterRegistration_model_1 = require("./semesterRegistration.model");
 const createSemesterRegistrationIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield semesterRegistration_model_1.semesterRegistrationsModel.create(payload);
     return result;
 });
 const getAllSemesterRegistrationFromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const courseQuery = new QueryBuilder_1.default(semesterRegistration_model_1.semesterRegistrationsModel.find().populate("academicSemester"), query).search(semesterRegistration_constant_1.semesterRegistrationSearchAbleFields).filter().sort().paginate().fields();
+    const courseQuery = new QueryBuilder_1.default(semesterRegistration_model_1.semesterRegistrationsModel.find().populate("academicSemester"), query).filter().sort().paginate().fields();
     const result = yield courseQuery.modelQuery;
     return result;
 });
