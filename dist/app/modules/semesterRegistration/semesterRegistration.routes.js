@@ -2,9 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.semesterRegistrationRoutes = void 0;
 const express_1 = require("express");
+const semesterRegistration_controllers_1 = require("./semesterRegistration.controllers");
 const router = (0, express_1.Router)();
-router.get('/');
-router.get('/:id');
-router.patch('/:id');
-router.post('/create-semester-registration');
+router.get('/', semesterRegistration_controllers_1.semesterRegistrationControllers.getAllSemesterRegistration);
+router.patch('/:id', semesterRegistration_controllers_1.semesterRegistrationControllers.updateSemesterRegistration);
+router.get('/:id', semesterRegistration_controllers_1.semesterRegistrationControllers.getSingleSemesterRegistration);
+router.post('/create-semester-registration', semesterRegistration_controllers_1.semesterRegistrationControllers.createSemesterRegistration);
 exports.semesterRegistrationRoutes = router;
