@@ -20,8 +20,8 @@ const createSemesterRegistrationIntoDb = (payload) => __awaiter(void 0, void 0, 
     return result;
 });
 const getAllSemesterRegistrationFromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const courseQuery = new QueryBuilder_1.default(semesterRegistration_model_1.semesterRegistrationsModel.find().populate("academicSemester"), query).filter().sort().paginate().fields();
-    const result = yield courseQuery.modelQuery;
+    const semesterRegistratoinQuery = new QueryBuilder_1.default(semesterRegistration_model_1.semesterRegistrationsModel.find().populate("academicSemester"), query).filter().sort().paginate().fields();
+    const result = yield semesterRegistratoinQuery.modelQuery;
     return result;
 });
 const getSingleSemesterRegistrationFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
