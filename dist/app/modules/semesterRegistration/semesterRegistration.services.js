@@ -46,6 +46,9 @@ const updateSemesterRegistrationIntoDb = (id, payload) => __awaiter(void 0, void
     if (currentSemesterStatus === "UPCOMING" && requestedStatus === "ENDED") {
         throw new AppErrors_1.default(400, `You can't directly change status from ${currentSemesterStatus} to ${requestedStatus}`);
     }
+    if (currentSemesterStatus === "ONGOING" && requestedStatus === "UPCOMING") {
+        throw new AppErrors_1.default(400, `You can't directly change status from ${currentSemesterStatus} to ${requestedStatus}`);
+    }
     return {};
 });
 exports.semesterRegistrationServices = {
