@@ -1,11 +1,12 @@
 
 import QueryBuilder from "../../builder/QueryBuilder";
 import AppError from "../../errors/AppErrors";
+import { registrationStatus } from "./semesterRegistration.constant";
 import { TSemesterRegistration } from "./semesterRegistration.interface";
 import { semesterRegistrationsModel } from "./semesterRegistration.model";
 
 const createSemesterRegistrationIntoDb = async (payload: TSemesterRegistration) => {
-    const isAnySemesterUpcomingOrOngoing = await semesterRegistrationsModel.findOne({ $or : [ {status : "UPCOMING"} , {status : "ONGOING"} ] }) ;
+    const isAnySemesterUpcomingOrOngoing = await semesterRegistrationsModel.findOne({ $or : [ {status : registrationStatus.UPCOMING} , {status : registrationStatus.ONGOING} ] }) ;
     if(isAnySemesterUpcomingOrOngoing){
         throw new AppError(400 , `There is already a ${isAnySemesterUpcomingOrOngoing.status} registrered semester !`) ;
     }
