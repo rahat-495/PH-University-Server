@@ -1,3 +1,4 @@
+
 import QueryBuilder from "../../builder/QueryBuilder";
 import AppError from "../../errors/AppErrors";
 import { TSemesterRegistration } from "./semesterRegistration.interface";
