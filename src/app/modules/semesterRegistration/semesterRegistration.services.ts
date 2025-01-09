@@ -42,6 +42,10 @@ const updateSemesterRegistrationIntoDb = async (id : string , payload : Partial<
         throw new AppError(400 , `You can't directly change status from ${currentSemesterStatus} to ${requestedStatus}`) ;
     }
 
+    if(currentSemesterStatus === "ONGOING" && requestedStatus === "UPCOMING"){
+        throw new AppError(400 , `You can't directly change status from ${currentSemesterStatus} to ${requestedStatus}`) ;
+    }
+
     return {} ;
 }
 
