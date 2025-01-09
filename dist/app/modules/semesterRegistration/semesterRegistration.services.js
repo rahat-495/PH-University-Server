@@ -39,8 +39,12 @@ const updateSemesterRegistrationIntoDb = (id, payload) => __awaiter(void 0, void
         throw new AppErrors_1.default(404, "Semester registration not found !");
     }
     const currentSemesterStatus = isSemesterRegistrationAxist === null || isSemesterRegistrationAxist === void 0 ? void 0 : isSemesterRegistrationAxist.status;
+    const requestedStatus = payload === null || payload === void 0 ? void 0 : payload.status;
     if (currentSemesterStatus === "ENDED") {
         throw new AppErrors_1.default(400, `This semeter already ${currentSemesterStatus} !`);
+    }
+    if (currentSemesterStatus === "UPCOMING" && requestedStatus === "ENDED") {
+        throw new AppErrors_1.default(400, `You can't directly change status from ${currentSemesterStatus} to ${requestedStatus}`);
     }
     return {};
 });
