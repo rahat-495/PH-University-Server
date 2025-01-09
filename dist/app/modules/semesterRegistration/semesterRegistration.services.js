@@ -38,9 +38,9 @@ const updateSemesterRegistrationIntoDb = (id, payload) => __awaiter(void 0, void
     if (!isSemesterRegistrationAxist) {
         throw new AppErrors_1.default(404, "Semester registration not found !");
     }
-    const currentSemester = isSemesterRegistrationAxist === null || isSemesterRegistrationAxist === void 0 ? void 0 : isSemesterRegistrationAxist.status;
-    if (currentSemester === "ENDED") {
-        throw new AppErrors_1.default(400, `This semeter already ${currentSemester} !`);
+    const currentSemesterStatus = isSemesterRegistrationAxist === null || isSemesterRegistrationAxist === void 0 ? void 0 : isSemesterRegistrationAxist.status;
+    if (currentSemesterStatus === "ENDED") {
+        throw new AppErrors_1.default(400, `This semeter already ${currentSemesterStatus} !`);
     }
     return {};
 });
