@@ -3,7 +3,7 @@ import { TSemesterRegistration } from "./semesterRegistration.interface";
 import { semesterRegistrationsModel } from "./semesterRegistration.model";
 
 const createSemesterRegistrationIntoDb = async (payload: TSemesterRegistration) => {
-    const isAnySemesterUpcomingOrOngoing = await semesterRegistrationsModel.findOne({ $or : [ {status : "UPCOMING"} ] })
+    const isAnySemesterUpcomingOrOngoing = await semesterRegistrationsModel.findOne({ $or : [ {status : "UPCOMING"} , {status : "ONGOING"} ] })
     const result = await semesterRegistrationsModel.create(payload) ;
     return result ;
 }
