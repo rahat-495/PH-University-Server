@@ -1,9 +1,13 @@
 import QueryBuilder from "../../builder/QueryBuilder";
+import AppError from "../../errors/AppErrors";
 import { TSemesterRegistration } from "./semesterRegistration.interface";
 import { semesterRegistrationsModel } from "./semesterRegistration.model";
 
 const createSemesterRegistrationIntoDb = async (payload: TSemesterRegistration) => {
-    const isAnySemesterUpcomingOrOngoing = await semesterRegistrationsModel.findOne({ $or : [ {status : "UPCOMING"} , {status : "ONGOING"} ] })
+    const isAnySemesterUpcomingOrOngoing = await semesterRegistrationsModel.findOne({ $or : [ {status : "UPCOMING"} , {status : "ONGOING"} ] }) ;
+    if(isAnySemesterUpcomingOrOngoing){
+        throw new AppError(400 , ``) ;
+    }
     const result = await semesterRegistrationsModel.create(payload) ;
     return result ;
 }
