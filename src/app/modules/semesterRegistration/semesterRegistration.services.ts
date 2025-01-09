@@ -26,14 +26,17 @@ const getSingleSemesterRegistrationFromDb = async (id : string) => {
 
 const updateSemesterRegistrationIntoDb = async (id : string , payload : Partial<TSemesterRegistration>) => {
     const isSemesterRegistrationAxist = await semesterRegistrationsModel.findById(id) ;
+
     if(!isSemesterRegistrationAxist){
         throw new AppError(404 , "Semester registration not found !") ;
     }
-    const requestedSemester = await semesterRegistrationsModel.findById(id) ;
+
+    const currentSemester = isSemesterRegistrationAxist?.status ;
     
-    if(requestedSemester?.status === "ENDED"){
-        throw new AppError(400 , `This semeter already ${requestedSemester?.status} !`)
+    if(currentSemester === "ENDED"){
+        throw new AppError(400 , `This semeter already ${currentSemester} !`)
     }
+    
     return {} ;
 }
 
