@@ -41,13 +41,13 @@ const updateSemesterRegistrationIntoDb = (id, payload) => __awaiter(void 0, void
     }
     const currentSemesterStatus = isSemesterRegistrationAxist === null || isSemesterRegistrationAxist === void 0 ? void 0 : isSemesterRegistrationAxist.status;
     const requestedStatus = payload === null || payload === void 0 ? void 0 : payload.status;
-    if (currentSemesterStatus === "ENDED") {
+    if (currentSemesterStatus === semesterRegistration_constant_1.registrationStatus.ENDED) {
         throw new AppErrors_1.default(400, `This semeter already ${currentSemesterStatus} !`);
     }
-    if (currentSemesterStatus === "UPCOMING" && requestedStatus === "ENDED") {
+    if (currentSemesterStatus === semesterRegistration_constant_1.registrationStatus.UPCOMING && requestedStatus === semesterRegistration_constant_1.registrationStatus.ENDED) {
         throw new AppErrors_1.default(400, `You can't directly change status from ${currentSemesterStatus} to ${requestedStatus}`);
     }
-    if (currentSemesterStatus === "ONGOING" && requestedStatus === "UPCOMING") {
+    if (currentSemesterStatus === semesterRegistration_constant_1.registrationStatus.ONGOING && requestedStatus === semesterRegistration_constant_1.registrationStatus.UPCOMING) {
         throw new AppErrors_1.default(400, `You can't directly change status from ${currentSemesterStatus} to ${requestedStatus}`);
     }
     const result = yield semesterRegistration_model_1.semesterRegistrationsModel.findByIdAndUpdate(id, payload, { new: true, runValidators: true });
