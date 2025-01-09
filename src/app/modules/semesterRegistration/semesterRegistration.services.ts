@@ -35,15 +35,15 @@ const updateSemesterRegistrationIntoDb = async (id : string , payload : Partial<
     const currentSemesterStatus = isSemesterRegistrationAxist?.status ;
     const requestedStatus = payload?.status ;
     
-    if(currentSemesterStatus === "ENDED"){
+    if(currentSemesterStatus === registrationStatus.ENDED){
         throw new AppError(400 , `This semeter already ${currentSemesterStatus} !`)
     }
 
-    if(currentSemesterStatus === "UPCOMING" && requestedStatus === "ENDED"){
+    if(currentSemesterStatus === registrationStatus.UPCOMING && requestedStatus === registrationStatus.ENDED){
         throw new AppError(400 , `You can't directly change status from ${currentSemesterStatus} to ${requestedStatus}`) ;
     }
 
-    if(currentSemesterStatus === "ONGOING" && requestedStatus === "UPCOMING"){
+    if(currentSemesterStatus === registrationStatus.ONGOING && requestedStatus === registrationStatus.UPCOMING){
         throw new AppError(400 , `You can't directly change status from ${currentSemesterStatus} to ${requestedStatus}`) ;
     }
 
