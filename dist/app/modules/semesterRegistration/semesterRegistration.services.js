@@ -49,7 +49,8 @@ const updateSemesterRegistrationIntoDb = (id, payload) => __awaiter(void 0, void
     if (currentSemesterStatus === "ONGOING" && requestedStatus === "UPCOMING") {
         throw new AppErrors_1.default(400, `You can't directly change status from ${currentSemesterStatus} to ${requestedStatus}`);
     }
-    return {};
+    const result = yield semesterRegistration_model_1.semesterRegistrationsModel.findByIdAndUpdate(id, payload, { new: true, runValidators: true });
+    return result;
 });
 exports.semesterRegistrationServices = {
     createSemesterRegistrationIntoDb,
