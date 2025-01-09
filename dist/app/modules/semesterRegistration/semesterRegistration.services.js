@@ -14,9 +14,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.semesterRegistrationServices = void 0;
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
+const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const semesterRegistration_model_1 = require("./semesterRegistration.model");
 const createSemesterRegistrationIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const isAnySemesterUpcomingOrOngoing = yield semesterRegistration_model_1.semesterRegistrationsModel.findOne({ $or: [{ status: "UPCOMING" }, { status: "ONGOING" }] });
+    if (isAnySemesterUpcomingOrOngoing) {
+        throw new AppErrors_1.default(400, ``);
+    }
     const result = yield semesterRegistration_model_1.semesterRegistrationsModel.create(payload);
     return result;
 });
