@@ -6,7 +6,7 @@ import { semesterRegistrationsModel } from "./semesterRegistration.model";
 const createSemesterRegistrationIntoDb = async (payload: TSemesterRegistration) => {
     const isAnySemesterUpcomingOrOngoing = await semesterRegistrationsModel.findOne({ $or : [ {status : "UPCOMING"} , {status : "ONGOING"} ] }) ;
     if(isAnySemesterUpcomingOrOngoing){
-        throw new AppError(400 , ``) ;
+        throw new AppError(400 , `There is already a ${isAnySemesterUpcomingOrOngoing.status} registrered semester !`) ;
     }
     const result = await semesterRegistrationsModel.create(payload) ;
     return result ;
