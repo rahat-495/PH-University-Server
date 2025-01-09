@@ -26,6 +26,7 @@ const getSingleSemesterRegistrationFromDb = async (id : string) => {
 
 const updateSemesterRegistrationIntoDb = async (id : string , payload : Partial<TSemesterRegistration>) => {
     const requestedSemester = await semesterRegistrationsModel.findById(id) ;
+    console.log(requestedSemester?.status , id)
     if(requestedSemester?.status === "ENDED"){
         throw new AppError(400 , `This semeter already ${requestedSemester?.status} !`)
     }
