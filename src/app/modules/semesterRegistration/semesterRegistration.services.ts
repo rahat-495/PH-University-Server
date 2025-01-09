@@ -25,6 +25,10 @@ const getSingleSemesterRegistrationFromDb = async (id : string) => {
 }
 
 const updateSemesterRegistrationIntoDb = async (id : string , payload : Partial<TSemesterRegistration>) => {
+    const isSemesterRegistrationAxist = await semesterRegistrationsModel.findById(id) ;
+    if(!isSemesterRegistrationAxist){
+        throw new AppError(404 , "Semester registration not found !") ;
+    }
     const requestedSemester = await semesterRegistrationsModel.findById(id) ;
     
     if(requestedSemester?.status === "ENDED"){
