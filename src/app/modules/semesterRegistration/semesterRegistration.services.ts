@@ -31,12 +31,12 @@ const updateSemesterRegistrationIntoDb = async (id : string , payload : Partial<
         throw new AppError(404 , "Semester registration not found !") ;
     }
 
-    const currentSemester = isSemesterRegistrationAxist?.status ;
+    const currentSemesterStatus = isSemesterRegistrationAxist?.status ;
     
-    if(currentSemester === "ENDED"){
-        throw new AppError(400 , `This semeter already ${currentSemester} !`)
+    if(currentSemesterStatus === "ENDED"){
+        throw new AppError(400 , `This semeter already ${currentSemesterStatus} !`)
     }
-    
+
     return {} ;
 }
 
