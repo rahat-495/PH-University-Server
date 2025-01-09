@@ -19,7 +19,7 @@ const semesterRegistration_model_1 = require("./semesterRegistration.model");
 const createSemesterRegistrationIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const isAnySemesterUpcomingOrOngoing = yield semesterRegistration_model_1.semesterRegistrationsModel.findOne({ $or: [{ status: "UPCOMING" }, { status: "ONGOING" }] });
     if (isAnySemesterUpcomingOrOngoing) {
-        throw new AppErrors_1.default(400, ``);
+        throw new AppErrors_1.default(400, `There is already a ${isAnySemesterUpcomingOrOngoing.status} registrered semester !`);
     }
     const result = yield semesterRegistration_model_1.semesterRegistrationsModel.create(payload);
     return result;
