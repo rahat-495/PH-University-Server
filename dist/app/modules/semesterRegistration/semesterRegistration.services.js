@@ -34,6 +34,10 @@ const getSingleSemesterRegistrationFromDb = (id) => __awaiter(void 0, void 0, vo
     return result;
 });
 const updateSemesterRegistrationIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const isSemesterRegistrationAxist = yield semesterRegistration_model_1.semesterRegistrationsModel.findById(id);
+    if (!isSemesterRegistrationAxist) {
+        throw new AppErrors_1.default(404, "Semester registration not found !");
+    }
     const requestedSemester = yield semesterRegistration_model_1.semesterRegistrationsModel.findById(id);
     if ((requestedSemester === null || requestedSemester === void 0 ? void 0 : requestedSemester.status) === "ENDED") {
         throw new AppErrors_1.default(400, `This semeter already ${requestedSemester === null || requestedSemester === void 0 ? void 0 : requestedSemester.status} !`);
