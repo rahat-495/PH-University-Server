@@ -35,6 +35,7 @@ const getSingleSemesterRegistrationFromDb = (id) => __awaiter(void 0, void 0, vo
 });
 const updateSemesterRegistrationIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const requestedSemester = yield semesterRegistration_model_1.semesterRegistrationsModel.findById(id);
+    console.log(requestedSemester === null || requestedSemester === void 0 ? void 0 : requestedSemester.status, id);
     if ((requestedSemester === null || requestedSemester === void 0 ? void 0 : requestedSemester.status) === "ENDED") {
         throw new AppErrors_1.default(400, `This semeter already ${requestedSemester === null || requestedSemester === void 0 ? void 0 : requestedSemester.status} !`);
     }
