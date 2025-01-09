@@ -16,7 +16,7 @@ exports.semesterRegistrationServices = void 0;
 const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const semesterRegistration_model_1 = require("./semesterRegistration.model");
 const createSemesterRegistrationIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const isAnySemesterUpcomingOrOngoing = yield semesterRegistration_model_1.semesterRegistrationsModel.findOne({ $or: [{ status: "UPCOMING" }] });
+    const isAnySemesterUpcomingOrOngoing = yield semesterRegistration_model_1.semesterRegistrationsModel.findOne({ $or: [{ status: "UPCOMING" }, { status: "ONGOING" }] });
     const result = yield semesterRegistration_model_1.semesterRegistrationsModel.create(payload);
     return result;
 });
