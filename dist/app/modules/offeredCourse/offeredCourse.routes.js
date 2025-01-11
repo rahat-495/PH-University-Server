@@ -2,9 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.offeredCourseRoutes = void 0;
 const express_1 = require("express");
+const offeredCourse_controllers_1 = require("./offeredCourse.controllers");
 const router = (0, express_1.Router)();
-router.post('/');
-router.get('/');
-router.get('/');
-router.patch('/');
+router.get('/', offeredCourse_controllers_1.offeredCourseControllers.getAllOfferdCourses);
+router.post('/', offeredCourse_controllers_1.offeredCourseControllers.createOfferedCourse);
+router.patch('/:id', offeredCourse_controllers_1.offeredCourseControllers.updateOfferedCourse);
+router.get('/:id', offeredCourse_controllers_1.offeredCourseControllers.getSingleOfferedCourse);
 exports.offeredCourseRoutes = router;
