@@ -17,3 +17,7 @@ const createOfferedCourseValidation = z.object({
         endTime : z.string() ,
     })
 })
+
+export const offeredCourseValidations = {
+    createOfferedCourseValidation
+}
