@@ -2,12 +2,13 @@
 import { RequestHandler } from "express";
 import sendResponse from "../../utils/sendResponse";
 import catchAsync from "../../utils/catchAsync";
+import { offeredCourseServices } from "./offeredCourse.services";
 
 const createOfferedCourse : RequestHandler = catchAsync(async (req , res) => {
-    // const result = await courseServices.createCourseIntoDb(req.body) ;
-    // if(result){
-    //     sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course Created Successfully !"}) ;
-    // }
+    const result = await offeredCourseServices.createOfferedCourseIntoDb(req.body) ;
+    if(result){
+        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course Created Successfully !"}) ;
+    }
 })
 
 const getAllOfferdCourses : RequestHandler = catchAsync(async (req , res) => {

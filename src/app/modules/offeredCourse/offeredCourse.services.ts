@@ -1,9 +1,10 @@
 
 import { TOfferedCourse } from "./offeredCourse.interface"
+import { offeredCoursesModel } from "./offeredCourse.model";
 
 const createOfferedCourseIntoDb = async (payload: TOfferedCourse) => {
-    // const result = await coursesModel.create(payload) ;
-    // return result ;
+    const result = await offeredCoursesModel.create(payload) ;
+    return result ;
 }
 
 const getAllOfferedCourseFromDb = async (query : Record<string , unknown>) => {
