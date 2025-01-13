@@ -13,12 +13,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.offeredCourseControllers = void 0;
+const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
+const offeredCourse_services_1 = require("./offeredCourse.services");
 const createOfferedCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // const result = await courseServices.createCourseIntoDb(req.body) ;
-    // if(result){
-    //     sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course Created Successfully !"}) ;
-    // }
+    const result = yield offeredCourse_services_1.offeredCourseServices.createOfferedCourseIntoDb(req.body);
+    if (result) {
+        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course Created Successfully !" });
+    }
 }));
 const getAllOfferdCourses = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // const result = await courseServices.getAllCourseFromDb(req.query) ;

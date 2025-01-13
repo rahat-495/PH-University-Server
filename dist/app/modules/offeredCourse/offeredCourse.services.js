@@ -10,9 +10,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.offeredCourseServices = void 0;
+const offeredCourse_model_1 = require("./offeredCourse.model");
 const createOfferedCourseIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    // const result = await coursesModel.create(payload) ;
-    // return result ;
+    const result = yield offeredCourse_model_1.offeredCoursesModel.create(payload);
+    return result;
 });
 const getAllOfferedCourseFromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
     // const courseQuery = new QueryBuilder(coursesModel.find().populate("preRequisiteCourses.course") , query).search(courseSearchAbleFields).filter().sort().paginate().fields() ;
