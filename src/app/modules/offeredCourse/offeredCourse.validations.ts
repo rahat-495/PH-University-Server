@@ -16,8 +16,18 @@ const createOfferedCourseValidation = z.object({
         startTime : z.string() ,
         endTime : z.string() ,
     })
-})
+});
+
+const updateOfferedCourseValidation = z.object({
+    body : z.object({
+        faculty : z.string().optional() ,
+        maxCapacity : z.number().optional() ,
+        startTime : z.string().optional() ,
+        endTime : z.string().optional() ,
+    })
+});
 
 export const offeredCourseValidations = {
-    createOfferedCourseValidation
+    createOfferedCourseValidation ,
+    updateOfferedCourseValidation ,
 }
