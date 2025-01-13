@@ -56,5 +56,7 @@ const offeredCourseSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
+}, {
+    timestamps: true,
 });
 exports.offeredCoursesModel = (0, mongoose_1.model)("offeredCourse", offeredCourseSchema);
