@@ -7,8 +7,8 @@ import { offeredCourseValidations } from "./offeredCourse.validations";
 const router = Router() ;
 
 router.get('/' , offeredCourseControllers.getAllOfferdCourses) ;
-router.post('/' , validateRequest(offeredCourseValidations.createOfferedCourseValidation) , offeredCourseControllers.createOfferedCourse) ;
 router.patch('/:id' , offeredCourseControllers.updateOfferedCourse) ;
 router.get('/:id' , offeredCourseControllers.getSingleOfferedCourse) ;
+router.post('/create-offered-course' , validateRequest(offeredCourseValidations.createOfferedCourseValidation) , offeredCourseControllers.createOfferedCourse) ;
 
 export const offeredCourseRoutes = router ;
