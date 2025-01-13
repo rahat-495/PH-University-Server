@@ -21,6 +21,7 @@ const createOfferedCourseValidation = z.object({
 const updateOfferedCourseValidation = z.object({
     body : z.object({
         faculty : z.string().optional() ,
+        days : z.enum([...Days] as [string]).optional() ,
         maxCapacity : z.number().optional() ,
         startTime : z.string().optional() ,
         endTime : z.string().optional() ,
