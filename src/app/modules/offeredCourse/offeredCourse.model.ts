@@ -56,6 +56,8 @@ const offeredCourseSchema = new Schema<TOfferedCourse>({
         type : String ,
         required : true ,
     },
+},{
+    timestamps : true ,
 });
 
 export const offeredCoursesModel = model<TOfferedCourse>("offeredCourse" , offeredCourseSchema) ;
