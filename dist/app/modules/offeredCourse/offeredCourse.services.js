@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.offeredCourseServices = void 0;
 const offeredCourse_model_1 = require("./offeredCourse.model");
 const createOfferedCourseIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    // Other ObjectId validation are working on model pre hook -------
     const result = yield offeredCourse_model_1.offeredCoursesModel.create(payload);
     return result;
 });
