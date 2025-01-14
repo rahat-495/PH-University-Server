@@ -12,7 +12,7 @@ const createOfferedCourseValidation = zod_1.z.object({
         faculty: zod_1.z.string(),
         maxCapacity: zod_1.z.number(),
         section: zod_1.z.number(),
-        days: zod_1.z.enum([...offeredCourse_constants_1.Days]),
+        days: zod_1.z.array(zod_1.z.enum([...offeredCourse_constants_1.Days])),
         startTime: zod_1.z.string(),
         endTime: zod_1.z.string(),
     })
