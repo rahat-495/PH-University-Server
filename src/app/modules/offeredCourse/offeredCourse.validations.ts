@@ -11,7 +11,7 @@ const createOfferedCourseValidation = z.object({
         faculty : z.string() ,
         maxCapacity : z.number() ,
         section : z.number() ,
-        days : z.enum([...Days] as [string]) ,
+        days : z.array(z.enum([...Days] as [string])) ,
         startTime : z.string() ,
         endTime : z.string() ,
     })
