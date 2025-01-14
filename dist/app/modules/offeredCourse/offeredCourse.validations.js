@@ -6,7 +6,6 @@ const offeredCourse_constants_1 = require("./offeredCourse.constants");
 const createOfferedCourseValidation = zod_1.z.object({
     body: zod_1.z.object({
         semesterRegistration: zod_1.z.string(),
-        academicSemester: zod_1.z.string(),
         academicFaculty: zod_1.z.string(),
         academicDepartment: zod_1.z.string(),
         course: zod_1.z.string(),
