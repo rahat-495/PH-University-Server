@@ -3,6 +3,7 @@ import { TOfferedCourse } from "./offeredCourse.interface"
 import { offeredCoursesModel } from "./offeredCourse.model";
 
 const createOfferedCourseIntoDb = async (payload: TOfferedCourse) => {
+    // Other ObjectId validation are working on model pre hook -------
     const result = await offeredCoursesModel.create(payload) ;
     return result ;
 }
