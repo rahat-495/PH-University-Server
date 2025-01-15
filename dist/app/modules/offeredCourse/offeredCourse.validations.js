@@ -13,8 +13,24 @@ const createOfferedCourseValidation = zod_1.z.object({
         maxCapacity: zod_1.z.number(),
         section: zod_1.z.number(),
         days: zod_1.z.array(zod_1.z.enum([...offeredCourse_constants_1.Days])),
-        startTime: zod_1.z.string(),
-        endTime: zod_1.z.string(),
+        startTime: zod_1.z.string().refine((time) => {
+            const regex = /^(?:[01]\d|2[0-3])\s*:\s*[0-5]\d$/;
+            return regex.test(time);
+        }, {
+            message: "Invalid Time Format Expected 'HH:MM' !",
+        }),
+        endTime: zod_1.z.string().refine((time) => {
+            const regex = /^(?:[01]\d|2[0-3])\s*:\s*[0-5]\d$/;
+            return regex.test(time);
+        }, {
+            message: "Invalid Time Format Expected 'HH:MM' !"
+        }),
+    }).refine((body) => {
+        const start = new Date(`2007-03-05T${body.startTime}:00`);
+        const end = new Date(`2007-03-05T${body.endTime}:00`);
+        return end > start;
+    }, {
+        message: `Start time should be before End Time !`
     })
 });
 const updateOfferedCourseValidation = zod_1.z.object({
