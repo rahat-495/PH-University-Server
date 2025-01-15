@@ -21,7 +21,7 @@ const faculty_model_1 = require("../faculty/faculty.model");
 const semesterRegistration_model_1 = require("../semesterRegistration/semesterRegistration.model");
 const offeredCourse_model_1 = require("./offeredCourse.model");
 const createOfferedCourseIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { academicDepartment, academicFaculty, course, faculty, semesterRegistration } = payload;
+    const { academicDepartment, academicFaculty, course, faculty, semesterRegistration, section } = payload;
     const isAcademicDepartmentAxist = yield academicDepartment_model_1.academicDepartmentsModel.findById(academicDepartment);
     if (!isAcademicDepartmentAxist) {
         throw new AppErrors_1.default(404, "Academic Department are not found !");
@@ -41,6 +41,14 @@ const createOfferedCourseIntoDb = (payload) => __awaiter(void 0, void 0, void 0,
     const isFacultyAxist = yield faculty_model_1.facultysModel.findById(faculty);
     if (!isFacultyAxist) {
         throw new AppErrors_1.default(404, "Faculty are not found !");
+    }
+    const isDepartmentBelongToFaculty = yield academicDepartment_model_1.academicDepartmentsModel.findOne({ _id: academicDepartment, academicFaculty });
+    if (!isDepartmentBelongToFaculty) {
+        throw new AppErrors_1.default(404, `This ${isAcademicDepartmentAxist === null || isAcademicDepartmentAxist === void 0 ? void 0 : isAcademicDepartmentAxist.name} is not belong to this ${isAcademicFacultyAxist === null || isAcademicFacultyAxist === void 0 ? void 0 : isAcademicFacultyAxist.name} !`);
+    }
+    const isOfferedCourseAxistWithSameSectionAndSemesterAndcourse = yield offeredCourse_model_1.offeredCoursesModel.findOne({ section, course, semesterRegistration });
+    if (isOfferedCourseAxistWithSameSectionAndSemesterAndcourse) {
+        throw new AppErrors_1.default(400, `Offered Course with same section or semester registration is already axist !`);
     }
     const result = yield offeredCourse_model_1.offeredCoursesModel.create(Object.assign(Object.assign({}, payload), { academicSemester: isSemesterRegistrationAxist === null || isSemesterRegistrationAxist === void 0 ? void 0 : isSemesterRegistrationAxist.academicSemester }));
     return result;
