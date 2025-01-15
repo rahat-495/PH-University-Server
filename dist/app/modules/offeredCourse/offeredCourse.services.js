@@ -21,7 +21,7 @@ const faculty_model_1 = require("../faculty/faculty.model");
 const semesterRegistration_model_1 = require("../semesterRegistration/semesterRegistration.model");
 const offeredCourse_model_1 = require("./offeredCourse.model");
 const createOfferedCourseIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { academicDepartment, academicFaculty, course, faculty, semesterRegistration, section } = payload;
+    const { academicDepartment, academicFaculty, course, faculty, semesterRegistration, section, days, startTime, endTime } = payload;
     const isAcademicDepartmentAxist = yield academicDepartment_model_1.academicDepartmentsModel.findById(academicDepartment);
     if (!isAcademicDepartmentAxist) {
         throw new AppErrors_1.default(404, "Academic Department are not found !");
@@ -50,6 +50,17 @@ const createOfferedCourseIntoDb = (payload) => __awaiter(void 0, void 0, void 0,
     if (isOfferedCourseAxistWithSameSectionAndSemesterAndcourse) {
         throw new AppErrors_1.default(400, `Offered Course with same section or semester registration is already axist !`);
     }
+    const newShedule = { days, startTime, endTime };
+    const assignedShedules = yield offeredCourse_model_1.offeredCoursesModel.find({ faculty, semesterRegistration, days: { $in: days } }).select("startTime endTime days");
+    assignedShedules.forEach((shedules) => {
+        const existingStartTime = new Date(`2007-03-05T${shedules === null || shedules === void 0 ? void 0 : shedules.startTime}:00`);
+        const existingEndTime = new Date(`2007-03-05T${shedules === null || shedules === void 0 ? void 0 : shedules.endTime}:00`);
+        const newStartTime = new Date(`2007-03-05T${newShedule === null || newShedule === void 0 ? void 0 : newShedule.startTime}:00`);
+        const newEndTime = new Date(`2007-03-05T${newShedule === null || newShedule === void 0 ? void 0 : newShedule.endTime}:00`);
+        if (newStartTime < existingEndTime && newEndTime > existingStartTime) {
+            throw new AppErrors_1.default(409, `This faculty is not available at this time . Choose anothor time or day !`);
+        }
+    });
     const result = yield offeredCourse_model_1.offeredCoursesModel.create(Object.assign(Object.assign({}, payload), { academicSemester: isSemesterRegistrationAxist === null || isSemesterRegistrationAxist === void 0 ? void 0 : isSemesterRegistrationAxist.academicSemester }));
     return result;
 });
