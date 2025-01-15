@@ -8,12 +8,41 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.offeredCourseServices = void 0;
+const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
+const academicDepartment_model_1 = require("../academicDepartment/academicDepartment.model");
+const academicFaculty_model_1 = require("../academicFaculty/academicFaculty.model");
+const course_model_1 = require("../course/course.model");
+const faculty_model_1 = require("../faculty/faculty.model");
+const semesterRegistration_model_1 = require("../semesterRegistration/semesterRegistration.model");
 const offeredCourse_model_1 = require("./offeredCourse.model");
 const createOfferedCourseIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    // Other ObjectId validation are working on model pre hook -------
-    const result = yield offeredCourse_model_1.offeredCoursesModel.create(payload);
+    const { academicDepartment, academicFaculty, course, faculty, semesterRegistration } = payload;
+    const isAcademicDepartmentAxist = yield academicDepartment_model_1.academicDepartmentsModel.findById(academicDepartment);
+    if (!isAcademicDepartmentAxist) {
+        throw new AppErrors_1.default(404, "Academic Department are not found !");
+    }
+    const isAcademicFacultyAxist = yield academicFaculty_model_1.academicFacultysModel.findById(academicFaculty);
+    if (!isAcademicFacultyAxist) {
+        throw new AppErrors_1.default(404, "Academic Faculty are not found !");
+    }
+    const isSemesterRegistrationAxist = yield semesterRegistration_model_1.semesterRegistrationsModel.findById(semesterRegistration);
+    if (!isSemesterRegistrationAxist) {
+        throw new AppErrors_1.default(404, "Semester Registration are not found !");
+    }
+    const isCourseAxist = yield course_model_1.coursesModel.findById(course);
+    if (!isCourseAxist) {
+        throw new AppErrors_1.default(404, "Course are not found !");
+    }
+    const isFacultyAxist = yield faculty_model_1.facultysModel.findById(faculty);
+    if (!isFacultyAxist) {
+        throw new AppErrors_1.default(404, "Faculty are not found !");
+    }
+    const result = yield offeredCourse_model_1.offeredCoursesModel.create(Object.assign(Object.assign({}, payload), { academicSemester: isSemesterRegistrationAxist === null || isSemesterRegistrationAxist === void 0 ? void 0 : isSemesterRegistrationAxist.academicSemester }));
     return result;
 });
 const getAllOfferedCourseFromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
