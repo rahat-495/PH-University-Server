@@ -10,7 +10,7 @@ import { offeredCoursesModel } from "./offeredCourse.model";
 
 const createOfferedCourseIntoDb = async (payload: TOfferedCourse) => {
     
-    const {academicDepartment , academicFaculty , course , faculty , semesterRegistration } = payload ;
+    const {academicDepartment , academicFaculty , course , faculty , semesterRegistration , section } = payload ;
     
     const isAcademicDepartmentAxist = await academicDepartmentsModel.findById(academicDepartment) ;
     if(!isAcademicDepartmentAxist){
@@ -36,7 +36,17 @@ const createOfferedCourseIntoDb = async (payload: TOfferedCourse) => {
     if(!isFacultyAxist){
         throw new AppError(404 , "Faculty are not found !") ;
     }
-
+    
+    const isDepartmentBelongToFaculty = await academicDepartmentsModel.findOne({ _id : academicDepartment , academicFaculty}) ;
+    if(!isDepartmentBelongToFaculty){
+        throw new AppError(404 , `This ${isAcademicDepartmentAxist?.name} is not belong to this ${isAcademicFacultyAxist?.name} !`) ;
+    }
+    
+    const isOfferedCourseAxistWithSameSectionAndSemesterAndcourse = await offeredCoursesModel.findOne({ section , course , semesterRegistration }) ;
+    if(isOfferedCourseAxistWithSameSectionAndSemesterAndcourse){
+        throw new AppError(400 , `Offered Course with same section or semester registration is already axist !`) ;
+    }
+    
     const result = await offeredCoursesModel.create({...payload , academicSemester : isSemesterRegistrationAxist?.academicSemester}) ;
     return result ;
 }
