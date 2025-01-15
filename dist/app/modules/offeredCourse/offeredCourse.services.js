@@ -50,13 +50,13 @@ const createOfferedCourseIntoDb = (payload) => __awaiter(void 0, void 0, void 0,
     if (isOfferedCourseAxistWithSameSectionAndSemesterAndcourse) {
         throw new AppErrors_1.default(400, `Offered Course with same section or semester registration is already axist !`);
     }
-    const newShedule = { days, startTime, endTime };
-    const assignedShedules = yield offeredCourse_model_1.offeredCoursesModel.find({ faculty, semesterRegistration, days: { $in: days } }).select("startTime endTime days");
-    assignedShedules.forEach((shedules) => {
-        const existingStartTime = new Date(`2007-03-05T${shedules === null || shedules === void 0 ? void 0 : shedules.startTime}:00`);
-        const existingEndTime = new Date(`2007-03-05T${shedules === null || shedules === void 0 ? void 0 : shedules.endTime}:00`);
-        const newStartTime = new Date(`2007-03-05T${newShedule === null || newShedule === void 0 ? void 0 : newShedule.startTime}:00`);
-        const newEndTime = new Date(`2007-03-05T${newShedule === null || newShedule === void 0 ? void 0 : newShedule.endTime}:00`);
+    const newSchedule = { days, startTime, endTime };
+    const assignedSchedules = yield offeredCourse_model_1.offeredCoursesModel.find({ faculty, semesterRegistration, days: { $in: days } }).select("startTime endTime days");
+    assignedSchedules.forEach((schedules) => {
+        const existingStartTime = new Date(`2007-03-05T${schedules === null || schedules === void 0 ? void 0 : schedules.startTime}:00`);
+        const existingEndTime = new Date(`2007-03-05T${schedules === null || schedules === void 0 ? void 0 : schedules.endTime}:00`);
+        const newStartTime = new Date(`2007-03-05T${newSchedule === null || newSchedule === void 0 ? void 0 : newSchedule.startTime}:00`);
+        const newEndTime = new Date(`2007-03-05T${newSchedule === null || newSchedule === void 0 ? void 0 : newSchedule.endTime}:00`);
         if (newStartTime < existingEndTime && newEndTime > existingStartTime) {
             throw new AppErrors_1.default(409, `This faculty is not available at this time . Choose anothor time or day !`);
         }
