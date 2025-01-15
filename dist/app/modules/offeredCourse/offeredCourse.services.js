@@ -20,6 +20,7 @@ const course_model_1 = require("../course/course.model");
 const faculty_model_1 = require("../faculty/faculty.model");
 const semesterRegistration_model_1 = require("../semesterRegistration/semesterRegistration.model");
 const offeredCourse_model_1 = require("./offeredCourse.model");
+const offeredCourse_utils_1 = require("./offeredCourse.utils");
 const createOfferedCourseIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { academicDepartment, academicFaculty, course, faculty, semesterRegistration, section, days, startTime, endTime } = payload;
     const isAcademicDepartmentAxist = yield academicDepartment_model_1.academicDepartmentsModel.findById(academicDepartment);
@@ -52,15 +53,9 @@ const createOfferedCourseIntoDb = (payload) => __awaiter(void 0, void 0, void 0,
     }
     const newSchedule = { days, startTime, endTime };
     const assignedSchedules = yield offeredCourse_model_1.offeredCoursesModel.find({ faculty, semesterRegistration, days: { $in: days } }).select("startTime endTime days");
-    assignedSchedules.forEach((schedules) => {
-        const existingStartTime = new Date(`2007-03-05T${schedules === null || schedules === void 0 ? void 0 : schedules.startTime}:00`);
-        const existingEndTime = new Date(`2007-03-05T${schedules === null || schedules === void 0 ? void 0 : schedules.endTime}:00`);
-        const newStartTime = new Date(`2007-03-05T${newSchedule === null || newSchedule === void 0 ? void 0 : newSchedule.startTime}:00`);
-        const newEndTime = new Date(`2007-03-05T${newSchedule === null || newSchedule === void 0 ? void 0 : newSchedule.endTime}:00`);
-        if (newStartTime < existingEndTime && newEndTime > existingStartTime) {
-            throw new AppErrors_1.default(409, `This faculty is not available at this time . Choose anothor time or day !`);
-        }
-    });
+    if ((0, offeredCourse_utils_1.hasTimeConflict)(assignedSchedules, newSchedule)) {
+        throw new AppErrors_1.default(409, `This faculty is not available at this time . Choose anothor time or day !`);
+    }
     const result = yield offeredCourse_model_1.offeredCoursesModel.create(Object.assign(Object.assign({}, payload), { academicSemester: isSemesterRegistrationAxist === null || isSemesterRegistrationAxist === void 0 ? void 0 : isSemesterRegistrationAxist.academicSemester }));
     return result;
 });
