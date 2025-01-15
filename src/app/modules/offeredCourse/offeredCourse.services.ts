@@ -10,7 +10,7 @@ import { offeredCoursesModel } from "./offeredCourse.model";
 
 const createOfferedCourseIntoDb = async (payload: TOfferedCourse) => {
     
-    const {academicDepartment , academicFaculty , course , faculty , semesterRegistration , section } = payload ;
+    const {academicDepartment , academicFaculty , course , faculty , semesterRegistration , section , days , startTime , endTime } = payload ;
     
     const isAcademicDepartmentAxist = await academicDepartmentsModel.findById(academicDepartment) ;
     if(!isAcademicDepartmentAxist){
@@ -46,6 +46,21 @@ const createOfferedCourseIntoDb = async (payload: TOfferedCourse) => {
     if(isOfferedCourseAxistWithSameSectionAndSemesterAndcourse){
         throw new AppError(400 , `Offered Course with same section or semester registration is already axist !`) ;
     }
+    
+    const newShedule = { days , startTime , endTime } ;
+    
+    const assignedShedules = await offeredCoursesModel.find({faculty , semesterRegistration , days : { $in : days}}).select("startTime endTime days") ;
+    
+    assignedShedules.forEach((shedules) => {
+        const existingStartTime = new Date(`2007-03-05T${shedules?.startTime}:00`) ;
+        const existingEndTime = new Date(`2007-03-05T${shedules?.endTime}:00`) ;
+        const newStartTime = new Date(`2007-03-05T${newShedule?.startTime}:00`) ;
+        const newEndTime = new Date(`2007-03-05T${newShedule?.endTime}:00`) ;
+        
+        if(newStartTime < existingEndTime && newEndTime > existingStartTime){
+            throw new AppError(409 , `This faculty is not available at this time . Choose anothor time or day !`) ;
+        }
+    })
     
     const result = await offeredCoursesModel.create({...payload , academicSemester : isSemesterRegistrationAxist?.academicSemester}) ;
     return result ;
