@@ -47,15 +47,15 @@ const createOfferedCourseIntoDb = async (payload: TOfferedCourse) => {
         throw new AppError(400 , `Offered Course with same section or semester registration is already axist !`) ;
     }
     
-    const newShedule = { days , startTime , endTime } ;
+    const newSchedule = { days , startTime , endTime } ;
     
-    const assignedShedules = await offeredCoursesModel.find({faculty , semesterRegistration , days : { $in : days}}).select("startTime endTime days") ;
+    const assignedSchedules = await offeredCoursesModel.find({faculty , semesterRegistration , days : { $in : days}}).select("startTime endTime days") ;
     
-    assignedShedules.forEach((shedules) => {
-        const existingStartTime = new Date(`2007-03-05T${shedules?.startTime}:00`) ;
-        const existingEndTime = new Date(`2007-03-05T${shedules?.endTime}:00`) ;
-        const newStartTime = new Date(`2007-03-05T${newShedule?.startTime}:00`) ;
-        const newEndTime = new Date(`2007-03-05T${newShedule?.endTime}:00`) ;
+    assignedSchedules.forEach((schedules) => {
+        const existingStartTime = new Date(`2007-03-05T${schedules?.startTime}:00`) ;
+        const existingEndTime = new Date(`2007-03-05T${schedules?.endTime}:00`) ;
+        const newStartTime = new Date(`2007-03-05T${newSchedule?.startTime}:00`) ;
+        const newEndTime = new Date(`2007-03-05T${newSchedule?.endTime}:00`) ;
         
         if(newStartTime < existingEndTime && newEndTime > existingStartTime){
             throw new AppError(409 , `This faculty is not available at this time . Choose anothor time or day !`) ;
