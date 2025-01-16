@@ -81,7 +81,7 @@ const updateOfferedCourseIntoDb = async (id : string , payload : Pick<TOfferedCo
     }
 
     const semesterRegistrationStatus = await semesterRegistrationsModel.findById(isOfferedCourseAxist?.semesterRegistration).select("status") ;
-    if(!isOfferedCourseAxist){
+    if(semesterRegistrationStatus?.status !== "UPCOMING"){
         throw new AppError(404 , `You can't update this offered course as it is ${semesterRegistrationStatus?.status}`) ;
     }
 
