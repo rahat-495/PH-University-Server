@@ -26,10 +26,10 @@ const getSingleOfferedCourse : RequestHandler = catchAsync(async (req , res) => 
 })
 
 const updateOfferedCourse : RequestHandler = catchAsync(async (req , res) => {
-    // const result = await courseServices.updateCourseIntoDb(req.params.id , req.body) ;
-    // if(result){
-    //     sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course are updated Successfully !"}) ;
-    // }
+    const result = await offeredCourseServices.updateOfferedCourseIntoDb(req.params.id , req.body) ;
+    if(result){
+        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Offered Course are updated Successfully !"}) ;
+    }
 })
 
 export const offeredCourseControllers = {

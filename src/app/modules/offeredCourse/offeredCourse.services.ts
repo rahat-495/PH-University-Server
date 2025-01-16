@@ -73,6 +73,7 @@ const getSingleOfferedCourseFromDb = async (id : string) => {
 
 const updateOfferedCourseIntoDb = async (id : string , payload : Partial<TOfferedCourse>) => {
     // const {preRequisiteCourses , ...courseRemainingData} = payload ;
+    return null ;
 }
 
 export const offeredCourseServices = {
