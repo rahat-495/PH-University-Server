@@ -70,6 +70,7 @@ const getSingleOfferedCourseFromDb = (id) => __awaiter(void 0, void 0, void 0, f
 });
 const updateOfferedCourseIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     // const {preRequisiteCourses , ...courseRemainingData} = payload ;
+    return null;
 });
 exports.offeredCourseServices = {
     createOfferedCourseIntoDb,
