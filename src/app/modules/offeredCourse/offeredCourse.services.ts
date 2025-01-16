@@ -5,6 +5,7 @@ import { academicFacultysModel } from "../academicFaculty/academicFaculty.model"
 import { coursesModel } from "../course/course.model";
 import { facultysModel } from "../faculty/faculty.model";
 import { semesterRegistrationsModel } from "../semesterRegistration/semesterRegistration.model";
+import { Days } from "./offeredCourse.constants";
 import { TOfferedCourse } from "./offeredCourse.interface"
 import { offeredCoursesModel } from "./offeredCourse.model";
 import { hasTimeConflict } from "./offeredCourse.utils";
@@ -71,9 +72,34 @@ const getSingleOfferedCourseFromDb = async (id : string) => {
     // return result ;
 }
 
-const updateOfferedCourseIntoDb = async (id : string , payload : Partial<TOfferedCourse>) => {
-    // const {preRequisiteCourses , ...courseRemainingData} = payload ;
-    return null ;
+const updateOfferedCourseIntoDb = async (id : string , payload : Pick<TOfferedCourse , "faculty" | "days" | "startTime" | "endTime">) => {
+    const { faculty , days , startTime , endTime } = payload ;
+
+    const isOfferedCourseAxist = await offeredCoursesModel.findById(id) ;
+    if(!isOfferedCourseAxist){
+        throw new AppError(404 , "Offered course are not found !") ;
+    }
+
+    const semesterRegistrationStatus = await semesterRegistrationsModel.findById(isOfferedCourseAxist?.semesterRegistration).select("status") ;
+    if(!isOfferedCourseAxist){
+        throw new AppError(404 , `You can't update this offered course as it is ${semesterRegistrationStatus?.status}`) ;
+    }
+
+    const isFacultyAxist = await facultysModel.findById(faculty) ;
+    if(!isFacultyAxist){
+        throw new AppError(404 , "Faculty are not found !") ;
+    }
+
+    const assignedSchedules = await offeredCoursesModel.find({faculty , semesterRegistration : isOfferedCourseAxist?.semesterRegistration , days : { $in : days}}).select("startTime endTime days") ;
+    
+    const newSchedule = { days , startTime , endTime } ;
+
+    if(hasTimeConflict(assignedSchedules , newSchedule )){
+        throw new AppError(409 , `This faculty is not available at this time . Choose anothor time or day !`) ;
+    }
+
+    const result = await offeredCoursesModel.findByIdAndUpdate(id , payload , { new : true });
+    return result ;
 }
 
 export const offeredCourseServices = {

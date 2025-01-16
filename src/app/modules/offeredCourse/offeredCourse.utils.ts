@@ -1,3 +1,4 @@
+
 import { TDays } from "./offeredCourse.interface"
 
 type TSchedules = {
