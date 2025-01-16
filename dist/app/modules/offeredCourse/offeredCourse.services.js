@@ -69,8 +69,26 @@ const getSingleOfferedCourseFromDb = (id) => __awaiter(void 0, void 0, void 0, f
     // return result ;
 });
 const updateOfferedCourseIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    // const {preRequisiteCourses , ...courseRemainingData} = payload ;
-    return null;
+    const { faculty, days, startTime, endTime } = payload;
+    const isOfferedCourseAxist = yield offeredCourse_model_1.offeredCoursesModel.findById(id);
+    if (!isOfferedCourseAxist) {
+        throw new AppErrors_1.default(404, "Offered course are not found !");
+    }
+    const semesterRegistrationStatus = yield semesterRegistration_model_1.semesterRegistrationsModel.findById(isOfferedCourseAxist === null || isOfferedCourseAxist === void 0 ? void 0 : isOfferedCourseAxist.semesterRegistration).select("status");
+    if (!isOfferedCourseAxist) {
+        throw new AppErrors_1.default(404, `You can't update this offered course as it is ${semesterRegistrationStatus === null || semesterRegistrationStatus === void 0 ? void 0 : semesterRegistrationStatus.status}`);
+    }
+    const isFacultyAxist = yield faculty_model_1.facultysModel.findById(faculty);
+    if (!isFacultyAxist) {
+        throw new AppErrors_1.default(404, "Faculty are not found !");
+    }
+    const assignedSchedules = yield offeredCourse_model_1.offeredCoursesModel.find({ faculty, semesterRegistration: isOfferedCourseAxist === null || isOfferedCourseAxist === void 0 ? void 0 : isOfferedCourseAxist.semesterRegistration, days: { $in: days } }).select("startTime endTime days");
+    const newSchedule = { days, startTime, endTime };
+    if ((0, offeredCourse_utils_1.hasTimeConflict)(assignedSchedules, newSchedule)) {
+        throw new AppErrors_1.default(409, `This faculty is not available at this time . Choose anothor time or day !`);
+    }
+    const result = yield offeredCourse_model_1.offeredCoursesModel.findByIdAndUpdate(id, payload, { new: true });
+    return result;
 });
 exports.offeredCourseServices = {
     createOfferedCourseIntoDb,
