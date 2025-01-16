@@ -75,7 +75,7 @@ const updateOfferedCourseIntoDb = (id, payload) => __awaiter(void 0, void 0, voi
         throw new AppErrors_1.default(404, "Offered course are not found !");
     }
     const semesterRegistrationStatus = yield semesterRegistration_model_1.semesterRegistrationsModel.findById(isOfferedCourseAxist === null || isOfferedCourseAxist === void 0 ? void 0 : isOfferedCourseAxist.semesterRegistration).select("status");
-    if (!isOfferedCourseAxist) {
+    if ((semesterRegistrationStatus === null || semesterRegistrationStatus === void 0 ? void 0 : semesterRegistrationStatus.status) !== "UPCOMING") {
         throw new AppErrors_1.default(404, `You can't update this offered course as it is ${semesterRegistrationStatus === null || semesterRegistrationStatus === void 0 ? void 0 : semesterRegistrationStatus.status}`);
     }
     const isFacultyAxist = yield faculty_model_1.facultysModel.findById(faculty);
