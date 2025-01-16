@@ -45,6 +45,10 @@ const semesterRegistrationSchema = new mongoose_1.Schema({
         type: Number,
         default: 15,
     },
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    }
 }, {
     timestamps: true,
 });
