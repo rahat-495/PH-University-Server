@@ -8,4 +8,5 @@ export type TSemesterRegistration = {
     endDate : Date ;
     minCredit : number ;
     maxCredit : number ;
+    isDeleted : boolean ;
 }

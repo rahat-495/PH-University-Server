@@ -15,4 +15,5 @@ export type TOfferedCourse = {
     days : TDays[] ;
     startTime : string ;
     endTime : string ;
+    isDeleted : boolean ;
 }

@@ -33,6 +33,10 @@ const semesterRegistrationSchema = new Schema<TSemesterRegistration>({
         type : Number ,
         default : 15 ,
     },
+    isDeleted : {
+        type : Boolean ,
+        default : false ,
+    }
 },{
     timestamps : true ,
 }) ;
