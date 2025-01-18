@@ -1,9 +1,11 @@
 
+import mongoose from "mongoose";
 import QueryBuilder from "../../builder/QueryBuilder";
 import AppError from "../../errors/AppErrors";
 import { registrationStatus } from "./semesterRegistration.constant";
 import { TSemesterRegistration } from "./semesterRegistration.interface";
 import { semesterRegistrationsModel } from "./semesterRegistration.model";
+import { offeredCoursesModel } from "../offeredCourse/offeredCourse.model";
 
 const createSemesterRegistrationIntoDb = async (payload: TSemesterRegistration) => {
     const isAnySemesterUpcomingOrOngoing = await semesterRegistrationsModel.findOne({ $or : [ {status : registrationStatus.UPCOMING} , {status : registrationStatus.ONGOING} ] }) ;
@@ -51,9 +53,46 @@ const updateSemesterRegistrationIntoDb = async (id : string , payload : Partial<
     return result ;
 }
 
+const deleteSemesterRegistrationFromDb = async (id : string) => {
+
+    const isSemesterRegistrationStatusAxist = await semesterRegistrationsModel.findById(id) ;
+    if(!isSemesterRegistrationStatusAxist){
+        throw new AppError(404 , "Semester Registration Not Found !") ;
+    }
+    
+    if(isSemesterRegistrationStatusAxist?.status !== "UPCOMING"){
+        throw new AppError(404 , `Can't delete semester registration beacause the status is ${isSemesterRegistrationStatusAxist?.status} !`) ;
+    }
+
+    const session = await mongoose.startSession() ;
+    try {
+        
+        session.startTransaction() ;
+        const offeredCourses = await offeredCoursesModel.deleteMany({semesterRegistration : id} , {session}) ;
+        if(!offeredCourses){
+            throw new AppError(500 , "Can't delete Offered Courses !") ;
+        }
+
+        const semesterRegistration = await semesterRegistrationsModel.findByIdAndDelete(id , {session}) ;
+        if(!semesterRegistration){
+            throw new AppError(500 , "Can't delete Semester Registration !")
+        }
+
+        await session.commitTransaction() ;
+        await session.endSession() ;
+        return semesterRegistration ;
+        
+    }catch(error) {
+        session.abortTransaction() ;
+        session.endSession() ;
+        throw new AppError(500 , "Can't delete Semester Registration !")
+    }
+}
+
 export const semesterRegistrationServices = {
     createSemesterRegistrationIntoDb ,
     getAllSemesterRegistrationFromDb ,
     updateSemesterRegistrationIntoDb ,
+    deleteSemesterRegistrationFromDb ,
     getSingleSemesterRegistrationFromDb ,
 }

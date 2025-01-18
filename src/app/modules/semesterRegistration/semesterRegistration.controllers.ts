@@ -33,9 +33,9 @@ const updateSemesterRegistration : RequestHandler = catchAsync(async (req , res)
 })
 
 const deleteSemesterRegistration : RequestHandler = catchAsync(async (req , res) => {
-    const result = await semesterRegistrationServices.updateSemesterRegistrationIntoDb(req.params.id , req.body) ;
+    const result = await semesterRegistrationServices.deleteSemesterRegistrationFromDb(req.params.id) ;
     if(result){
-        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Semester Registration are updated Successfully !"}) ;
+        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Semester Registration are deleted Successfully !"}) ;
     }
 })
 
