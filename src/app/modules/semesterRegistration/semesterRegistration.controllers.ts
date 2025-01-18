@@ -32,9 +32,17 @@ const updateSemesterRegistration : RequestHandler = catchAsync(async (req , res)
     }
 })
 
+const deleteSemesterRegistration : RequestHandler = catchAsync(async (req , res) => {
+    const result = await semesterRegistrationServices.updateSemesterRegistrationIntoDb(req.params.id , req.body) ;
+    if(result){
+        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Semester Registration are updated Successfully !"}) ;
+    }
+})
+
 export const semesterRegistrationControllers = {
     updateSemesterRegistration , 
     createSemesterRegistration ,
     getAllSemesterRegistration ,
+    deleteSemesterRegistration ,
     getSingleSemesterRegistration ,
 }
