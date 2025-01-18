@@ -19,10 +19,10 @@ const getAllOfferdCourses : RequestHandler = catchAsync(async (req , res) => {
 })
 
 const getSingleOfferedCourse : RequestHandler = catchAsync(async (req , res) => {
-    // const result = await courseServices.getSingleCourseFromDb(req.params.id) ;
-    // if(result){
-    //     sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course are retrive Successfully !"}) ;
-    // }
+    const result = await offeredCourseServices.getSingleOfferedCourseFromDb(req.params.id) ;
+    if(result){
+        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Course are retrive Successfully !"}) ;
+    }
 })
 
 const updateOfferedCourse : RequestHandler = catchAsync(async (req , res) => {

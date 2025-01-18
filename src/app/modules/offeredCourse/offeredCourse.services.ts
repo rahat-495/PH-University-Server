@@ -68,8 +68,8 @@ const getAllOfferedCourseFromDb = async (query : Record<string , unknown>) => {
 }
 
 const getSingleOfferedCourseFromDb = async (id : string) => {
-    // const result = await coursesModel.findById(id) ;
-    // return result ;
+    const result = await offeredCoursesModel.findById(id) ;
+    return result ;
 }
 
 const updateOfferedCourseIntoDb = async (id : string , payload : Pick<TOfferedCourse , "faculty" | "days" | "startTime" | "endTime">) => {
