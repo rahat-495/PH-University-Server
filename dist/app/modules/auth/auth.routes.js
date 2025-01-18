@@ -7,6 +7,7 @@ exports.authRoutes = void 0;
 const express_1 = require("express");
 const validateRequest_1 = __importDefault(require("../middlewares/validateRequest"));
 const auth_validation_1 = require("./auth.validation");
+const auth_controllers_1 = require("./auth.controllers");
 const router = (0, express_1.Router)();
-router.post('/login', (0, validateRequest_1.default)(auth_validation_1.authValidations.loginValidationSchema));
+router.post('/login', (0, validateRequest_1.default)(auth_validation_1.authValidations.loginValidationSchema), auth_controllers_1.authControllers.loginUser);
 exports.authRoutes = router;
