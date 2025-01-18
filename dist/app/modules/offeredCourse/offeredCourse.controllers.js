@@ -40,9 +40,16 @@ const updateOfferedCourse = (0, catchAsync_1.default)((req, res) => __awaiter(vo
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Offered Course are updated Successfully !" });
     }
 }));
+const deleteOfferedCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield offeredCourse_services_1.offeredCourseServices.updateOfferedCourseIntoDb(req.params.id, req.body);
+    if (result) {
+        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Offered Course are updated Successfully !" });
+    }
+}));
 exports.offeredCourseControllers = {
     updateOfferedCourse,
     createOfferedCourse,
     getAllOfferdCourses,
+    deleteOfferedCourse,
     getSingleOfferedCourse,
 };
