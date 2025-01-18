@@ -14,8 +14,13 @@ const admin_routes_1 = require("../modules/admin/admin.routes");
 const course_routes_1 = require("../modules/course/course.routes");
 const semesterRegistration_routes_1 = require("../modules/semesterRegistration/semesterRegistration.routes");
 const offeredCourse_routes_1 = require("../modules/offeredCourse/offeredCourse.routes");
+const auth_routes_1 = require("../modules/auth/auth.routes");
 const router = express_1.default.Router();
 const moduleRoutes = [
+    {
+        path: '/auth',
+        route: auth_routes_1.authRoutes,
+    },
     {
         path: '/users',
         route: user_routes_1.userRoutes,
@@ -25,16 +30,16 @@ const moduleRoutes = [
         route: student_routes_1.studentRoutes,
     },
     {
-        path: '/courses',
-        route: course_routes_1.courseRoutes,
-    },
-    {
         path: '/admins',
         route: admin_routes_1.adminRoutes,
     },
     {
         path: '/faculties',
         route: faculty_routes_1.facultyRoutes,
+    },
+    {
+        path: '/courses',
+        route: course_routes_1.courseRoutes,
     },
     {
         path: '/academic-faculties',

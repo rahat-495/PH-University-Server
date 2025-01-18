@@ -22,7 +22,6 @@ const createAdminValidationSchema = zod_1.z.object({
             profileImg: zod_1.z.string(),
             isActive: zod_1.z.enum(["active", "blocked"]).default("active"),
             isDeleted: zod_1.z.boolean().optional(),
-            managementDepartment: zod_1.z.string(),
             designation: zod_1.z.string(),
         })
     }),
@@ -46,7 +45,6 @@ const updateAdminValidationSchema = zod_1.z.object({
             profileImg: zod_1.z.string().optional(),
             isActive: zod_1.z.enum(["active", "blocked"]).default("active").optional(),
             isDeleted: zod_1.z.boolean().optional().optional(),
-            managementDepartment: zod_1.z.string().optional(),
             designation: zod_1.z.string().optional(),
         })
     }),
