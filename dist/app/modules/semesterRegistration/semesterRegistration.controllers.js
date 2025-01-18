@@ -41,9 +41,9 @@ const updateSemesterRegistration = (0, catchAsync_1.default)((req, res) => __awa
     }
 }));
 const deleteSemesterRegistration = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield semesterRegistration_services_1.semesterRegistrationServices.updateSemesterRegistrationIntoDb(req.params.id, req.body);
+    const result = yield semesterRegistration_services_1.semesterRegistrationServices.deleteSemesterRegistrationFromDb(req.params.id);
     if (result) {
-        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Semester Registration are updated Successfully !" });
+        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Semester Registration are deleted Successfully !" });
     }
 }));
 exports.semesterRegistrationControllers = {
