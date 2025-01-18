@@ -20,6 +20,5 @@ export type TAdmin = {
     presentAddress : string ;
     permanentAddress : string ;
     profileImage : string ;
-    managementDepartment : Schema.Types.ObjectId ;
     isDeleted : boolean ;
 }

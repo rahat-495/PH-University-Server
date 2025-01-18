@@ -75,26 +75,7 @@ const adminSchema = new Schema<TAdmin>({
         enum : ["male" , "female" , "other"] ,
         required : [true , "gender is required !"] ,
     },
-    managementDepartment : {
-        type : Types.ObjectId ,
-        ref : "managementDepartment" ,
-        required : [true , "management department is required !"] ,
-    }
 });
-
-// --- managementDepartment validation -----------------------------------------------------
-// adminSchema.pre("save" , async function(next){
-//     const faculty = this ;
-//     const academicDepartment = await academicDepartmentsModel.findOne({_id : faculty.academicDepartment}) ;
-//     if(!academicDepartment){
-//         throw new AppError(404 , "Academic department not found !") ;
-//     }
-//     const academicFaculty = await academicFacultysModel.findOne({_id : faculty.academicFaculty}) ;
-//     if(!academicFaculty){
-//         throw new AppError(404 , "Academic faculty not found !") ;
-//     }
-//     next() ;
-// })
 
 adminSchema.pre("find", async function(next){
     this.find({isDeleted : {$ne : true}}) ;
