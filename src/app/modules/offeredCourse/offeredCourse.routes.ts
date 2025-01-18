@@ -8,6 +8,7 @@ const router = Router() ;
 
 router.get('/' , offeredCourseControllers.getAllOfferdCourses) ;
 router.get('/:id' , offeredCourseControllers.getSingleOfferedCourse) ;
+router.delete('/:id' , offeredCourseControllers.deleteOfferedCourse) ;
 router.patch('/:id' , validateRequest(offeredCourseValidations.updateOfferedCourseValidation) , offeredCourseControllers.updateOfferedCourse) ;
 router.post('/create-offered-course' , validateRequest(offeredCourseValidations.createOfferedCourseValidation) , offeredCourseControllers.createOfferedCourse) ;
 

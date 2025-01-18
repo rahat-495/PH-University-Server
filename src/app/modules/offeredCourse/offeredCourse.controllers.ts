@@ -32,9 +32,17 @@ const updateOfferedCourse : RequestHandler = catchAsync(async (req , res) => {
     }
 })
 
+const deleteOfferedCourse : RequestHandler = catchAsync(async (req , res) => {
+    const result = await offeredCourseServices.updateOfferedCourseIntoDb(req.params.id , req.body) ;
+    if(result){
+        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Offered Course are updated Successfully !"}) ;
+    }
+})
+
 export const offeredCourseControllers = {
     updateOfferedCourse, 
     createOfferedCourse ,
     getAllOfferdCourses ,
+    deleteOfferedCourse ,
     getSingleOfferedCourse ,
 }
