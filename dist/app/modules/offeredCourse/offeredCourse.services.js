@@ -65,8 +65,8 @@ const getAllOfferedCourseFromDb = (query) => __awaiter(void 0, void 0, void 0, f
     // return result ;
 });
 const getSingleOfferedCourseFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    // const result = await coursesModel.findById(id) ;
-    // return result ;
+    const result = yield offeredCourse_model_1.offeredCoursesModel.findById(id);
+    return result;
 });
 const updateOfferedCourseIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { faculty, days, startTime, endTime } = payload;
