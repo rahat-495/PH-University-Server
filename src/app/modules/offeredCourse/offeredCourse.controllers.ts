@@ -33,9 +33,9 @@ const updateOfferedCourse : RequestHandler = catchAsync(async (req , res) => {
 })
 
 const deleteOfferedCourse : RequestHandler = catchAsync(async (req , res) => {
-    const result = await offeredCourseServices.updateOfferedCourseIntoDb(req.params.id , req.body) ;
+    const result = await offeredCourseServices.deleteOfferedCourseFromDb(req.params.id) ;
     if(result){
-        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Offered Course are updated Successfully !"}) ;
+        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Offered Course are deleted Successfully !"}) ;
     }
 })
 

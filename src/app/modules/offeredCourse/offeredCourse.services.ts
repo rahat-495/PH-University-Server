@@ -103,9 +103,26 @@ const updateOfferedCourseIntoDb = async (id : string , payload : Pick<TOfferedCo
     return result ;
 }
 
+const deleteOfferedCourseFromDb = async (id : string) => {
+    const isOfferedCourseAxist = await offeredCoursesModel.findById(id) ;
+    if(!isOfferedCourseAxist){
+        throw new AppError(404 , "Offered course not found !") ;
+    }
+    
+    const semesterRegistration = isOfferedCourseAxist?.semesterRegistration ;
+    const semesterRegistrationStatus = await semesterRegistrationsModel.findById(semesterRegistration).select("status") ;
+    if(semesterRegistrationStatus?.status !== "UPCOMING"){
+        throw new AppError(404 , `Offered course can't update beacause the semester ${semesterRegistrationStatus?.status} !`) ;
+    }
+
+    const result = await offeredCoursesModel.findByIdAndDelete(id) ;
+    return result ;
+}
+
 export const offeredCourseServices = {
     createOfferedCourseIntoDb ,
     getAllOfferedCourseFromDb ,
     updateOfferedCourseIntoDb ,
+    deleteOfferedCourseFromDb ,
     getSingleOfferedCourseFromDb ,
 }
