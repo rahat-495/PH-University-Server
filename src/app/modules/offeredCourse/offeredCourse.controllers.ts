@@ -12,10 +12,10 @@ const createOfferedCourse : RequestHandler = catchAsync(async (req , res) => {
 })
 
 const getAllOfferdCourses : RequestHandler = catchAsync(async (req , res) => {
-    // const result = await courseServices.getAllCourseFromDb(req.query) ;
-    // if(result){
-    //     sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "All courses are retrive Successfully !"}) ;
-    // }
+    const result = await offeredCourseServices.getAllOfferedCourseFromDb(req.query) ;
+    if(result){
+        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "All courses are retrive Successfully !"}) ;
+    }
 })
 
 const getSingleOfferedCourse : RequestHandler = catchAsync(async (req , res) => {

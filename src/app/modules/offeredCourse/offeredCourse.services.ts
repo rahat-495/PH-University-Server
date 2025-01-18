@@ -1,4 +1,5 @@
 
+import QueryBuilder from "../../builder/QueryBuilder";
 import AppError from "../../errors/AppErrors";
 import { academicDepartmentsModel } from "../academicDepartment/academicDepartment.model";
 import { academicFacultysModel } from "../academicFaculty/academicFaculty.model";
@@ -62,9 +63,9 @@ const createOfferedCourseIntoDb = async (payload: TOfferedCourse) => {
 }
 
 const getAllOfferedCourseFromDb = async (query : Record<string , unknown>) => {
-    // const courseQuery = new QueryBuilder(coursesModel.find().populate("preRequisiteCourses.course") , query).search(courseSearchAbleFields).filter().sort().paginate().fields() ;
-    // const result = await courseQuery.modelQuery ;
-    // return result ;
+    const courseQuery = new QueryBuilder(coursesModel.find().populate("preRequisiteCourses.course") , query).filter().sort().paginate().fields() ;
+    const result = await courseQuery.modelQuery ;
+    return result ;
 }
 
 const getSingleOfferedCourseFromDb = async (id : string) => {
