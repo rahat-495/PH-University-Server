@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.offeredCourseServices = void 0;
+const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const academicDepartment_model_1 = require("../academicDepartment/academicDepartment.model");
 const academicFaculty_model_1 = require("../academicFaculty/academicFaculty.model");
@@ -60,9 +61,9 @@ const createOfferedCourseIntoDb = (payload) => __awaiter(void 0, void 0, void 0,
     return result;
 });
 const getAllOfferedCourseFromDb = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    // const courseQuery = new QueryBuilder(coursesModel.find().populate("preRequisiteCourses.course") , query).search(courseSearchAbleFields).filter().sort().paginate().fields() ;
-    // const result = await courseQuery.modelQuery ;
-    // return result ;
+    const courseQuery = new QueryBuilder_1.default(course_model_1.coursesModel.find().populate("preRequisiteCourses.course"), query).filter().sort().paginate().fields();
+    const result = yield courseQuery.modelQuery;
+    return result;
 });
 const getSingleOfferedCourseFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield offeredCourse_model_1.offeredCoursesModel.findById(id);
