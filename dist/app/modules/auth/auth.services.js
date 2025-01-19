@@ -20,16 +20,16 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     if (!user) {
         throw new AppErrors_1.default(404, "The user is not found !");
     }
-    // const isDeleted = isUserAxist?.isDeleted ;
-    // if(isDeleted){
-    //     throw new AppError(400 , "The user is deleted !") ;
-    // }
-    // const userStatus = isUserAxist?.status ;
-    // if(userStatus === "blocked"){
-    //     throw new AppError(400 , "The user is already blocked !") ;
-    // }
-    // const isPasswordMatched = await bcrypt.compare(payload?.password , isUserAxist?.password) ;
-    return null;
+    const isDeleted = user === null || user === void 0 ? void 0 : user.isDeleted;
+    if (isDeleted) {
+        throw new AppErrors_1.default(400, "The user is deleted !");
+    }
+    const userStatus = user === null || user === void 0 ? void 0 : user.status;
+    if (userStatus === "blocked") {
+        throw new AppErrors_1.default(400, "The user is already blocked !");
+    }
+    const isPasswordMatched = yield user_model_1.UsersModel.isPasswordMatched(payload === null || payload === void 0 ? void 0 : payload.password, user === null || user === void 0 ? void 0 : user.password);
+    return { isPasswordMatched };
 });
 exports.authServices = {
     loginUser,

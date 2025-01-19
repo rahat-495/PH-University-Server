@@ -17,6 +17,7 @@ const mongoose_1 = require("mongoose");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const config_1 = __importDefault(require("../../config"));
 const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
+const bcryptjs_2 = __importDefault(require("bcryptjs"));
 const userSchema = new mongoose_1.Schema({
     id: {
         type: String,
@@ -86,6 +87,11 @@ userSchema.pre('findOneAndUpdate', function (next) {
 userSchema.statics.isUserAxistByCustomId = function (id) {
     return __awaiter(this, void 0, void 0, function* () {
         return yield exports.UsersModel.findOne({ id });
+    });
+};
+userSchema.statics.isPasswordMatched = function (plainPass, hashedPass) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield bcryptjs_2.default.compare(plainPass, hashedPass);
     });
 };
 exports.UsersModel = (0, mongoose_1.model)('user', userSchema);
