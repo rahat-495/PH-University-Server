@@ -15,21 +15,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.authServices = void 0;
 const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const user_model_1 = require("../user/user.model");
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const isUserAxist = yield user_model_1.UsersModel.findOne({ id: payload === null || payload === void 0 ? void 0 : payload.id });
-    if (!isUserAxist) {
+    const user = yield user_model_1.UsersModel.isUserAxistByCustomId(payload === null || payload === void 0 ? void 0 : payload.id);
+    if (!user) {
         throw new AppErrors_1.default(404, "The user is not found !");
     }
-    const isDeleted = isUserAxist === null || isUserAxist === void 0 ? void 0 : isUserAxist.isDeleted;
-    if (isDeleted) {
-        throw new AppErrors_1.default(400, "The user is deleted !");
-    }
-    const userStatus = isUserAxist === null || isUserAxist === void 0 ? void 0 : isUserAxist.status;
-    if (userStatus === "blocked") {
-        throw new AppErrors_1.default(400, "The user is already blocked !");
-    }
-    const isPasswordMatched = yield bcryptjs_1.default.compare(payload === null || payload === void 0 ? void 0 : payload.password, isUserAxist === null || isUserAxist === void 0 ? void 0 : isUserAxist.password);
+    // const isDeleted = isUserAxist?.isDeleted ;
+    // if(isDeleted){
+    //     throw new AppError(400 , "The user is deleted !") ;
+    // }
+    // const userStatus = isUserAxist?.status ;
+    // if(userStatus === "blocked"){
+    //     throw new AppError(400 , "The user is already blocked !") ;
+    // }
+    // const isPasswordMatched = await bcrypt.compare(payload?.password , isUserAxist?.password) ;
     return null;
 });
 exports.authServices = {

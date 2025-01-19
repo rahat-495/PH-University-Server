@@ -83,4 +83,9 @@ userSchema.pre('findOneAndUpdate', function (next) {
         next();
     });
 });
+userSchema.statics.isUserAxistByCustomId = function (id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield exports.UsersModel.findOne({ id });
+    });
+};
 exports.UsersModel = (0, mongoose_1.model)('user', userSchema);
