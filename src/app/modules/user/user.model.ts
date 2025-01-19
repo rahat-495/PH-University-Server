@@ -1,11 +1,11 @@
 
 import { model, Schema } from "mongoose";
 import bcript from "bcryptjs";
-import { TUser } from "./user.interfaces";
+import { TUser , UsersModelInterface } from "./user.interfaces";
 import config from "../../config";
 import AppError from "../../errors/AppErrors";
 
-const userSchema = new Schema<TUser>({
+const userSchema = new Schema<TUser , UsersModelInterface>({
     id : {
         type : String ,
         unique : true ,
@@ -67,4 +67,8 @@ userSchema.pre('findOneAndUpdate', async function(next) {
     next();
 });
 
-export const UsersModel = model<TUser>('user' , userSchema) ;
+userSchema.statics.isUserAxistByCustomId = async function (id : string){
+    return await UsersModel.findOne({id}) ;
+}
+
+export const UsersModel = model<TUser , UsersModelInterface>('user' , userSchema) ;

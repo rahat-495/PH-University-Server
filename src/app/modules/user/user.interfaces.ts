@@ -1,4 +1,6 @@
 
+import { Model } from "mongoose";
+
 export interface TUser {
     id : string ;
     password : string ;
@@ -7,3 +9,7 @@ export interface TUser {
     status : "in-progress" | "blocked";
     isDeleted  : boolean;
 } ;
+
+export interface UsersModelInterface extends Model<TUser>{
+    isUserAxistByCustomId(id : string) : Promise<TUser> ;
+}
