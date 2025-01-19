@@ -4,6 +4,7 @@ import bcript from "bcryptjs";
 import { TUser , UsersModelInterface } from "./user.interfaces";
 import config from "../../config";
 import AppError from "../../errors/AppErrors";
+import bcrypt from "bcryptjs" ;
 
 const userSchema = new Schema<TUser , UsersModelInterface>({
     id : {
@@ -69,6 +70,10 @@ userSchema.pre('findOneAndUpdate', async function(next) {
 
 userSchema.statics.isUserAxistByCustomId = async function (id : string){
     return await UsersModel.findOne({id}) ;
+}
+
+userSchema.statics.isPasswordMatched = async function (plainPass : string , hashedPass : string){
+    return await bcrypt.compare(plainPass , hashedPass) ;
 }
 
 export const UsersModel = model<TUser , UsersModelInterface>('user' , userSchema) ;

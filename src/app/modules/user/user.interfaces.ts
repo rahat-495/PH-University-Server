@@ -12,4 +12,5 @@ export interface TUser {
 
 export interface UsersModelInterface extends Model<TUser>{
     isUserAxistByCustomId(id : string) : Promise<TUser> ;
+    isPasswordMatched(plainPass : string , hashedPass : string) : boolean ;
 }
