@@ -17,7 +17,7 @@ const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const http_status_codes_1 = __importDefault(require("http-status-codes"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../../config"));
-const auth = () => {
+const auth = (...requiredRoles) => {
     return (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const token = req.headers.authorization;
         if (!token) {
@@ -27,9 +27,13 @@ const auth = () => {
             if (err) {
                 throw new AppErrors_1.default(http_status_codes_1.default.UNAUTHORIZED, "You are not authorized !");
             }
+            const role = decoded.role;
+            if (requiredRoles && !requiredRoles.includes(role)) {
+                throw new AppErrors_1.default(http_status_codes_1.default.UNAUTHORIZED, "You are not authorized !");
+            }
             req.user = decoded;
+            next();
         });
-        next();
     }));
 };
 exports.default = auth;
