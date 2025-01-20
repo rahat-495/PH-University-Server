@@ -1,7 +1,9 @@
 
+import config from "../../config";
 import AppError from "../../errors/AppErrors";
 import { UsersModel } from "../user/user.model";
 import { TLoginUser } from "./auth.interface"
+import jwt from "jsonwebtoken" ;
 
 const loginUser = async (payload : TLoginUser) => {
     const user = await UsersModel.isUserAxistByCustomId(payload?.id) ;
@@ -18,9 +20,14 @@ const loginUser = async (payload : TLoginUser) => {
     if(userStatus === "blocked"){
         throw new AppError(400 , "The user is already blocked !") ;
     }
+    
+    if(!await UsersModel.isPasswordMatched(payload?.password , user?.password)){
+        throw new AppError(400 , "The password is not matched !") ;
+    }
 
-    const isPasswordMatched = await UsersModel.isPasswordMatched(payload?.password , user?.password) ;
-    return {isPasswordMatched} ;
+    const jwtPayload = { userId : user?.id , role : user?.role }
+    const accesstoken = jwt.sign( jwtPayload , config.jwtAccessSecret as string , { expiresIn : "10d" } ) ;
+    return { accesstoken , needsPasswordChange : user?.needsPasswordChange } ;
 }
 
 export const authServices = {
