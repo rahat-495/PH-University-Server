@@ -21,6 +21,9 @@ const userSchema = new Schema<TUser , UsersModelInterface>({
         type : Boolean ,
         default : true ,
     },
+    passwordChangeAt : {
+        type : Date ,
+    },
     status : {
         type : String ,
         required : true ,
