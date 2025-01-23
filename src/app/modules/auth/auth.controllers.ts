@@ -12,7 +12,7 @@ const loginUser = catchAsync(async (req , res) => {
 })
 
 const changePassword = catchAsync(async (req , res) => {
-    const result = await authServices.loginUser(req.body) ;
+    const result = await authServices.changePasswordIntoDb(req.user , req.body) ;
     if(result){
         sendResponse
         <object>(res , {data : result , statusCode : 200 , success : true , message : "User password change Successfully !"}) ;

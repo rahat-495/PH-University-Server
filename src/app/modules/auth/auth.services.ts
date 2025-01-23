@@ -2,8 +2,8 @@
 import config from "../../config";
 import AppError from "../../errors/AppErrors";
 import { UsersModel } from "../user/user.model";
-import { TLoginUser } from "./auth.interface"
-import jwt from "jsonwebtoken" ;
+import { TLoginUser, TPasswordData } from "./auth.interface"
+import jwt, { JwtPayload } from "jsonwebtoken" ;
 
 const loginUser = async (payload : TLoginUser) => {
     const user = await UsersModel.isUserAxistByCustomId(payload?.id) ;
@@ -30,6 +30,14 @@ const loginUser = async (payload : TLoginUser) => {
     return { accesstoken , needsPasswordChange : user?.needsPasswordChange } ;
 }
 
+const changePasswordIntoDb = async (user : JwtPayload , payload : TPasswordData) => {
+
+    console.log(user , payload) ;
+
+    return null ;
+}
+
 export const authServices = {
     loginUser ,
+    changePasswordIntoDb ,
 }
