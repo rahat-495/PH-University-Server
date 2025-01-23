@@ -87,7 +87,7 @@ userSchema.pre('findOneAndUpdate', function (next) {
 });
 userSchema.statics.isUserAxistByCustomId = function (id) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield exports.UsersModel.findOne({ id });
+        return yield exports.UsersModel.findOne({ id }).select('+password');
     });
 };
 userSchema.statics.isPasswordMatched = function (plainPass, hashedPass) {
