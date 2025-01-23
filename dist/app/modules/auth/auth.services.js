@@ -37,6 +37,11 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const accesstoken = jsonwebtoken_1.default.sign(jwtPayload, config_1.default.jwtAccessSecret, { expiresIn: "10d" });
     return { accesstoken, needsPasswordChange: user === null || user === void 0 ? void 0 : user.needsPasswordChange };
 });
+const changePasswordIntoDb = (user, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(user, payload);
+    return null;
+});
 exports.authServices = {
     loginUser,
+    changePasswordIntoDb,
 };
