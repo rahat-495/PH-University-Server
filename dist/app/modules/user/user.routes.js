@@ -14,6 +14,6 @@ const auth_1 = __importDefault(require("../middlewares/auth"));
 const user_constant_1 = require("./user.constant");
 const router = express_1.default.Router();
 router.post('/create-student', (0, auth_1.default)(user_constant_1.userRole.admin), (0, validateRequest_1.default)(student_validation_1.studentValidations.createStudentValidationSchema), user_controllers_1.userControllers.createStudent);
-router.post('/create-faculty', (0, validateRequest_1.default)(faculty_validation_1.facultyValidations.createFacultyValidationSchema), user_controllers_1.userControllers.createFaculty);
+router.post('/create-faculty', (0, auth_1.default)(user_constant_1.userRole.admin), (0, validateRequest_1.default)(faculty_validation_1.facultyValidations.createFacultyValidationSchema), user_controllers_1.userControllers.createFaculty);
 router.post('/create-admin', (0, validateRequest_1.default)(admin_validation_1.adminValidations.createAdminValidationSchema), user_controllers_1.userControllers.createAdmin);
 exports.userRoutes = router;
