@@ -33,6 +33,9 @@ const userSchema = new mongoose_1.Schema({
         type: Boolean,
         default: true,
     },
+    passwordChangeAt: {
+        type: Date,
+    },
     status: {
         type: String,
         required: true,
