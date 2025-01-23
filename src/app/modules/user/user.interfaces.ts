@@ -15,6 +15,7 @@ export interface TUser {
 export interface UsersModelInterface extends Model<TUser>{
     isUserAxistByCustomId(id : string) : Promise<TUser> ;
     isPasswordMatched(plainPass : string , hashedPass : string) : boolean ;
+    isJWTIssuedBeforePasswordChange(passwordChangeTimeStamp : Date , JWTIssuedTimeStamp : number) : Boolean ;
 }
 
 export type TUserRole = keyof typeof userRole ;

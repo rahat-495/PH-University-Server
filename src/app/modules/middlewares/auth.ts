@@ -6,6 +6,7 @@ import httpStatus from "http-status-codes";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../../config";
 import { TUserRole } from "../user/user.interfaces";
+import { UsersModel } from "../user/user.model";
 
 const auth = (...requiredRoles : TUserRole[]) => {
     return catchAsync(async (req : Request , res : Response , next : NextFunction) => {
@@ -15,21 +16,30 @@ const auth = (...requiredRoles : TUserRole[]) => {
             throw new AppError(httpStatus.UNAUTHORIZED , "You are not authorized !") ;
         }
         
-        jwt.verify(token as string , config.jwtAccessSecret as string , function(err , decoded){
-            
-            if(err){
-                throw new AppError(httpStatus.UNAUTHORIZED , "You are not authorized !") ;
-            }
-            
-            const role = (decoded as JwtPayload).role ;
-            if(requiredRoles && !requiredRoles.includes(role)){
-                throw new AppError(httpStatus.UNAUTHORIZED , "You are not authorized !") ;
-            }
+        const decoded = jwt.verify(token as string , config.jwtAccessSecret as string) as JwtPayload ;
+        const role = decoded.role ;
 
-            req.user = decoded as JwtPayload ;
-            next() ;
-            
-        })
+        const user = await UsersModel.isUserAxistByCustomId(decoded?.userId) ;
+        if(!user){
+            throw new AppError(404 , "The user is not found !") ;
+        }
+
+        const isDeleted = user?.isDeleted ;
+        if(isDeleted){
+            throw new AppError(400 , "The user is deleted !") ;
+        }
+
+        const userStatus = user?.status ;
+        if(userStatus === "blocked"){
+            throw new AppError(400 , "The user is already blocked !") ;
+        }
+
+        if(requiredRoles && !requiredRoles.includes(role)){
+            throw new AppError(httpStatus.UNAUTHORIZED , "You are not authorized !") ;
+        }
+
+        req.user = decoded as JwtPayload ;
+        next() ;
     })
 }
 
