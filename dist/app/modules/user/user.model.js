@@ -98,9 +98,7 @@ userSchema.statics.isPasswordMatched = function (plainPass, hashedPass) {
         return yield bcryptjs_2.default.compare(plainPass, hashedPass);
     });
 };
-<<<<<<< HEAD
 userSchema.statics.isJWTIssuedBeforePasswordChange = function (passwordChangeTimeStamp, JWTIssuedTimeStamp) {
+    // to do some thing -----------------
 };
-=======
->>>>>>> 778189f033d60c8fece3afabc61754a71b2e36b7
 exports.UsersModel = (0, mongoose_1.model)('user', userSchema);

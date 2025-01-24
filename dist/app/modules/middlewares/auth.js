@@ -17,17 +17,13 @@ const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const http_status_codes_1 = __importDefault(require("http-status-codes"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../../config"));
-<<<<<<< HEAD
 const user_model_1 = require("../user/user.model");
-=======
->>>>>>> 778189f033d60c8fece3afabc61754a71b2e36b7
 const auth = (...requiredRoles) => {
     return (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const token = req.headers.authorization;
         if (!token) {
             throw new AppErrors_1.default(http_status_codes_1.default.UNAUTHORIZED, "You are not authorized !");
         }
-<<<<<<< HEAD
         const decoded = jsonwebtoken_1.default.verify(token, config_1.default.jwtAccessSecret);
         const role = decoded.role;
         const user = yield user_model_1.UsersModel.isUserAxistByCustomId(decoded === null || decoded === void 0 ? void 0 : decoded.userId);
@@ -47,19 +43,6 @@ const auth = (...requiredRoles) => {
         }
         req.user = decoded;
         next();
-=======
-        jsonwebtoken_1.default.verify(token, config_1.default.jwtAccessSecret, function (err, decoded) {
-            if (err) {
-                throw new AppErrors_1.default(http_status_codes_1.default.UNAUTHORIZED, "You are not authorized !");
-            }
-            const role = decoded.role;
-            if (requiredRoles && !requiredRoles.includes(role)) {
-                throw new AppErrors_1.default(http_status_codes_1.default.UNAUTHORIZED, "You are not authorized !");
-            }
-            req.user = decoded;
-            next();
-        });
->>>>>>> 778189f033d60c8fece3afabc61754a71b2e36b7
     }));
 };
 exports.default = auth;
