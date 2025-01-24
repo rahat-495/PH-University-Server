@@ -1,8 +1,8 @@
 
 import mongoose from "mongoose";
 import config from "../../config";
-import { TAcademicSemester } from "../academicSemester/academicSemester.interface";
-import academicSemestersModel from "../academicSemester/academicSemester.model";
+import { TAcademicSemester } from "../academicsemester/academicSemester.interface";
+import academicSemestersModel from "../academicsemester/academicSemester.model";
 import { TStudent } from "../student/student.interfaces";
 import { studentsModel } from "../student/student.model";
 import { TUser } from "./user.interfaces";

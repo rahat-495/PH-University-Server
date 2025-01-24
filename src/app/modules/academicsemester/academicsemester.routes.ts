@@ -1,8 +1,8 @@
 
 import { Router } from "express";
-import { academicSemesterControllers } from "./academicSemester.controllers";
 import validateRequest from "../middlewares/validateRequest";
-import { academicSemesterValidations } from "./academicSemester.validation";
+import { academicSemesterValidations } from "./academicsemester.validation";
+import { academicSemesterControllers } from "./academicsemester.controllers";
 
 const router = Router() ;
 
