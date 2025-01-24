@@ -81,7 +81,8 @@ userSchema.statics.isPasswordMatched = async function (plainPass : string , hash
 }
 
 userSchema.statics.isJWTIssuedBeforePasswordChange = function(passwordChangeTimeStamp : Date , JWTIssuedTimeStamp : number){
-    // to do some thing -----------------
+    const passwordChangedTime = new Date(passwordChangeTimeStamp).getTime() / 1000 ;
+    return passwordChangedTime > JWTIssuedTimeStamp ;
 }
 
 export const UsersModel = model<TUser , UsersModelInterface>('user' , userSchema) ;
