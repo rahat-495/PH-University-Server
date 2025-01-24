@@ -42,6 +42,9 @@ const auth = (...requiredRoles) => {
             throw new AppErrors_1.default(http_status_codes_1.default.UNAUTHORIZED, "You are not authorized !");
         }
         req.user = decoded;
+        if ((user === null || user === void 0 ? void 0 : user.passwordChangeAt) && user_model_1.UsersModel.isJWTIssuedBeforePasswordChange(user === null || user === void 0 ? void 0 : user.passwordChangeAt, decoded.iat)) {
+            throw new AppErrors_1.default(http_status_codes_1.default.UNAUTHORIZED, "You are not authorized !");
+        }
         next();
     }));
 };

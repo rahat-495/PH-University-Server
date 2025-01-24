@@ -99,6 +99,7 @@ userSchema.statics.isPasswordMatched = function (plainPass, hashedPass) {
     });
 };
 userSchema.statics.isJWTIssuedBeforePasswordChange = function (passwordChangeTimeStamp, JWTIssuedTimeStamp) {
-    // to do some thing -----------------
+    const passwordChangedTime = new Date(passwordChangeTimeStamp).getTime() / 1000;
+    return passwordChangedTime > JWTIssuedTimeStamp;
 };
 exports.UsersModel = (0, mongoose_1.model)('user', userSchema);
