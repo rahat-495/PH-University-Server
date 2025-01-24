@@ -2,7 +2,11 @@
 import express from "express"
 import { studentRoutes } from "../modules/student/student.routes";
 import { userRoutes } from "../modules/user/user.routes";
+<<<<<<< HEAD
 import { academicSemesterRoutes } from "../modules/academicsemester/academicSemester.routes";
+=======
+import { academicSemesterRoutes } from "../modules/academicSemester/academicSemester.routes";
+>>>>>>> 778189f033d60c8fece3afabc61754a71b2e36b7
 import { academicFacultyRoutes } from "../modules/academicFaculty/academicFaculty.routes";
 import { academicDepartmentRoutes } from "../modules/academicDepartment/academicDepartment.routes";
 import { facultyRoutes } from "../modules/faculty/faculty.routes";
