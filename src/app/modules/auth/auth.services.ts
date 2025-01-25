@@ -8,6 +8,7 @@ import bcrypt from "bcryptjs" ;
 
 const loginUser = async (payload : TLoginUser) => {
     const user = await UsersModel.isUserAxistByCustomId(payload?.id) ;
+    
     if(!user){
         throw new AppError(404 , "The user is not found !") ;
     }

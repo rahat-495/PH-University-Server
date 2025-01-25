@@ -73,7 +73,12 @@ userSchema.pre('findOneAndUpdate', async function(next) {
 });
 
 userSchema.statics.isUserAxistByCustomId = async function (id : string){
-    return await UsersModel.findOne({id}).select('+password') ;
+    try {
+        const result = await UsersModel.findOne({id : "A-0001"}) ;
+        console.log(result)
+    }catch(error) {
+        console.log(error)
+    }
 }
 
 userSchema.statics.isPasswordMatched = async function (plainPass : string , hashedPass : string){
