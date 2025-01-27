@@ -45,9 +45,10 @@ const createStudnetIntoDb = async (password : string , studentData : Partial<TSt
         await session.endSession() ;
         return newStudent ;
     } catch (error) {
+        console.log(error)
         await session.abortTransaction() ;
         await session.endSession() ;
-        throw new AppError(500 , 'Failed to create student') ;
+        throw new AppError(500 , 'Failed to create student !') ;
     }
 }
 

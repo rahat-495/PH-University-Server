@@ -13,8 +13,8 @@ export const generateStudentId = async (payload : TAcademicSemester) => {
     
     const lastStudentyear = lastUserId?.substring(0,4) ;
     const lastStudentSemesterCode = lastUserId?.substring(4,6) ;
-    const currnetYear = payload.year ;
-    const currnetCode = payload.code ;
+    const currnetYear = payload?.year ;
+    const currnetCode = payload?.code ;
     
     if(lastUserId && lastStudentSemesterCode === currnetCode && lastStudentyear === currnetYear){
         currentId = lastUserId.substring(6) ;
