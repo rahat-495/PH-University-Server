@@ -23,7 +23,7 @@ const loginUser = async (payload : TLoginUser) => {
         throw new AppError(400 , "The user is already blocked !") ;
     }
     
-    if(!await UsersModel.isPasswordMatched(payload?.password , user?.password)){
+    if(! await UsersModel.isPasswordMatched(payload?.password , user?.password)){
         throw new AppError(400 , "The password is not matched !") ;
     }
 

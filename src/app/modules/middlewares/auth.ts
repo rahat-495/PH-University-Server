@@ -20,7 +20,7 @@ const auth = (...requiredRoles : TUserRole[]) => {
         const role = decoded.role ;
 
         const user = await UsersModel.isUserAxistByCustomId(decoded?.userId) ;
-        console.log(user)
+        
         if(!user){
             throw new AppError(404 , "The user is not found !") ;
         }

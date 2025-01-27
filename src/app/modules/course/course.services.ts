@@ -57,7 +57,6 @@ const updateCourseIntoDb = async (id : string , payload : Partial<TCourse>) => {
         return result ;
 
     } catch (error) {
-        console.log(error)
         await session.abortTransaction() ;
         await session.endSession() ;
         throw new AppError(400 , "Course Update Failed !") ;
