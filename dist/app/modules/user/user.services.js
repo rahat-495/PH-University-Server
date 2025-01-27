@@ -47,9 +47,10 @@ const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0,
         return newStudent;
     }
     catch (error) {
+        console.log(error);
         yield session.abortTransaction();
         yield session.endSession();
-        throw new AppErrors_1.default(500, 'Failed to create student');
+        throw new AppErrors_1.default(500, 'Failed to create student !');
     }
 });
 const createFacultyIntoDb = (password, facultyData) => __awaiter(void 0, void 0, void 0, function* () {

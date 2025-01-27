@@ -20,8 +20,8 @@ const generateStudentId = (payload) => __awaiter(void 0, void 0, void 0, functio
     const lastUserId = yield findLastStudentId();
     const lastStudentyear = lastUserId === null || lastUserId === void 0 ? void 0 : lastUserId.substring(0, 4);
     const lastStudentSemesterCode = lastUserId === null || lastUserId === void 0 ? void 0 : lastUserId.substring(4, 6);
-    const currnetYear = payload.year;
-    const currnetCode = payload.code;
+    const currnetYear = payload === null || payload === void 0 ? void 0 : payload.year;
+    const currnetCode = payload === null || payload === void 0 ? void 0 : payload.code;
     if (lastUserId && lastStudentSemesterCode === currnetCode && lastStudentyear === currnetYear) {
         currentId = lastUserId.substring(6);
     }
