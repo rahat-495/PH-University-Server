@@ -90,13 +90,8 @@ userSchema.pre('findOneAndUpdate', function (next) {
 });
 userSchema.statics.isUserAxistByCustomId = function (id) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const result = yield exports.UsersModel.findOne({ id: "A-0001" });
-            console.log(result);
-        }
-        catch (error) {
-            console.log(error);
-        }
+        const result = yield exports.UsersModel.findOne({ id }).select("+password");
+        return result;
     });
 };
 userSchema.statics.isPasswordMatched = function (plainPass, hashedPass) {

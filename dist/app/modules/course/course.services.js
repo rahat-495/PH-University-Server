@@ -69,7 +69,6 @@ const updateCourseIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, fu
         return result;
     }
     catch (error) {
-        console.log(error);
         yield session.abortTransaction();
         yield session.endSession();
         throw new AppErrors_1.default(400, "Course Update Failed !");

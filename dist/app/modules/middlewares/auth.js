@@ -27,7 +27,6 @@ const auth = (...requiredRoles) => {
         const decoded = jsonwebtoken_1.default.verify(token, config_1.default.jwtAccessSecret);
         const role = decoded.role;
         const user = yield user_model_1.UsersModel.isUserAxistByCustomId(decoded === null || decoded === void 0 ? void 0 : decoded.userId);
-        console.log(user);
         if (!user) {
             throw new AppErrors_1.default(404, "The user is not found !");
         }
