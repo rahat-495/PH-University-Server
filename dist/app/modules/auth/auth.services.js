@@ -16,8 +16,8 @@ exports.authServices = void 0;
 const config_1 = __importDefault(require("../../config"));
 const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const user_model_1 = require("../user/user.model");
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const auth_utils_1 = require("./auth.utils");
 const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.UsersModel.isUserAxistByCustomId(payload === null || payload === void 0 ? void 0 : payload.id);
     if (!user) {
@@ -35,8 +35,9 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
         throw new AppErrors_1.default(400, "The password is not matched !");
     }
     const jwtPayload = { userId: user === null || user === void 0 ? void 0 : user.id, role: user === null || user === void 0 ? void 0 : user.role };
-    const accesstoken = jsonwebtoken_1.default.sign(jwtPayload, config_1.default.jwtAccessSecret, { expiresIn: "10d" });
-    return { accesstoken, needsPasswordChange: user === null || user === void 0 ? void 0 : user.needsPasswordChange };
+    const accesstoken = yield (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwtAccessSecret, "1d");
+    const refreshtoken = yield (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwtRefreshSecret, "365d");
+    return { accesstoken, refreshtoken, needsPasswordChange: user === null || user === void 0 ? void 0 : user.needsPasswordChange };
 });
 const changePasswordIntoDb = (userData, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.UsersModel.isUserAxistByCustomId(userData === null || userData === void 0 ? void 0 : userData.userId);
