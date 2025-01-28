@@ -9,6 +9,7 @@ import { userRole } from "../user/user.constant";
 const router = Router() ;
 
 router.post('/login' , validateRequest(authValidations.loginValidationSchema) , authControllers.loginUser) ;
+router.post('/refresh-token' , validateRequest(authValidations.refreshTokenValidationSchema) , authControllers.refreshToken) ;
 router.post('/change-password' , auth(userRole.admin , userRole.faculty , userRole.student) , validateRequest(authValidations.changePasswordValidationSchema) , authControllers.changePassword) ;
 
 export const authRoutes = router ;
