@@ -48,7 +48,7 @@ Styling: Tailwind CSS (if used)
 
 1️⃣ Clone the Repository
 
-git clone https://github.com/your-username/your-repo.git
+git clone https://github.com/rahat-495/level-2-project-2.git
 cd your-repo
 
 2️⃣ Install Dependencies
