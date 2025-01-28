@@ -5,6 +5,7 @@ import { UsersModel } from "../user/user.model";
 import { TLoginUser, TPasswordData } from "./auth.interface"
 import jwt, { JwtPayload } from "jsonwebtoken" ;
 import bcrypt from "bcryptjs" ;
+import { createToken } from "./auth.utils";
 
 const loginUser = async (payload : TLoginUser) => {
     const user = await UsersModel.isUserAxistByCustomId(payload?.id) ;
@@ -28,8 +29,10 @@ const loginUser = async (payload : TLoginUser) => {
     }
 
     const jwtPayload = { userId : user?.id , role : user?.role }
-    const accesstoken = jwt.sign( jwtPayload , config.jwtAccessSecret as string , { expiresIn : "10d" } ) ;
-    return { accesstoken , needsPasswordChange : user?.needsPasswordChange } ;
+    const accesstoken = await createToken(jwtPayload , config.jwtAccessSecret as string , "1d") ;
+    const refreshtoken = await createToken(jwtPayload , config.jwtRefreshSecret as string , "365d") ;
+
+    return { accesstoken , refreshtoken , needsPasswordChange : user?.needsPasswordChange } ;
 }
 
 const changePasswordIntoDb = async (userData : JwtPayload , payload : TPasswordData) => {
