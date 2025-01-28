@@ -31,7 +31,14 @@ const changePassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "User password change Successfully !" });
     }
 }));
+const refreshToken = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield auth_services_1.authServices.refreshToken(req.cookies.refreshToken);
+    if (result) {
+        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Access token retribed Successfully !" });
+    }
+}));
 exports.authControllers = {
     loginUser,
+    refreshToken,
     changePassword,
 };
