@@ -92,7 +92,6 @@ const refreshToken = async (token : string) => {
 }
 
 const forgetPassword = async (userId : string) => {
-
     const user = await UsersModel.isUserAxistByCustomId(userId) ;
     
     if(!user){
@@ -115,9 +114,31 @@ const forgetPassword = async (userId : string) => {
     sendEmail(user?.email , resetUiLink) ;
 }
 
-const resetPassword = async (id : string , token : string , pass : string) => {
+const resetPassword = async (payload : {id : string , newPassword : string} , token : string) => {
+    const user = await UsersModel.isUserAxistByCustomId(payload?.id) ;
     
-    return null ;
+    if(!user){
+        throw new AppError(404 , "The user is not found !") ;
+    }
+
+    const isDeleted = user?.isDeleted ;
+    if(isDeleted){
+        throw new AppError(400 , "The user is deleted !") ;
+    }
+
+    const userStatus = user?.status ;
+    if(userStatus === "blocked"){
+        throw new AppError(400 , "The user is already blocked !") ;
+    }
+
+    const decoded = await jwt.verify(token , config.jwtAccessSecret as string) as JwtPayload ;
+    if(payload?.id !== decoded?.userId){
+        throw new AppError(httpStatus.FORBIDDEN , "You are forbidden !") ;
+    }
+
+    const newHashedPassword = await bcrypt.hash(payload?.newPassword , Number(config.bcryptSaltRounds)) ;
+    const result = await UsersModel.findOneAndUpdate({id : decoded?.userId , role : decoded?.role} , {password : newHashedPassword , needsPasswordChange :false , passwordChangeAt : new Date()} , {new : true}) ;
+    return result ;
 }
 
 export const authServices = {
