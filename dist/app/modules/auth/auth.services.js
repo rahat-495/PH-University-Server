@@ -20,6 +20,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const http_status_1 = __importDefault(require("http-status"));
 const auth_utils_1 = require("./auth.utils");
+const sendEmail_1 = require("../../utils/sendEmail");
 const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield user_model_1.UsersModel.isUserAxistByCustomId(payload === null || payload === void 0 ? void 0 : payload.id);
     if (!user) {
@@ -97,12 +98,16 @@ const forgetPassword = (userId) => __awaiter(void 0, void 0, void 0, function* (
     }
     const jwtPayload = { userId: user === null || user === void 0 ? void 0 : user.id, role: user === null || user === void 0 ? void 0 : user.role };
     const resetToken = yield (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwtAccessSecret, "10m");
-    const resetUiLink = `http://localhost:5555?id=${user === null || user === void 0 ? void 0 : user.id}&token=${resetToken}`;
-    return { resetUiLink };
+    const resetUiLink = `${config_1.default.resetPassUILink}?id=${user === null || user === void 0 ? void 0 : user.id}&token=${resetToken}`;
+    (0, sendEmail_1.sendEmail)(user === null || user === void 0 ? void 0 : user.email, resetUiLink);
+});
+const resetPassword = (id, token, pass) => __awaiter(void 0, void 0, void 0, function* () {
+    return null;
 });
 exports.authServices = {
     loginUser,
     refreshToken,
+    resetPassword,
     forgetPassword,
     changePasswordIntoDb,
 };

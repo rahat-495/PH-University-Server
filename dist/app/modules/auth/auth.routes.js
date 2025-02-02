@@ -13,6 +13,7 @@ const user_constant_1 = require("../user/user.constant");
 const router = (0, express_1.Router)();
 router.post('/login', (0, validateRequest_1.default)(auth_validation_1.authValidations.loginValidationSchema), auth_controllers_1.authControllers.loginUser);
 router.post('/refresh-token', (0, validateRequest_1.default)(auth_validation_1.authValidations.refreshTokenValidationSchema), auth_controllers_1.authControllers.refreshToken);
+router.post('/reset-password', (0, validateRequest_1.default)(auth_validation_1.authValidations.resetPasswordValidationSchema), auth_controllers_1.authControllers.resetPassword);
 router.post('/forget-password', (0, validateRequest_1.default)(auth_validation_1.authValidations.forgetPasswordValidationSchema), auth_controllers_1.authControllers.forgetPassword);
 router.post('/change-password', (0, auth_1.default)(user_constant_1.userRole.admin, user_constant_1.userRole.faculty, user_constant_1.userRole.student), (0, validateRequest_1.default)(auth_validation_1.authValidations.changePasswordValidationSchema), auth_controllers_1.authControllers.changePassword);
 exports.authRoutes = router;
