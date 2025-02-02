@@ -18,6 +18,7 @@ const createStudnetIntoDb = async (password : string , studentData : Partial<TSt
 
     const userData : Partial<TUser> = {} ;
     userData.role = 'student' ;
+    userData.email = studentData?.email ;
 
     const academicDetails = await academicSemestersModel.findById(studentData.admissionSemester) ;
 
@@ -55,6 +56,7 @@ const createStudnetIntoDb = async (password : string , studentData : Partial<TSt
 const createFacultyIntoDb = async (password : string , facultyData : Partial<TFaculty>) => {
     const userData : Partial<TUser> = {} ;
     userData.role = 'faculty' ;
+    userData.email = facultyData?.email ;
 
     const session = await mongoose.startSession() ;
     try {
@@ -89,6 +91,7 @@ const createFacultyIntoDb = async (password : string , facultyData : Partial<TFa
 const createAdminIntoDb = async (password : string , adminData : Partial<TAdmin>) => {
     const userData : Partial<TUser> = {} ;
     userData.role = 'admin' ;
+    userData.email = adminData?.email ;
 
     const session = await mongoose.startSession() ;
     try {

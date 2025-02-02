@@ -86,12 +86,37 @@ const refreshToken = async (token : string) => {
     }
 
     const jwtPayload = { userId : user?.id , role : user?.role }
-    const accesstoken = await createToken(jwtPayload , config.jwtAccessSecret as string , "1d") ;
-    return {accesstoken} ;
+    const accessToken = await createToken(jwtPayload , config.jwtAccessSecret as string , "1d") ;
+    return {accessToken} ;
+}
+
+const forgetPassword = async (userId : string) => {
+
+    const user = await UsersModel.isUserAxistByCustomId(userId) ;
+    
+    if(!user){
+        throw new AppError(404 , "The user is not found !") ;
+    }
+
+    const isDeleted = user?.isDeleted ;
+    if(isDeleted){
+        throw new AppError(400 , "The user is deleted !") ;
+    }
+
+    const userStatus = user?.status ;
+    if(userStatus === "blocked"){
+        throw new AppError(400 , "The user is already blocked !") ;
+    }
+
+    const jwtPayload = { userId : user?.id , role : user?.role }
+    const resetToken = await createToken(jwtPayload , config.jwtAccessSecret as string , "10m") ;
+    const resetUiLink = `http://localhost:5555?id=${user?.id}&token=${resetToken}`
+    return {resetUiLink} ;
 }
 
 export const authServices = {
     loginUser ,
     refreshToken ,
+    forgetPassword ,
     changePasswordIntoDb ,
 }
