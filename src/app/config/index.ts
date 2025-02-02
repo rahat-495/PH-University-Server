@@ -12,4 +12,5 @@ export default {
     nodeEnv : process.env.NODE_ENV,
     jwtAccessSecret : process.env.JWT_ACCESS_SECRET,
     jwtRefreshSecret : process.env.JWT_Refresh_SECRET,
+    resetPassUILink : process.env.RESET_PASS_UI_LINK,
 }

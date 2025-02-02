@@ -7,6 +7,7 @@ import jwt, { JwtPayload } from "jsonwebtoken" ;
 import bcrypt from "bcryptjs" ;
 import httpStatus from "http-status" ;
 import { createToken } from "./auth.utils";
+import { sendEmail } from "../../utils/sendEmail";
 
 const loginUser = async (payload : TLoginUser) => {
     const user = await UsersModel.isUserAxistByCustomId(payload?.id) ;
@@ -110,13 +111,19 @@ const forgetPassword = async (userId : string) => {
 
     const jwtPayload = { userId : user?.id , role : user?.role }
     const resetToken = await createToken(jwtPayload , config.jwtAccessSecret as string , "10m") ;
-    const resetUiLink = `http://localhost:5555?id=${user?.id}&token=${resetToken}`
-    return {resetUiLink} ;
+    const resetUiLink = `${config.resetPassUILink}?id=${user?.id}&token=${resetToken}` ;
+    sendEmail(user?.email , resetUiLink) ;
+}
+
+const resetPassword = async (id : string , token : string , pass : string) => {
+    
+    return null ;
 }
 
 export const authServices = {
     loginUser ,
     refreshToken ,
+    resetPassword ,
     forgetPassword ,
     changePasswordIntoDb ,
 }
