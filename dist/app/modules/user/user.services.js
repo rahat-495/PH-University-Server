@@ -26,6 +26,7 @@ const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0,
     var _a, _b;
     const userData = {};
     userData.role = 'student';
+    userData.email = studentData === null || studentData === void 0 ? void 0 : studentData.email;
     const academicDetails = yield academicSemester_model_1.default.findById(studentData.admissionSemester);
     const session = yield mongoose_1.default.startSession();
     try {
@@ -57,6 +58,7 @@ const createFacultyIntoDb = (password, facultyData) => __awaiter(void 0, void 0,
     var _a, _b;
     const userData = {};
     userData.role = 'faculty';
+    userData.email = facultyData === null || facultyData === void 0 ? void 0 : facultyData.email;
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
@@ -86,6 +88,7 @@ const createAdminIntoDb = (password, adminData) => __awaiter(void 0, void 0, voi
     var _a, _b;
     const userData = {};
     userData.role = 'admin';
+    userData.email = adminData === null || adminData === void 0 ? void 0 : adminData.email;
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();

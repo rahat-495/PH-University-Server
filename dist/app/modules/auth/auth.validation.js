@@ -19,8 +19,14 @@ const refreshTokenValidationSchema = zod_1.z.object({
         refreshToken: zod_1.z.string({ required_error: "Refresh token is required !" }),
     })
 });
+const forgetPasswordValidationSchema = zod_1.z.object({
+    body: zod_1.z.object({
+        id: zod_1.z.string({ required_error: "User Id is required !" }),
+    })
+});
 exports.authValidations = {
     loginValidationSchema,
     refreshTokenValidationSchema,
     changePasswordValidationSchema,
+    forgetPasswordValidationSchema,
 };

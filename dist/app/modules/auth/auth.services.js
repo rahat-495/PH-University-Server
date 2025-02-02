@@ -79,11 +79,30 @@ const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
         throw new AppErrors_1.default(http_status_1.default.UNAUTHORIZED, "You are not authorized !");
     }
     const jwtPayload = { userId: user === null || user === void 0 ? void 0 : user.id, role: user === null || user === void 0 ? void 0 : user.role };
-    const accesstoken = yield (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwtAccessSecret, "1d");
-    return { accesstoken };
+    const accessToken = yield (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwtAccessSecret, "1d");
+    return { accessToken };
+});
+const forgetPassword = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.UsersModel.isUserAxistByCustomId(userId);
+    if (!user) {
+        throw new AppErrors_1.default(404, "The user is not found !");
+    }
+    const isDeleted = user === null || user === void 0 ? void 0 : user.isDeleted;
+    if (isDeleted) {
+        throw new AppErrors_1.default(400, "The user is deleted !");
+    }
+    const userStatus = user === null || user === void 0 ? void 0 : user.status;
+    if (userStatus === "blocked") {
+        throw new AppErrors_1.default(400, "The user is already blocked !");
+    }
+    const jwtPayload = { userId: user === null || user === void 0 ? void 0 : user.id, role: user === null || user === void 0 ? void 0 : user.role };
+    const resetToken = yield (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwtAccessSecret, "10m");
+    const resetUiLink = `http://localhost:5555?id=${user === null || user === void 0 ? void 0 : user.id}&token=${resetToken}`;
+    return { resetUiLink };
 });
 exports.authServices = {
     loginUser,
     refreshToken,
+    forgetPassword,
     changePasswordIntoDb,
 };

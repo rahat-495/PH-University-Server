@@ -19,7 +19,6 @@ const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const auth_services_1 = require("./auth.services");
 const loginUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield auth_services_1.authServices.loginUser(req.body);
-    console.log(result.refreshtoken);
     res.cookie("refreshToken", result.refreshtoken, { secure: config_1.default.nodeEnv === "production", httpOnly: true });
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "User Login Successfully !" });
@@ -37,8 +36,15 @@ const refreshToken = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, v
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Access token retribed Successfully !" });
     }
 }));
+const forgetPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield auth_services_1.authServices.forgetPassword(req.body.id);
+    if (result) {
+        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Reset link is generated Successfully !" });
+    }
+}));
 exports.authControllers = {
     loginUser,
     refreshToken,
     changePassword,
+    forgetPassword,
 };
