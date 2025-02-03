@@ -55,9 +55,19 @@ const getMe = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, vo
         message: "User is retrived success fully !",
         statusCode: 200, data: result });
 }));
+const changeStatus = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_services_1.userService.changeStatusIntoDb(req.params.id, req.body);
+    if (!result) {
+        return;
+    }
+    (0, sendResponse_1.default)(res, { success: true,
+        message: "User status updated success fully !",
+        statusCode: 200, data: result });
+}));
 exports.userControllers = {
     getMe,
     createAdmin,
+    changeStatus,
     createStudent,
     createFaculty,
 };

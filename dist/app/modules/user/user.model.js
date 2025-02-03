@@ -18,6 +18,7 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const config_1 = __importDefault(require("../../config"));
 const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const bcryptjs_2 = __importDefault(require("bcryptjs"));
+const user_constant_1 = require("./user.constant");
 const userSchema = new mongoose_1.Schema({
     id: {
         type: String,
@@ -45,7 +46,7 @@ const userSchema = new mongoose_1.Schema({
         type: String,
         required: true,
         default: "in-progress",
-        enum: ["in-progress", "blocked"],
+        enum: user_constant_1.userStatus,
     },
     role: {
         type: String,

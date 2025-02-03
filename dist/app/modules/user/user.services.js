@@ -127,9 +127,14 @@ const getMeFromDb = (userId, role) => __awaiter(void 0, void 0, void 0, function
     }
     return result;
 });
+const changeStatusIntoDb = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.UsersModel.findByIdAndUpdate(id, payload, { new: true });
+    return result;
+});
 exports.userService = {
     getMeFromDb,
     createAdminIntoDb,
+    changeStatusIntoDb,
     createStudnetIntoDb,
     createFacultyIntoDb,
 };
