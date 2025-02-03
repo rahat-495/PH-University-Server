@@ -43,7 +43,7 @@ const forgetPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
     });
 }));
 const resetPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield auth_services_1.authServices.resetPassword(req.body.id, req.headers.authorization, req.body.newPassword);
+    const result = yield auth_services_1.authServices.resetPassword(req.body, req.headers.authorization);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Password Reset Successfully !" });
     }

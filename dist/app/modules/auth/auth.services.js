@@ -101,8 +101,26 @@ const forgetPassword = (userId) => __awaiter(void 0, void 0, void 0, function* (
     const resetUiLink = `${config_1.default.resetPassUILink}?id=${user === null || user === void 0 ? void 0 : user.id}&token=${resetToken}`;
     (0, sendEmail_1.sendEmail)(user === null || user === void 0 ? void 0 : user.email, resetUiLink);
 });
-const resetPassword = (id, token, pass) => __awaiter(void 0, void 0, void 0, function* () {
-    return null;
+const resetPassword = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield user_model_1.UsersModel.isUserAxistByCustomId(payload === null || payload === void 0 ? void 0 : payload.id);
+    if (!user) {
+        throw new AppErrors_1.default(404, "The user is not found !");
+    }
+    const isDeleted = user === null || user === void 0 ? void 0 : user.isDeleted;
+    if (isDeleted) {
+        throw new AppErrors_1.default(400, "The user is deleted !");
+    }
+    const userStatus = user === null || user === void 0 ? void 0 : user.status;
+    if (userStatus === "blocked") {
+        throw new AppErrors_1.default(400, "The user is already blocked !");
+    }
+    const decoded = yield jsonwebtoken_1.default.verify(token, config_1.default.jwtAccessSecret);
+    if ((payload === null || payload === void 0 ? void 0 : payload.id) !== (decoded === null || decoded === void 0 ? void 0 : decoded.userId)) {
+        throw new AppErrors_1.default(http_status_1.default.FORBIDDEN, "You are forbidden !");
+    }
+    const newHashedPassword = yield bcryptjs_1.default.hash(payload === null || payload === void 0 ? void 0 : payload.newPassword, Number(config_1.default.bcryptSaltRounds));
+    const result = yield user_model_1.UsersModel.findOneAndUpdate({ id: decoded === null || decoded === void 0 ? void 0 : decoded.userId, role: decoded === null || decoded === void 0 ? void 0 : decoded.role }, { password: newHashedPassword, needsPasswordChange: false, passwordChangeAt: new Date() }, { new: true });
+    return result;
 });
 exports.authServices = {
     loginUser,
