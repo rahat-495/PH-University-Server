@@ -16,6 +16,8 @@ exports.userControllers = void 0;
 const user_services_1 = require("./user.services");
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
+const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
+const http_status_1 = __importDefault(require("http-status"));
 const createStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { password, student: studentData } = req.body;
     const result = yield user_services_1.userService.createStudnetIntoDb(password, studentData);
@@ -46,7 +48,21 @@ const createAdmin = (0, catchAsync_1.default)((req, res, next) => __awaiter(void
         message: "Admin created success fully !",
         statusCode: 200, data: result });
 }));
+const getMe = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const token = req.headers.authorization;
+    if (!token) {
+        throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "Token not found !");
+    }
+    const result = yield user_services_1.userService.getMeFromDb(token);
+    if (!result) {
+        return;
+    }
+    (0, sendResponse_1.default)(res, { success: true,
+        message: "Admin created success fully !",
+        statusCode: 200, data: result });
+}));
 exports.userControllers = {
+    getMe,
     createAdmin,
     createStudent,
     createFaculty,

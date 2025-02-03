@@ -22,6 +22,7 @@ const user_utils_1 = require("./user.utils");
 const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const faculty_model_1 = require("../faculty/faculty.model");
 const admin_model_1 = require("../admin/admin.model");
+const auth_utils_1 = require("../auth/auth.utils");
 const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const userData = {};
@@ -114,7 +115,23 @@ const createAdminIntoDb = (password, adminData) => __awaiter(void 0, void 0, voi
         throw new AppErrors_1.default(500, 'Failed to create admin');
     }
 });
+const getMeFromDb = (token) => __awaiter(void 0, void 0, void 0, function* () {
+    const decoded = (0, auth_utils_1.verifyToken)(token, config_1.default.jwtAccessSecret);
+    const { userId, role } = decoded;
+    let result = null;
+    if (role === "admin") {
+        result = yield admin_model_1.adminsModel.findOne({ id: userId });
+    }
+    if (role === "faculty") {
+        result = yield faculty_model_1.facultysModel.findOne({ id: userId });
+    }
+    if (role === "student") {
+        result = yield student_model_1.studentsModel.findOne({ id: userId });
+    }
+    return result;
+});
 exports.userService = {
+    getMeFromDb,
     createAdminIntoDb,
     createStudnetIntoDb,
     createFacultyIntoDb,
