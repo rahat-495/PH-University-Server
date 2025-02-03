@@ -5,6 +5,7 @@ import sendResponse from "../../utils/sendResponse";
 import catchAsync from "../../utils/catchAsync";
 import AppError from "../../errors/AppErrors";
 import httpStatus from 'http-status' ;
+import { JwtPayload } from "jsonwebtoken";
 
 const createStudent : RequestHandler = catchAsync( async (req , res , next) => { 
     const {password , student : studentData} = req.body ;
@@ -40,13 +41,7 @@ const createAdmin : RequestHandler = catchAsync( async (req , res , next) => {
 }) ;
 
 const getMe : RequestHandler = catchAsync( async (req , res , next) => { 
-    const token = req.headers.authorization ;
-    if(!token){
-        throw new AppError(httpStatus.NOT_FOUND , "Token not found !") ;
-    }
-    
-    const result = await userService.getMeFromDb(token as string) ;
-
+    const result = await userService.getMeFromDb(req.user.userId , req.user.role) ;
     if(!result){
         return ;
     }

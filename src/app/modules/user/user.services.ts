@@ -14,6 +14,7 @@ import { facultysModel } from "../faculty/faculty.model";
 import { TAdmin } from "../admin/admin.interfaces";
 import { adminsModel } from "../admin/admin.model";
 import { verifyToken } from "../auth/auth.utils";
+import { JwtPayload } from "jsonwebtoken";
 
 const createStudnetIntoDb = async (password : string , studentData : Partial<TStudent>) => {
 
@@ -124,23 +125,19 @@ const createAdminIntoDb = async (password : string , adminData : Partial<TAdmin>
     }
 }
 
-const getMeFromDb = async (token : string) => {
-    const decoded = verifyToken(token , config.jwtAccessSecret as string) ;
-    const {userId , role} = decoded ;
-
+const getMeFromDb = async (userId : string , role : string) => {
     let result = null ;
     if(role === "admin"){
-        result = await adminsModel.findOne({id : userId}) ;
+        result = await adminsModel.findOne({id : userId}).populate("user") ;
     }
     
     if(role === "faculty"){
-        result = await facultysModel.findOne({id : userId}) ;
+        result = await facultysModel.findOne({id : userId}).populate("user") ;
     }
 
     if(role === "student"){
-        result = await studentsModel.findOne({id : userId}) ;
+        result = await studentsModel.findOne({id : userId}).populate("user") ;
     }
-
     return result ;
 }
 
