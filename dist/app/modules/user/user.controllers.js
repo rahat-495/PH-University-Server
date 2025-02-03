@@ -52,7 +52,7 @@ const getMe = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, vo
         return;
     }
     (0, sendResponse_1.default)(res, { success: true,
-        message: "Admin created success fully !",
+        message: "User is retrived success fully !",
         statusCode: 200, data: result });
 }));
 exports.userControllers = {
