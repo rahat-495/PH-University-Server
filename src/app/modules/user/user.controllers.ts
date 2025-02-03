@@ -46,7 +46,7 @@ const getMe : RequestHandler = catchAsync( async (req , res , next) => {
         return ;
     }
     sendResponse<object>(res , {success : true ,
-    message : "Admin created success fully !" , 
+    message : "User is retrived success fully !" , 
     statusCode : 200 , data : result }) ;
 }) ;
 
