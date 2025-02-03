@@ -50,9 +50,20 @@ const getMe : RequestHandler = catchAsync( async (req , res , next) => {
     statusCode : 200 , data : result }) ;
 }) ;
 
+const changeStatus : RequestHandler = catchAsync( async (req , res , next) => { 
+    const result = await userService.changeStatusIntoDb(req.params.id , req.body) ;
+    if(!result){
+        return ;
+    }
+    sendResponse<object>(res , {success : true ,
+    message : "User status updated success fully !" , 
+    statusCode : 200 , data : result }) ;
+}) ;
+
 export const userControllers = {
     getMe ,
     createAdmin ,
+    changeStatus ,
     createStudent ,
     createFaculty ,
 }

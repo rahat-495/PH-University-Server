@@ -5,6 +5,7 @@ import { TUser , UsersModelInterface } from "./user.interfaces";
 import config from "../../config";
 import AppError from "../../errors/AppErrors";
 import bcrypt from "bcryptjs" ;
+import { userStatus } from "./user.constant";
 
 const userSchema = new Schema<TUser , UsersModelInterface>({
     id : {
@@ -33,7 +34,7 @@ const userSchema = new Schema<TUser , UsersModelInterface>({
         type : String ,
         required : true ,
         default : "in-progress" ,
-        enum : ["in-progress" , "blocked"],
+        enum : userStatus,
     },
     role : {
         type : String ,

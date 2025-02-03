@@ -7,11 +7,13 @@ import { facultyValidations } from "../faculty/faculty.validation";
 import { adminValidations } from "../admin/admin.validation";
 import auth from "../middlewares/auth";
 import { userRole } from "./user.constant";
+import { userValidation } from "./user.validation";
 
 const router = express.Router() ;
 
 router.get('/me' , auth('student' , 'faculty' , 'admin') , userControllers.getMe) ;
 router.post('/create-admin' , validateRequest(adminValidations.createAdminValidationSchema) , userControllers.createAdmin) ;
+router.post('/change-status/:id' , auth('admin') , validateRequest(userValidation.changeStatusValidationSchema) , userControllers.changeStatus) ;
 router.post('/create-student' , auth('admin') , validateRequest(studentValidations.createStudentValidationSchema) , userControllers.createStudent) ;
 router.post('/create-faculty' , auth('admin') , validateRequest(facultyValidations.createFacultyValidationSchema) , userControllers.createFaculty) ;    
 
