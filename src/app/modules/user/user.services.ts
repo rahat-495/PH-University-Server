@@ -13,6 +13,7 @@ import { TFaculty } from "../faculty/faculty.interfaces";
 import { facultysModel } from "../faculty/faculty.model";
 import { TAdmin } from "../admin/admin.interfaces";
 import { adminsModel } from "../admin/admin.model";
+import { verifyToken } from "../auth/auth.utils";
 
 const createStudnetIntoDb = async (password : string , studentData : Partial<TStudent>) => {
 
@@ -123,7 +124,28 @@ const createAdminIntoDb = async (password : string , adminData : Partial<TAdmin>
     }
 }
 
+const getMeFromDb = async (token : string) => {
+    const decoded = verifyToken(token , config.jwtAccessSecret as string) ;
+    const {userId , role} = decoded ;
+
+    let result = null ;
+    if(role === "admin"){
+        result = await adminsModel.findOne({id : userId}) ;
+    }
+    
+    if(role === "faculty"){
+        result = await facultysModel.findOne({id : userId}) ;
+    }
+
+    if(role === "student"){
+        result = await studentsModel.findOne({id : userId}) ;
+    }
+
+    return result ;
+}
+
 export const userService = {
+    getMeFromDb ,
     createAdminIntoDb ,
     createStudnetIntoDb ,
     createFacultyIntoDb ,

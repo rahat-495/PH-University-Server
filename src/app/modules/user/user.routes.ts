@@ -10,8 +10,9 @@ import { userRole } from "./user.constant";
 
 const router = express.Router() ;
 
-router.post('/create-student' , auth(userRole.admin) , validateRequest(studentValidations.createStudentValidationSchema) , userControllers.createStudent) ;
-router.post('/create-faculty' , auth(userRole.admin) , validateRequest(facultyValidations.createFacultyValidationSchema) , userControllers.createFaculty) ;    
+router.get('/me' , auth('student' , 'faculty' , 'admin') , userControllers.getMe) ;
 router.post('/create-admin' , validateRequest(adminValidations.createAdminValidationSchema) , userControllers.createAdmin) ;
+router.post('/create-student' , auth('admin') , validateRequest(studentValidations.createStudentValidationSchema) , userControllers.createStudent) ;
+router.post('/create-faculty' , auth('admin') , validateRequest(facultyValidations.createFacultyValidationSchema) , userControllers.createFaculty) ;    
 
 export const userRoutes = router ;
