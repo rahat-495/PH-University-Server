@@ -17,7 +17,7 @@ import { verifyToken } from "../auth/auth.utils";
 import { JwtPayload } from "jsonwebtoken";
 import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 
-const createStudnetIntoDb = async (password : string , studentData : Partial<TStudent>) => {
+const createStudnetIntoDb = async (file : any , password : string , studentData : Partial<TStudent>) => {
 
     const userData : Partial<TUser> = {} ;
     userData.role = 'student' ;
@@ -31,8 +31,10 @@ const createStudnetIntoDb = async (password : string , studentData : Partial<TSt
         userData.id = await generateStudentId(academicDetails as TAcademicSemester) ;
         userData.password = password || config.defaultPass as string ;
         
-        await sendImageToCloudinary() ;
-        
+        const path = file?.path ;
+        const imageName = `${userData?.id}${studentData?.name?.firstName}` ;
+        const {secure_url} = await sendImageToCloudinary(imageName , path) as any ;
+
         const newUser = await UsersModel.create([userData] , {session}) ;
         if(!newUser?.length){
             throw new AppError(500 , 'Failed to create user') ;
@@ -40,6 +42,7 @@ const createStudnetIntoDb = async (password : string , studentData : Partial<TSt
 
         studentData.id = newUser[0]?.id ;
         studentData.user = newUser[0]?._id ;
+        studentData.profileImg = secure_url ;
 
         const newStudent = await studentsModel.create([studentData] , {session}) ;
 

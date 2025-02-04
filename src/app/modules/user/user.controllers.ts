@@ -5,10 +5,8 @@ import sendResponse from "../../utils/sendResponse";
 import catchAsync from "../../utils/catchAsync";
 
 const createStudent : RequestHandler = catchAsync( async (req , res , next) => { 
-    console.log(req.file) ;
-
     const {password , student : studentData} = req.body ;
-    const result = await userService.createStudnetIntoDb(password  , studentData) ;
+    const result = await userService.createStudnetIntoDb(req.file , password  , studentData) ;
     if(!result){
         return ;
     }
