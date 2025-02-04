@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateAdminId = exports.generateFacultyId = exports.generateStudentId = void 0;
+exports.parseTextDataToJsonData = exports.generateAdminId = exports.generateFacultyId = exports.generateStudentId = void 0;
 const user_model_1 = require("./user.model");
 const findLastStudentId = () => __awaiter(void 0, void 0, void 0, function* () {
     const lastStudentId = yield user_model_1.UsersModel.findOne({ role: "student" }, { id: 1, _id: 0 }).sort({ createdAt: -1 }).lean();
@@ -60,3 +60,8 @@ const generateAdminId = () => __awaiter(void 0, void 0, void 0, function* () {
     return incrementId;
 });
 exports.generateAdminId = generateAdminId;
+const parseTextDataToJsonData = (req, res, next) => {
+    req.body = JSON.parse(req.body.data);
+    next();
+};
+exports.parseTextDataToJsonData = parseTextDataToJsonData;
