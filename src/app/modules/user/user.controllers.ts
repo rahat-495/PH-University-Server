@@ -3,11 +3,10 @@ import { RequestHandler } from "express";
 import { userService } from "./user.services";
 import sendResponse from "../../utils/sendResponse";
 import catchAsync from "../../utils/catchAsync";
-import AppError from "../../errors/AppErrors";
-import httpStatus from 'http-status' ;
-import { JwtPayload } from "jsonwebtoken";
 
 const createStudent : RequestHandler = catchAsync( async (req , res , next) => { 
+    console.log(req.file) ;
+
     const {password , student : studentData} = req.body ;
     const result = await userService.createStudnetIntoDb(password  , studentData) ;
     if(!result){

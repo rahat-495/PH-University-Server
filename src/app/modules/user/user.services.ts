@@ -15,6 +15,7 @@ import { TAdmin } from "../admin/admin.interfaces";
 import { adminsModel } from "../admin/admin.model";
 import { verifyToken } from "../auth/auth.utils";
 import { JwtPayload } from "jsonwebtoken";
+import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 
 const createStudnetIntoDb = async (password : string , studentData : Partial<TStudent>) => {
 
@@ -23,13 +24,15 @@ const createStudnetIntoDb = async (password : string , studentData : Partial<TSt
     userData.email = studentData?.email ;
 
     const academicDetails = await academicSemestersModel.findById(studentData.admissionSemester) ;
-
+    
     const session = await mongoose.startSession() ;
     try {
         session.startTransaction() ;
         userData.id = await generateStudentId(academicDetails as TAcademicSemester) ;
         userData.password = password || config.defaultPass as string ;
-    
+        
+        await sendImageToCloudinary() ;
+        
         const newUser = await UsersModel.create([userData] , {session}) ;
         if(!newUser?.length){
             throw new AppError(500 , 'Failed to create user') ;
