@@ -61,7 +61,7 @@ const createStudnetIntoDb = async (file : any , password : string , studentData 
     }
 }
 
-const createFacultyIntoDb = async (password : string , facultyData : Partial<TFaculty>) => {
+const createFacultyIntoDb = async (file : any , password : string , facultyData : Partial<TFaculty>) => {
     const userData : Partial<TUser> = {} ;
     userData.role = 'faculty' ;
     userData.email = facultyData?.email ;
@@ -73,6 +73,10 @@ const createFacultyIntoDb = async (password : string , facultyData : Partial<TFa
         userData.id = await generateFacultyId() ;
         userData.password = password ;
 
+        const path = file?.path ;
+        const imageName = `${userData?.id}${facultyData?.name?.firstName}` ;
+        const {secure_url} = await sendImageToCloudinary(imageName , path) as any ;
+
         const newUser = await UsersModel.create([userData] , {session}) ;
         if(!newUser?.length){
             throw new AppError(500 , 'Failed to create user') ;
@@ -80,6 +84,7 @@ const createFacultyIntoDb = async (password : string , facultyData : Partial<TFa
         
         facultyData.id = newUser[0]?.id ;
         facultyData.user = newUser[0]?._id ;
+        facultyData.profileImg = secure_url ;
         
         const newFaculty = await facultysModel.create([facultyData] , {session}) ;
         if(!newFaculty?.length){
@@ -96,7 +101,7 @@ const createFacultyIntoDb = async (password : string , facultyData : Partial<TFa
     }
 }
 
-const createAdminIntoDb = async (password : string , adminData : Partial<TAdmin>) => {
+const createAdminIntoDb = async (file : any , password : string , adminData : Partial<TAdmin>) => {
     const userData : Partial<TUser> = {} ;
     userData.role = 'admin' ;
     userData.email = adminData?.email ;
@@ -108,6 +113,10 @@ const createAdminIntoDb = async (password : string , adminData : Partial<TAdmin>
         userData.id = await generateAdminId() ;
         userData.password = password ;
 
+        const path = file?.path ;
+        const imageName = `${userData?.id}${adminData?.name?.firstName}` ;
+        const {secure_url} = await sendImageToCloudinary(imageName , path) as any ;
+
         const newUser = await UsersModel.create([userData] , {session}) ;
         if(!newUser?.length){
             throw new AppError(500 , 'Failed to create user') ;
@@ -115,6 +124,7 @@ const createAdminIntoDb = async (password : string , adminData : Partial<TAdmin>
         
         adminData.id = newUser[0]?.id ;
         adminData.user = newUser[0]?._id ;
+        adminData.profileImg = secure_url ;
         
         const newAdmin = await adminsModel.create([adminData] , {session}) ;
         if(!newAdmin?.length){

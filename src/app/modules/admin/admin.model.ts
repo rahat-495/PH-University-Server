@@ -38,7 +38,7 @@ const adminSchema = new Schema<TAdmin>({
         type : Boolean ,
         default : false ,
     },
-    profileImage : {
+    profileImg : {
         type : String ,
     },
     permanentAddress : {

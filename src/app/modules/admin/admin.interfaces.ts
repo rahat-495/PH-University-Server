@@ -19,6 +19,6 @@ export type TAdmin = {
     emergencyContactNo : string ;
     presentAddress : string ;
     permanentAddress : string ;
-    profileImage : string ;
+    profileImg : string ;
     isDeleted : boolean ;
 }

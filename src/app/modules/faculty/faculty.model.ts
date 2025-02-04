@@ -40,7 +40,7 @@ const facultySchema = new Schema<TFaculty>({
         type : Boolean ,
         default : false ,
     },
-    profileImage : {
+    profileImg : {
         type : String ,
     },
     permanentAddress : {

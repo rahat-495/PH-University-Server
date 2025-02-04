@@ -13,8 +13,18 @@ import { upload } from "../../utils/sendImageToCloudinary";
 const router = express.Router() ;
 
 router.get('/me' , auth('student' , 'faculty' , 'admin') , userControllers.getMe) ;
-router.post('/create-admin' , validateRequest(adminValidations.createAdminValidationSchema) , userControllers.createAdmin) ;
 router.post('/change-status/:id' , auth('admin') , validateRequest(userValidation.changeStatusValidationSchema) , userControllers.changeStatus) ;
+
+router.post('/create-admin' , 
+    upload.single("file") ,
+    (req : Request , res : Response , next : NextFunction) => {
+        req.body = JSON.parse(req.body.data) ;
+        next() ;
+    } ,
+    validateRequest(adminValidations.createAdminValidationSchema) , 
+    userControllers.createAdmin
+);
+
 router.post('/create-student' , 
     upload.single("file") ,
     (req : Request , res : Response , next : NextFunction) => {
@@ -23,7 +33,18 @@ router.post('/create-student' ,
     } ,
     validateRequest(studentValidations.createStudentValidationSchema) ,
     auth('admin') , 
-    userControllers.createStudent) ;
-router.post('/create-faculty' , auth('admin') , validateRequest(facultyValidations.createFacultyValidationSchema) , userControllers.createFaculty) ;    
+    userControllers.createStudent
+);
+
+router.post('/create-faculty' , 
+    upload.single("file") ,
+    (req : Request , res : Response , next : NextFunction) => {
+        req.body = JSON.parse(req.body.data) ;
+        next() ;
+    } ,
+    auth('admin') , 
+    validateRequest(facultyValidations.createFacultyValidationSchema) , 
+    userControllers.createFaculty
+);    
 
 export const userRoutes = router ;

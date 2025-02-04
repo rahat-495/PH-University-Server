@@ -19,7 +19,7 @@ export type TFaculty = {
     emergencyContactNo : string ;
     presentAddress : string ;
     permanentAddress : string ;
-    profileImage : string ;
+    profileImg : string ;
     academicFaculty : Schema.Types.ObjectId ;
     academicDepartment : Schema.Types.ObjectId ;
     isDeleted : boolean ;
