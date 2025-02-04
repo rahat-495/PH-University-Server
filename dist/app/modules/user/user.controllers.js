@@ -17,6 +17,7 @@ const user_services_1 = require("./user.services");
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const createStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.file);
     const { password, student: studentData } = req.body;
     const result = yield user_services_1.userService.createStudnetIntoDb(password, studentData);
     if (!result) {

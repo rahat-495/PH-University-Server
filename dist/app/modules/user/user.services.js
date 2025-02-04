@@ -22,6 +22,7 @@ const user_utils_1 = require("./user.utils");
 const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const faculty_model_1 = require("../faculty/faculty.model");
 const admin_model_1 = require("../admin/admin.model");
+const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
 const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const userData = {};
@@ -33,6 +34,7 @@ const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0,
         session.startTransaction();
         userData.id = yield (0, user_utils_1.generateStudentId)(academicDetails);
         userData.password = password || config_1.default.defaultPass;
+        yield (0, sendImageToCloudinary_1.sendImageToCloudinary)();
         const newUser = yield user_model_1.UsersModel.create([userData], { session });
         if (!(newUser === null || newUser === void 0 ? void 0 : newUser.length)) {
             throw new AppErrors_1.default(500, 'Failed to create user');
