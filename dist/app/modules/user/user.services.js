@@ -23,8 +23,8 @@ const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const faculty_model_1 = require("../faculty/faculty.model");
 const admin_model_1 = require("../admin/admin.model");
 const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
-const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
+const createStudnetIntoDb = (file, password, studentData) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c;
     const userData = {};
     userData.role = 'student';
     userData.email = studentData === null || studentData === void 0 ? void 0 : studentData.email;
@@ -34,13 +34,16 @@ const createStudnetIntoDb = (password, studentData) => __awaiter(void 0, void 0,
         session.startTransaction();
         userData.id = yield (0, user_utils_1.generateStudentId)(academicDetails);
         userData.password = password || config_1.default.defaultPass;
-        yield (0, sendImageToCloudinary_1.sendImageToCloudinary)();
+        const path = file === null || file === void 0 ? void 0 : file.path;
+        const imageName = `${userData === null || userData === void 0 ? void 0 : userData.id}${(_a = studentData === null || studentData === void 0 ? void 0 : studentData.name) === null || _a === void 0 ? void 0 : _a.firstName}`;
+        const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
         const newUser = yield user_model_1.UsersModel.create([userData], { session });
         if (!(newUser === null || newUser === void 0 ? void 0 : newUser.length)) {
             throw new AppErrors_1.default(500, 'Failed to create user');
         }
-        studentData.id = (_a = newUser[0]) === null || _a === void 0 ? void 0 : _a.id;
-        studentData.user = (_b = newUser[0]) === null || _b === void 0 ? void 0 : _b._id;
+        studentData.id = (_b = newUser[0]) === null || _b === void 0 ? void 0 : _b.id;
+        studentData.user = (_c = newUser[0]) === null || _c === void 0 ? void 0 : _c._id;
+        studentData.profileImg = secure_url;
         const newStudent = yield student_model_1.studentsModel.create([studentData], { session });
         if (!(newStudent === null || newStudent === void 0 ? void 0 : newStudent.length)) {
             throw new AppErrors_1.default(500, 'Failed to create student');

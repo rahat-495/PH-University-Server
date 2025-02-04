@@ -93,7 +93,7 @@ const studentSchema = new mongoose_1.Schema({
         type: Boolean,
         default: false,
     },
-    profileImage: {
+    profileImg: {
         type: String,
     },
     permanentAddress: {

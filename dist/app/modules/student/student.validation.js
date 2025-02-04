@@ -23,7 +23,7 @@ const createLocalGuardianValidationSchema = zod_1.z.object({
 });
 const createStudentValidationSchema = zod_1.z.object({
     body: zod_1.z.object({
-        password: zod_1.z.string().max(20),
+        password: zod_1.z.string().max(20).optional(),
         student: zod_1.z.object({
             name: createUserNameValidationSchema,
             gender: zod_1.z.enum(["male", "female", "other"]),
