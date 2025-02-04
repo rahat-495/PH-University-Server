@@ -9,6 +9,7 @@ import auth from "../middlewares/auth";
 import { userRole } from "./user.constant";
 import { userValidation } from "./user.validation";
 import { upload } from "../../utils/sendImageToCloudinary";
+import { parseTextDataToJsonData } from "./user.utils";
 
 const router = express.Router() ;
 
@@ -17,20 +18,14 @@ router.post('/change-status/:id' , auth('admin') , validateRequest(userValidatio
 
 router.post('/create-admin' , 
     upload.single("file") ,
-    (req : Request , res : Response , next : NextFunction) => {
-        req.body = JSON.parse(req.body.data) ;
-        next() ;
-    } ,
+    parseTextDataToJsonData ,
     validateRequest(adminValidations.createAdminValidationSchema) , 
     userControllers.createAdmin
 );
 
 router.post('/create-student' , 
     upload.single("file") ,
-    (req : Request , res : Response , next : NextFunction) => {
-        req.body = JSON.parse(req.body.data) ;
-        next() ;
-    } ,
+    parseTextDataToJsonData ,
     validateRequest(studentValidations.createStudentValidationSchema) ,
     auth('admin') , 
     userControllers.createStudent
@@ -38,10 +33,7 @@ router.post('/create-student' ,
 
 router.post('/create-faculty' , 
     upload.single("file") ,
-    (req : Request , res : Response , next : NextFunction) => {
-        req.body = JSON.parse(req.body.data) ;
-        next() ;
-    } ,
+    parseTextDataToJsonData ,
     auth('admin') , 
     validateRequest(facultyValidations.createFacultyValidationSchema) , 
     userControllers.createFaculty

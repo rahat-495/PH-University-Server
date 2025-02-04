@@ -1,4 +1,5 @@
 
+import { NextFunction, Request, Response } from "express";
 import { TAcademicSemester } from "../academicSemester/academicSemester.interface";
 import { UsersModel } from "./user.model";
 
@@ -55,4 +56,9 @@ export const generateAdminId = async () => {
     let incrementId = (Number(currentId)+1).toString().padStart(4 , "0") ;
     incrementId = `A-${incrementId}` ;
     return incrementId ;
+}
+
+export const parseTextDataToJsonData = (req : Request , res : Response , next : NextFunction) => {
+    req.body = JSON.parse(req.body.data) ;
+    next() ;
 }
