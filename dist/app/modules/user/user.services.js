@@ -59,8 +59,8 @@ const createStudnetIntoDb = (file, password, studentData) => __awaiter(void 0, v
         throw new AppErrors_1.default(500, 'Failed to create student !');
     }
 });
-const createFacultyIntoDb = (password, facultyData) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
+const createFacultyIntoDb = (file, password, facultyData) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c;
     const userData = {};
     userData.role = 'faculty';
     userData.email = facultyData === null || facultyData === void 0 ? void 0 : facultyData.email;
@@ -69,12 +69,16 @@ const createFacultyIntoDb = (password, facultyData) => __awaiter(void 0, void 0,
         session.startTransaction();
         userData.id = yield (0, user_utils_1.generateFacultyId)();
         userData.password = password;
+        const path = file === null || file === void 0 ? void 0 : file.path;
+        const imageName = `${userData === null || userData === void 0 ? void 0 : userData.id}${(_a = facultyData === null || facultyData === void 0 ? void 0 : facultyData.name) === null || _a === void 0 ? void 0 : _a.firstName}`;
+        const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
         const newUser = yield user_model_1.UsersModel.create([userData], { session });
         if (!(newUser === null || newUser === void 0 ? void 0 : newUser.length)) {
             throw new AppErrors_1.default(500, 'Failed to create user');
         }
-        facultyData.id = (_a = newUser[0]) === null || _a === void 0 ? void 0 : _a.id;
-        facultyData.user = (_b = newUser[0]) === null || _b === void 0 ? void 0 : _b._id;
+        facultyData.id = (_b = newUser[0]) === null || _b === void 0 ? void 0 : _b.id;
+        facultyData.user = (_c = newUser[0]) === null || _c === void 0 ? void 0 : _c._id;
+        facultyData.profileImg = secure_url;
         const newFaculty = yield faculty_model_1.facultysModel.create([facultyData], { session });
         if (!(newFaculty === null || newFaculty === void 0 ? void 0 : newFaculty.length)) {
             throw new AppErrors_1.default(500, 'Failed to create faculty');
@@ -89,8 +93,8 @@ const createFacultyIntoDb = (password, facultyData) => __awaiter(void 0, void 0,
         throw new AppErrors_1.default(500, 'Failed to create faculty');
     }
 });
-const createAdminIntoDb = (password, adminData) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
+const createAdminIntoDb = (file, password, adminData) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c;
     const userData = {};
     userData.role = 'admin';
     userData.email = adminData === null || adminData === void 0 ? void 0 : adminData.email;
@@ -99,12 +103,16 @@ const createAdminIntoDb = (password, adminData) => __awaiter(void 0, void 0, voi
         session.startTransaction();
         userData.id = yield (0, user_utils_1.generateAdminId)();
         userData.password = password;
+        const path = file === null || file === void 0 ? void 0 : file.path;
+        const imageName = `${userData === null || userData === void 0 ? void 0 : userData.id}${(_a = adminData === null || adminData === void 0 ? void 0 : adminData.name) === null || _a === void 0 ? void 0 : _a.firstName}`;
+        const { secure_url } = yield (0, sendImageToCloudinary_1.sendImageToCloudinary)(imageName, path);
         const newUser = yield user_model_1.UsersModel.create([userData], { session });
         if (!(newUser === null || newUser === void 0 ? void 0 : newUser.length)) {
             throw new AppErrors_1.default(500, 'Failed to create user');
         }
-        adminData.id = (_a = newUser[0]) === null || _a === void 0 ? void 0 : _a.id;
-        adminData.user = (_b = newUser[0]) === null || _b === void 0 ? void 0 : _b._id;
+        adminData.id = (_b = newUser[0]) === null || _b === void 0 ? void 0 : _b.id;
+        adminData.user = (_c = newUser[0]) === null || _c === void 0 ? void 0 : _c._id;
+        adminData.profileImg = secure_url;
         const newAdmin = yield admin_model_1.adminsModel.create([adminData], { session });
         if (!(newAdmin === null || newAdmin === void 0 ? void 0 : newAdmin.length)) {
             throw new AppErrors_1.default(500, 'Failed to create admin');

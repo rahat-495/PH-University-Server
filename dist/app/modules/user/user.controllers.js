@@ -28,7 +28,7 @@ const createStudent = (0, catchAsync_1.default)((req, res, next) => __awaiter(vo
 }));
 const createFaculty = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { password, faculty } = req.body;
-    const result = yield user_services_1.userService.createFacultyIntoDb(password, faculty);
+    const result = yield user_services_1.userService.createFacultyIntoDb(req.file, password, faculty);
     if (!result) {
         return;
     }
@@ -38,7 +38,7 @@ const createFaculty = (0, catchAsync_1.default)((req, res, next) => __awaiter(vo
 }));
 const createAdmin = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { password, admin } = req.body;
-    const result = yield user_services_1.userService.createAdminIntoDb(password, admin);
+    const result = yield user_services_1.userService.createAdminIntoDb(req.file, password, admin);
     if (!result) {
         return;
     }
