@@ -13,8 +13,6 @@ import { TFaculty } from "../faculty/faculty.interfaces";
 import { facultysModel } from "../faculty/faculty.model";
 import { TAdmin } from "../admin/admin.interfaces";
 import { adminsModel } from "../admin/admin.model";
-import { verifyToken } from "../auth/auth.utils";
-import { JwtPayload } from "jsonwebtoken";
 import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 
 const createStudnetIntoDb = async (file : any , password : string , studentData : Partial<TStudent>) => {
