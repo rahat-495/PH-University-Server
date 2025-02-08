@@ -8,6 +8,7 @@ const express_1 = require("express");
 const validateRequest_1 = __importDefault(require("../middlewares/validateRequest"));
 const enrolledCourse_validations_1 = require("./enrolledCourse.validations");
 const enrolledCourse_controllers_1 = require("./enrolledCourse.controllers");
+const auth_1 = __importDefault(require("../middlewares/auth"));
 const router = (0, express_1.Router)();
-router.post('/create-enrolled-course', (0, validateRequest_1.default)(enrolledCourse_validations_1.enrolledCourseValidations.createEnrolledCourseValidationSchema), enrolledCourse_controllers_1.enrolledCourseControllers.createEnrolledCourse);
+router.post('/create-enrolled-course', (0, auth_1.default)("student"), (0, validateRequest_1.default)(enrolledCourse_validations_1.enrolledCourseValidations.createEnrolledCourseValidationSchema), enrolledCourse_controllers_1.enrolledCourseControllers.createEnrolledCourse);
 exports.enrolledCourseRoutes = router;

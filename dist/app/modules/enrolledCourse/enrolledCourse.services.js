@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.enrolledCourseSerivces = void 0;
-const createEnrolledCourseIntoDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+const createEnrolledCourseIntoDb = (userId, payload) => __awaiter(void 0, void 0, void 0, function* () {
     return null;
 });
 exports.enrolledCourseSerivces = {
