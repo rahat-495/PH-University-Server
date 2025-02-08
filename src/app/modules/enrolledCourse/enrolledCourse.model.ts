@@ -1,9 +1,9 @@
 
 import { model, Schema } from "mongoose";
-import { TCourseMarks, TEnrolledCourse } from "./enrolledCourse.interfaces";
+import { TEnrolledCourseMarks, TEnrolledCourse } from "./enrolledCourse.interfaces";
 import { grade } from "./enrolledCourse.constand";
 
-const courseMarksSchema = new Schema<TCourseMarks>({
+const courseMarksSchema = new Schema<TEnrolledCourseMarks>({
     classTest1 : {
         type : Number ,
         default : 0 ,
