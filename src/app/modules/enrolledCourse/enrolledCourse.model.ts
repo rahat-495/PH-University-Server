@@ -28,6 +28,11 @@ const enrolledCourseSchema = new Schema<TEnrolledCourse>({
         required : true ,
         ref : "academicDepartment" ,
     },
+    offeredCourse : {
+        type : Schema.Types.ObjectId ,
+        required : true ,
+        ref : "offeredCourse" ,
+    },
     academicFaculty : {
         type : Schema.Types.ObjectId ,
         required : true ,
@@ -60,6 +65,7 @@ const enrolledCourseSchema = new Schema<TEnrolledCourse>({
     },
     courseMarks : {
         type : courseMarksSchema ,
+        default : {} ,
     },
     isCompleted : {
         type : Boolean ,

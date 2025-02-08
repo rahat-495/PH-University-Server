@@ -17,6 +17,7 @@ export type TEnrolledCourse = {
     academicDepartment : Types.ObjectId ;
     course : Types.ObjectId ;
     student : Types.ObjectId ;
+    offeredCourse : Types.ObjectId ;
     faculty : Types.ObjectId ;
     isEnrolled : boolean ;
     courseMarks : TCourseMarks ;
