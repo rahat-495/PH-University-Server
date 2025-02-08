@@ -19,19 +19,32 @@ const http_status_1 = __importDefault(require("http-status"));
 const student_model_1 = require("../student/student.model");
 const enrolledCourse_model_1 = require("./enrolledCourse.model");
 const mongoose_1 = __importDefault(require("mongoose"));
+const semesterRegistration_model_1 = require("../semesterRegistration/semesterRegistration.model");
 const createEnrolledCourseIntoDb = (userId, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     const { offeredCourse } = payload;
-    const isOfferedCourseAxist = yield offeredCourse_model_1.offeredCoursesModel.findById(offeredCourse);
+    const isOfferedCourseAxist = yield offeredCourse_model_1.offeredCoursesModel.findById(offeredCourse).populate("course");
+    const semesterRegistration = yield semesterRegistration_model_1.semesterRegistrationsModel.findById(isOfferedCourseAxist === null || isOfferedCourseAxist === void 0 ? void 0 : isOfferedCourseAxist.semesterRegistration);
     if (!isOfferedCourseAxist) {
         throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "Offered course not found !");
     }
     if ((isOfferedCourseAxist === null || isOfferedCourseAxist === void 0 ? void 0 : isOfferedCourseAxist.maxCapacity) <= 0) {
         throw new AppErrors_1.default(http_status_1.default.BAD_GATEWAY, "The room is full !");
     }
-    const student = yield student_model_1.studentsModel.findOne({ id: userId });
+    const student = yield student_model_1.studentsModel.findOne({ id: userId }, { _id: 1 });
     const isStudentAlreadyEnrolled = yield enrolledCourse_model_1.enrolledCoursesModel.findOne({ offeredCourse, student: student === null || student === void 0 ? void 0 : student._id, semesterRegistration: isOfferedCourseAxist === null || isOfferedCourseAxist === void 0 ? void 0 : isOfferedCourseAxist.semesterRegistration });
     if (isStudentAlreadyEnrolled) {
         throw new AppErrors_1.default(http_status_1.default.CONFLICT, "Student already enrolled !");
+    }
+    const enrolledCourse = yield enrolledCourse_model_1.enrolledCoursesModel.aggregate([
+        { $match: { semesterRegistration: isOfferedCourseAxist === null || isOfferedCourseAxist === void 0 ? void 0 : isOfferedCourseAxist.semesterRegistration, student: student === null || student === void 0 ? void 0 : student._id } },
+        { $lookup: { from: "courses", localField: "course", foreignField: "_id", as: "enrolledCourseData" } },
+        { $unwind: "$enrolledCourseData" },
+        { $group: { _id: null, totalEnrolledCredits: { $sum: "$enrolledCourseData.credits" } } }
+    ]);
+    const totalCredits = enrolledCourse.length ? (_a = enrolledCourse[0]) === null || _a === void 0 ? void 0 : _a.totalEnrolledCredits : 0;
+    if (totalCredits && totalCredits + ((_b = isOfferedCourseAxist === null || isOfferedCourseAxist === void 0 ? void 0 : isOfferedCourseAxist.course) === null || _b === void 0 ? void 0 : _b.credits) > (semesterRegistration === null || semesterRegistration === void 0 ? void 0 : semesterRegistration.maxCredit)) {
+        throw new AppErrors_1.default(http_status_1.default.BAD_REQUEST, "You have exceeded maximum number of credits !");
     }
     const session = yield mongoose_1.default.startSession();
     try {
