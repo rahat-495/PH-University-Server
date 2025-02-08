@@ -27,6 +27,11 @@ const enrolledCourseSchema = new mongoose_1.Schema({
         required: true,
         ref: "academicDepartment",
     },
+    offeredCourse: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        required: true,
+        ref: "offeredCourse",
+    },
     academicFaculty: {
         type: mongoose_1.Schema.Types.ObjectId,
         required: true,
@@ -59,6 +64,7 @@ const enrolledCourseSchema = new mongoose_1.Schema({
     },
     courseMarks: {
         type: courseMarksSchema,
+        default: {},
     },
     isCompleted: {
         type: Boolean,
