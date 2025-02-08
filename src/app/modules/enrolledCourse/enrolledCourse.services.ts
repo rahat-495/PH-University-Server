@@ -5,10 +5,13 @@ import httpStatus from "http-status";
 import { studentsModel } from "../student/student.model";
 import { enrolledCoursesModel } from "./enrolledCourse.model";
 import mongoose from "mongoose";
+import { semesterRegistrationsModel } from "../semesterRegistration/semesterRegistration.model";
 
 const createEnrolledCourseIntoDb = async (userId : string , payload : { offeredCourse : string } ) => {
     const {offeredCourse} = payload ;
-    const isOfferedCourseAxist = await offeredCoursesModel.findById(offeredCourse) ;
+    const isOfferedCourseAxist = await offeredCoursesModel.findById(offeredCourse).populate("course") as any ;
+    const semesterRegistration = await semesterRegistrationsModel.findById(isOfferedCourseAxist?.semesterRegistration) as any ;
+    
     if(!isOfferedCourseAxist){
         throw new AppError(httpStatus.NOT_FOUND , "Offered course not found !") ;
     }
@@ -17,10 +20,22 @@ const createEnrolledCourseIntoDb = async (userId : string , payload : { offeredC
         throw new AppError(httpStatus.BAD_GATEWAY  , "The room is full !") ;
     }
 
-    const student = await studentsModel.findOne({id : userId}) ;
+    const student = await studentsModel.findOne({id : userId},{_id : 1}) ;
     const isStudentAlreadyEnrolled = await enrolledCoursesModel.findOne({ offeredCourse , student : student?._id , semesterRegistration : isOfferedCourseAxist?.semesterRegistration }) ;
     if(isStudentAlreadyEnrolled){
         throw new AppError(httpStatus.CONFLICT , "Student already enrolled !") ;
+    }
+
+    const enrolledCourse = await enrolledCoursesModel.aggregate([
+        { $match : { semesterRegistration : isOfferedCourseAxist?.semesterRegistration , student : student?._id } } ,
+        { $lookup : { from : "courses" , localField : "course" , foreignField : "_id" , as : "enrolledCourseData" } } ,
+        { $unwind : "$enrolledCourseData" } ,
+        { $group : {_id : null , totalEnrolledCredits : { $sum : "$enrolledCourseData.credits" }} }
+    ])
+
+    const totalCredits = enrolledCourse.length ? enrolledCourse[0]?.totalEnrolledCredits : 0 ;
+    if(totalCredits && totalCredits + isOfferedCourseAxist?.course?.credits > semesterRegistration?.maxCredit){
+        throw new AppError(httpStatus.BAD_REQUEST , "You have exceeded maximum number of credits !")
     }
 
     const session = await mongoose.startSession() ;
