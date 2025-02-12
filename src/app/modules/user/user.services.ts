@@ -1,8 +1,6 @@
 
 import mongoose from "mongoose";
 import config from "../../config";
-import { TAcademicSemester } from "../academicSemester/academicSemester.interface";
-import academicSemestersModel from "../academicSemester/academicSemester.model";
 import { TStudent } from "../student/student.interfaces";
 import { studentsModel } from "../student/student.model";
 import { TUser } from "./user.interfaces";
@@ -14,6 +12,8 @@ import { facultysModel } from "../faculty/faculty.model";
 import { TAdmin } from "../admin/admin.interfaces";
 import { adminsModel } from "../admin/admin.model";
 import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
+import academicSemestersModel from "../academicsemester/academicsemester.model";
+import { TAcademicSemester } from "../academicsemester/academicSemester.interface";
 
 const createStudnetIntoDb = async (file : any , password : string , studentData : Partial<TStudent>) => {
 

@@ -1,7 +1,7 @@
 
 import { academicSemesterNameCodeMapper } from "./academicSemester.constant";
 import { TAcademicSemester } from "./academicSemester.interface";
-import academicSemestersModel from "./academicSemester.model";
+import academicSemestersModel from "./academicsemester.model";
 
 const createacademicSemesterIntoDb = async (data : TAcademicSemester) => {
     if(data?.name && data?.code && academicSemesterNameCodeMapper[data?.name] !== data?.code){

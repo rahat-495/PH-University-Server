@@ -3,7 +3,7 @@ import { model, Schema } from "mongoose";
 import { TSemesterRegistration } from "./semesterRegistration.interface";
 import { semesterRegistrationStatus } from "./semesterRegistration.constant";
 import AppError from "../../errors/AppErrors";
-import academicSemestersModel from "../academicSemester/academicSemester.model";
+import academicSemestersModel from "../academicsemester/academicsemester.model";
 
 const semesterRegistrationSchema = new Schema<TSemesterRegistration>({
     academicSemester : {
