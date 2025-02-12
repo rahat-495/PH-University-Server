@@ -22,6 +22,14 @@ const createEnrolledCourse = (0, catchAsync_1.default)((req, res) => __awaiter(v
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Enrolled Course Creatad Successfully !" });
     }
 }));
+const updateEnrolledCourseMarks = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const result = yield enrolledCourse_services_1.enrolledCourseSerivces.updateEnrolledCourseMarksIntoDb((_a = req.user) === null || _a === void 0 ? void 0 : _a.userId, req.body);
+    if (result) {
+        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Enrolled Course Updated Successfully !" });
+    }
+}));
 exports.enrolledCourseControllers = {
     createEnrolledCourse,
+    updateEnrolledCourseMarks,
 };

@@ -11,10 +11,10 @@ const updateEnrolledCourseMarksValidationSchema = zod_1.z.object({
         offeredCourse: zod_1.z.string(),
         student: zod_1.z.string(),
         courseMarks: zod_1.z.object({
-            classTest1: zod_1.z.number(),
-            midTerm: zod_1.z.number(),
-            classTest2: zod_1.z.number(),
-            finelTerm: zod_1.z.number(),
+            classTest1: zod_1.z.number().optional(),
+            midTerm: zod_1.z.number().optional(),
+            classTest2: zod_1.z.number().optional(),
+            finelTerm: zod_1.z.number().optional(),
         })
     })
 });

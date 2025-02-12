@@ -20,6 +20,7 @@ const student_model_1 = require("../student/student.model");
 const enrolledCourse_model_1 = require("./enrolledCourse.model");
 const mongoose_1 = __importDefault(require("mongoose"));
 const semesterRegistration_model_1 = require("../semesterRegistration/semesterRegistration.model");
+const faculty_model_1 = require("../faculty/faculty.model");
 const createEnrolledCourseIntoDb = (userId, payload) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const { offeredCourse } = payload;
@@ -76,6 +77,35 @@ const createEnrolledCourseIntoDb = (userId, payload) => __awaiter(void 0, void 0
         throw new AppErrors_1.default(500, "Can't enrolled this course !");
     }
 });
+const updateEnrolledCourseMarksIntoDb = (facultyId, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { semesterRegistration, offeredCourse, student, courseMarks } = payload;
+    const isSemesterRegistrationAxist = yield semesterRegistration_model_1.semesterRegistrationsModel.findById(semesterRegistration);
+    if (!isSemesterRegistrationAxist) {
+        throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "Semester Registration not found !");
+    }
+    const isStudentAxist = yield student_model_1.studentsModel.findById(student);
+    if (!isStudentAxist) {
+        throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "Student not found !");
+    }
+    const isOfferedCourseAxist = yield offeredCourse_model_1.offeredCoursesModel.findById(offeredCourse);
+    if (!isOfferedCourseAxist) {
+        throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "Offered course not found !");
+    }
+    const faculty = yield faculty_model_1.facultysModel.findOne({ id: facultyId }, { _id: 1 });
+    const isCourseBelongToFaculty = yield enrolledCourse_model_1.enrolledCoursesModel.findOne({ semesterRegistration, student, offeredCourse, faculty: faculty === null || faculty === void 0 ? void 0 : faculty._id });
+    if (!isCourseBelongToFaculty) {
+        throw new AppErrors_1.default(http_status_1.default.FORBIDDEN, "You are forbidden !");
+    }
+    const modifiedData = Object.assign({}, courseMarks);
+    if (courseMarks && Object.keys(courseMarks).length) {
+        for (const [key, value] of Object.entries(courseMarks)) {
+            modifiedData[`courseMarks.${key}`] = value;
+        }
+    }
+    const result = yield enrolledCourse_model_1.enrolledCoursesModel.findByIdAndUpdate(isCourseBelongToFaculty === null || isCourseBelongToFaculty === void 0 ? void 0 : isCourseBelongToFaculty._id, modifiedData, { new: true });
+    return result;
+});
 exports.enrolledCourseSerivces = {
     createEnrolledCourseIntoDb,
+    updateEnrolledCourseMarksIntoDb,
 };
