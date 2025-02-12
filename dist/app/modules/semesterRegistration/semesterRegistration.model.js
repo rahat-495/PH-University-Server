@@ -16,7 +16,7 @@ exports.semesterRegistrationsModel = void 0;
 const mongoose_1 = require("mongoose");
 const semesterRegistration_constant_1 = require("./semesterRegistration.constant");
 const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
-const academicSemester_model_1 = __importDefault(require("../academicSemester/academicSemester.model"));
+const academicsemester_model_1 = __importDefault(require("../academicsemester/academicsemester.model"));
 const semesterRegistrationSchema = new mongoose_1.Schema({
     academicSemester: {
         type: mongoose_1.Schema.Types.ObjectId,
@@ -55,7 +55,7 @@ const semesterRegistrationSchema = new mongoose_1.Schema({
 semesterRegistrationSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const payload = this;
-        const isAcademicSemesterAxist = yield academicSemester_model_1.default.findOne({ _id: payload.academicSemester });
+        const isAcademicSemesterAxist = yield academicsemester_model_1.default.findOne({ _id: payload.academicSemester });
         if (!isAcademicSemesterAxist) {
             throw new AppErrors_1.default(400, "Academic Semester Ins't Axist !");
         }

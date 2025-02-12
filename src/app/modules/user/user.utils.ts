@@ -1,7 +1,7 @@
 
 import { NextFunction, Request, Response } from "express";
-import { TAcademicSemester } from "../academicSemester/academicSemester.interface";
 import { UsersModel } from "./user.model";
+import { TAcademicSemester } from "../academicsemester/academicSemester.interface";
 
 const findLastStudentId = async () => {
     const lastStudentId = await UsersModel.findOne({role : "student"} , {id : 1 , _id : 0}).sort({createdAt : -1}).lean() ;

@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = __importDefault(require("../../config"));
-const academicSemester_model_1 = __importDefault(require("../academicSemester/academicSemester.model"));
 const student_model_1 = require("../student/student.model");
 const user_model_1 = require("./user.model");
 const user_utils_1 = require("./user.utils");
@@ -23,12 +22,13 @@ const AppErrors_1 = __importDefault(require("../../errors/AppErrors"));
 const faculty_model_1 = require("../faculty/faculty.model");
 const admin_model_1 = require("../admin/admin.model");
 const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
+const academicsemester_model_1 = __importDefault(require("../academicsemester/academicsemester.model"));
 const createStudnetIntoDb = (file, password, studentData) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c;
     const userData = {};
     userData.role = 'student';
     userData.email = studentData === null || studentData === void 0 ? void 0 : studentData.email;
-    const academicDetails = yield academicSemester_model_1.default.findById(studentData.admissionSemester);
+    const academicDetails = yield academicsemester_model_1.default.findById(studentData.admissionSemester);
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
