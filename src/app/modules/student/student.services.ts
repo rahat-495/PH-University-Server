@@ -9,8 +9,9 @@ import { studentsSearchAbleFields } from "./student.constand";
 
 const getAllStudentsFromDb = async (query : Record<string , unknown>) => {
     const studentQuery = new QueryBuilder(studentsModel.find().populate("admissionSemester").populate({path : "academicDepartment" , populate : { path : "academicFaculty" }}), query).search(studentsSearchAbleFields).filter().sort().paginate().fields() ;
+    const meta = await studentQuery.countTotal() ;
     const result = await studentQuery.modelQuery ;
-    return result ;
+    return {meta , result} ;
 }
 
 const getSpecificStudentFromDb = async (id : string) => {
