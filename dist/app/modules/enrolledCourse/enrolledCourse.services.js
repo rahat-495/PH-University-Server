@@ -21,6 +21,7 @@ const enrolledCourse_model_1 = require("./enrolledCourse.model");
 const mongoose_1 = __importDefault(require("mongoose"));
 const semesterRegistration_model_1 = require("../semesterRegistration/semesterRegistration.model");
 const faculty_model_1 = require("../faculty/faculty.model");
+const enrolledCourse_utils_1 = __importDefault(require("./enrolledCourse.utils"));
 const createEnrolledCourseIntoDb = (userId, payload) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const { offeredCourse } = payload;
@@ -97,6 +98,14 @@ const updateEnrolledCourseMarksIntoDb = (facultyId, payload) => __awaiter(void 0
         throw new AppErrors_1.default(http_status_1.default.FORBIDDEN, "You are forbidden !");
     }
     const modifiedData = Object.assign({}, courseMarks);
+    if (courseMarks === null || courseMarks === void 0 ? void 0 : courseMarks.finelTerm) {
+        const { classTest1, classTest2, midTerm, finelTerm } = isCourseBelongToFaculty === null || isCourseBelongToFaculty === void 0 ? void 0 : isCourseBelongToFaculty.courseMarks;
+        const totalMarks = Math.ceil(classTest1 * 0.1) + Math.ceil(midTerm * 0.3) + Math.ceil(classTest2 * 0.1) + Math.ceil(finelTerm * 0.5);
+        const result = (0, enrolledCourse_utils_1.default)(totalMarks);
+        modifiedData.isCompleted = true;
+        modifiedData.grade = result.grade;
+        modifiedData.gradePoints = result.gradePoints;
+    }
     if (courseMarks && Object.keys(courseMarks).length) {
         for (const [key, value] of Object.entries(courseMarks)) {
             modifiedData[`courseMarks.${key}`] = value;
