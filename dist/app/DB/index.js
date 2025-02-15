@@ -20,7 +20,7 @@ const superAdmin = {
     email: "henten@gmail.com",
     password: config_1.default.superAdminPassword,
     needsPasswordChange: false,
-    role: "super-admin",
+    role: "superAdmin",
     status: "in-progress",
     isDeleted: false,
 };
