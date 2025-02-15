@@ -86,6 +86,7 @@ const studentSchema = new Schema<TStudent>({
     },
     profileImg : {
         type : String ,
+        default : "" ,
     },
     permanentAddress : {
         type : String ,

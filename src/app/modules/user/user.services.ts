@@ -40,9 +40,12 @@ const createStudnetIntoDb = async (file : any , password : string , studentData 
         userData.id = await generateStudentId(academicDetails as TAcademicSemester) ;
         userData.password = password || config.defaultPass as string ;
         
-        const path = file?.path ;
-        const imageName = `${userData?.id}${studentData?.name?.firstName}` ;
-        const {secure_url} = await sendImageToCloudinary(imageName , path) as any ;
+        if(file){
+            const path = file?.path ;
+            const imageName = `${userData?.id}${studentData?.name?.firstName}` ;
+            const {secure_url} = await sendImageToCloudinary(imageName , path) as any ;
+            studentData.profileImg = secure_url ;
+        }
 
         const newUser = await UsersModel.create([userData] , {session}) ;
         if(!newUser?.length){
@@ -51,7 +54,6 @@ const createStudnetIntoDb = async (file : any , password : string , studentData 
 
         studentData.id = newUser[0]?.id ;
         studentData.user = newUser[0]?._id ;
-        studentData.profileImg = secure_url ;
 
         const newStudent = await studentsModel.create([studentData] , {session}) ;
 
@@ -82,9 +84,12 @@ const createFacultyIntoDb = async (file : any , password : string , facultyData 
         userData.id = await generateFacultyId() ;
         userData.password = password ;
 
-        const path = file?.path ;
-        const imageName = `${userData?.id}${facultyData?.name?.firstName}` ;
-        const {secure_url} = await sendImageToCloudinary(imageName , path) as any ;
+        if(file){
+            const path = file?.path ;
+            const imageName = `${userData?.id}${facultyData?.name?.firstName}` ;
+            const {secure_url} = await sendImageToCloudinary(imageName , path) as any ;
+            facultyData.profileImg = secure_url ;
+        }
 
         const newUser = await UsersModel.create([userData] , {session}) ;
         if(!newUser?.length){
@@ -93,7 +98,6 @@ const createFacultyIntoDb = async (file : any , password : string , facultyData 
         
         facultyData.id = newUser[0]?.id ;
         facultyData.user = newUser[0]?._id ;
-        facultyData.profileImg = secure_url ;
         
         const newFaculty = await facultysModel.create([facultyData] , {session}) ;
         if(!newFaculty?.length){
@@ -122,9 +126,12 @@ const createAdminIntoDb = async (file : any , password : string , adminData : Pa
         userData.id = await generateAdminId() ;
         userData.password = password ;
 
-        const path = file?.path ;
-        const imageName = `${userData?.id}${adminData?.name?.firstName}` ;
-        const {secure_url} = await sendImageToCloudinary(imageName , path) as any ;
+        if(file){
+            const path = file?.path ;
+            const imageName = `${userData?.id}${adminData?.name?.firstName}` ;
+            const {secure_url} = await sendImageToCloudinary(imageName , path) as any ;
+            adminData.profileImg = secure_url ;
+        }
 
         const newUser = await UsersModel.create([userData] , {session}) ;
         if(!newUser?.length){
@@ -133,7 +140,6 @@ const createAdminIntoDb = async (file : any , password : string , adminData : Pa
         
         adminData.id = newUser[0]?.id ;
         adminData.user = newUser[0]?._id ;
-        adminData.profileImg = secure_url ;
         
         const newAdmin = await adminsModel.create([adminData] , {session}) ;
         if(!newAdmin?.length){

@@ -40,6 +40,7 @@ const adminSchema = new Schema<TAdmin>({
     },
     profileImg : {
         type : String ,
+        default : "" ,
     },
     permanentAddress : {
         type : String ,

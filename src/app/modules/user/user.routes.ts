@@ -6,7 +6,6 @@ import { studentValidations } from "../student/student.validation";
 import { facultyValidations } from "../faculty/faculty.validation";
 import { adminValidations } from "../admin/admin.validation";
 import auth from "../middlewares/auth";
-import { userRole } from "./user.constant";
 import { userValidation } from "./user.validation";
 import { upload } from "../../utils/sendImageToCloudinary";
 import { parseTextDataToJsonData } from "./user.utils";
