@@ -12,32 +12,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const app_1 = __importDefault(require("./app"));
-const config_1 = __importDefault(require("./app/config"));
-const DB_1 = __importDefault(require("./app/DB"));
-let server;
-const main = () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        yield mongoose_1.default.connect(config_1.default.databaseUrl);
-        yield (0, DB_1.default)();
-        server = app_1.default.listen(config_1.default.port, () => {
-            console.log(`server are running at port ${config_1.default.port} !`);
-        });
-    }
-    catch (error) {
-        console.log(error);
+const config_1 = __importDefault(require("../config"));
+const user_constant_1 = require("../modules/user/user.constant");
+const user_model_1 = require("../modules/user/user.model");
+const superAdmin = {
+    id: "0001",
+    email: "henten@gmail.com",
+    password: config_1.default.superAdminPassword,
+    needsPasswordChange: false,
+    role: "super-admin",
+    status: "in-progress",
+    isDeleted: false,
+};
+const seedSuperAdmin = () => __awaiter(void 0, void 0, void 0, function* () {
+    const isSuperAdminAxist = yield user_model_1.UsersModel.findOne({ role: user_constant_1.userRole.superAdmin });
+    if (!isSuperAdminAxist) {
+        yield user_model_1.UsersModel.create(superAdmin);
     }
 });
-main();
-process.on("unhandledRejection", () => {
-    if (server) {
-        server.close(() => {
-            process.exit(1);
-        });
-    }
-    process.exit(1);
-});
-process.on("uncaughtException", () => {
-    process.exit(1);
-});
+exports.default = seedSuperAdmin;
