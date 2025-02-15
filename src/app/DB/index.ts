@@ -8,7 +8,7 @@ const superAdmin = {
     email : "henten@gmail.com" ,
     password : config.superAdminPassword ,
     needsPasswordChange : false ,
-    role : "super-admin" ,
+    role : "superAdmin" ,
     status : "in-progress",
     isDeleted  : false,
 }
