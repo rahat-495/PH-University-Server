@@ -51,6 +51,7 @@ const adminSchema = new mongoose_1.Schema({
     },
     profileImg: {
         type: String,
+        default: "",
     },
     permanentAddress: {
         type: String,
