@@ -23,7 +23,6 @@ const createFacultyValidationSchema = zod_1.z.object({
             isActive: zod_1.z.enum(["active", "blocked"]).default("active"),
             isDeleted: zod_1.z.boolean().optional(),
             academicDepartment: zod_1.z.string(),
-            academicFaculty: zod_1.z.string(),
             designation: zod_1.z.string(),
         })
     }),

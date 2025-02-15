@@ -90,12 +90,12 @@ const facultySchema = new mongoose_1.Schema({
         required: [true, "gender is required !"],
     },
     academicFaculty: {
-        type: mongoose_1.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         ref: "academicFaculty",
         required: [true, "academic faculty is required !"],
     },
     academicDepartment: {
-        type: mongoose_1.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         ref: "academicDepartment",
         required: [true, "academicDepartment is required !"],
     },

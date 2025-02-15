@@ -76,6 +76,11 @@ const createFacultyIntoDb = (file, password, facultyData) => __awaiter(void 0, v
     const userData = {};
     userData.role = 'faculty';
     userData.email = facultyData === null || facultyData === void 0 ? void 0 : facultyData.email;
+    const academicDepartment = yield academicDepartment_model_1.academicDepartmentsModel.findById(facultyData.academicDepartment);
+    if (!academicDepartment) {
+        throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "Academic department not found !");
+    }
+    facultyData.academicFaculty = academicDepartment === null || academicDepartment === void 0 ? void 0 : academicDepartment.academicFaculty;
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();
