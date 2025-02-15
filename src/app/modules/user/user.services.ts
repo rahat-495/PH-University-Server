@@ -14,6 +14,8 @@ import { adminsModel } from "../admin/admin.model";
 import { sendImageToCloudinary } from "../../utils/sendImageToCloudinary";
 import academicSemestersModel from "../academicsemester/academicsemester.model";
 import { TAcademicSemester } from "../academicsemester/academicSemester.interface";
+import httpStatus from 'http-status'
+import { academicDepartmentsModel } from "../academicDepartment/academicDepartment.model";
 
 const createStudnetIntoDb = async (file : any , password : string , studentData : Partial<TStudent>) => {
 
@@ -22,7 +24,16 @@ const createStudnetIntoDb = async (file : any , password : string , studentData 
     userData.email = studentData?.email ;
 
     const academicDetails = await academicSemestersModel.findById(studentData.admissionSemester) ;
-    
+    if(!academicDetails){
+        throw new AppError(httpStatus.NOT_FOUND , "Academic semester not found !") ;
+    }
+
+    const academicDepartment = await academicDepartmentsModel.findById(studentData.academicDepartment) ;
+    if(!academicDepartment){
+        throw new AppError(httpStatus.NOT_FOUND , "Academic department not found !") ;
+    }
+    studentData.academicFaculty = academicDepartment?.academicFaculty ;
+
     const session = await mongoose.startSession() ;
     try {
         session.startTransaction() ;

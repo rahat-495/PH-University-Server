@@ -13,8 +13,8 @@ import { parseTextDataToJsonData } from "./user.utils";
 
 const router = express.Router() ;
 
-router.get('/me' , auth('student' , 'faculty' , 'admin') , userControllers.getMe) ;
-router.post('/change-status/:id' , auth('admin') , validateRequest(userValidation.changeStatusValidationSchema) , userControllers.changeStatus) ;
+router.get('/me' , auth('student' , 'faculty' , 'admin' , 'superAdmin') , userControllers.getMe) ;
+router.post('/change-status/:id' , auth('admin' , 'superAdmin') , validateRequest(userValidation.changeStatusValidationSchema) , userControllers.changeStatus) ;
 
 router.post('/create-admin' , 
     upload.single("file") ,
@@ -27,14 +27,14 @@ router.post('/create-student' ,
     upload.single("file") ,
     parseTextDataToJsonData ,
     validateRequest(studentValidations.createStudentValidationSchema) ,
-    auth('admin') , 
+    auth('admin' , 'superAdmin') , 
     userControllers.createStudent
 );
 
 router.post('/create-faculty' , 
     upload.single("file") ,
     parseTextDataToJsonData ,
-    auth('admin') , 
+    auth('admin' , 'superAdmin') , 
     validateRequest(facultyValidations.createFacultyValidationSchema) , 
     userControllers.createFaculty
 );    
