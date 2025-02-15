@@ -23,12 +23,22 @@ const faculty_model_1 = require("../faculty/faculty.model");
 const admin_model_1 = require("../admin/admin.model");
 const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
 const academicsemester_model_1 = __importDefault(require("../academicsemester/academicsemester.model"));
+const http_status_1 = __importDefault(require("http-status"));
+const academicDepartment_model_1 = require("../academicDepartment/academicDepartment.model");
 const createStudnetIntoDb = (file, password, studentData) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c;
     const userData = {};
     userData.role = 'student';
     userData.email = studentData === null || studentData === void 0 ? void 0 : studentData.email;
     const academicDetails = yield academicsemester_model_1.default.findById(studentData.admissionSemester);
+    if (!academicDetails) {
+        throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "Academic semester not found !");
+    }
+    const academicDepartment = yield academicDepartment_model_1.academicDepartmentsModel.findById(studentData.academicDepartment);
+    if (!academicDepartment) {
+        throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "Academic department not found !");
+    }
+    studentData.academicFaculty = academicDepartment === null || academicDepartment === void 0 ? void 0 : academicDepartment.academicFaculty;
     const session = yield mongoose_1.default.startSession();
     try {
         session.startTransaction();

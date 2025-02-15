@@ -135,14 +135,19 @@ const studentSchema = new mongoose_1.Schema({
         required: [true, "gender is required !"],
     },
     admissionSemester: {
-        type: mongoose_1.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         ref: "academicSemester",
         required: [true, "admissionSemester is required !"],
     },
     academicDepartment: {
-        type: mongoose_1.Types.ObjectId,
+        type: mongoose_1.Schema.Types.ObjectId,
         ref: "academicDepartment",
         required: [true, "admissionSemester is required !"],
+    },
+    academicFaculty: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "academicFaculty",
+        required: [true, "Academic faculty is required !"],
     },
 });
 studentSchema.pre('findOneAndUpdate', function (next) {
