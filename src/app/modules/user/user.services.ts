@@ -77,6 +77,12 @@ const createFacultyIntoDb = async (file : any , password : string , facultyData 
     userData.role = 'faculty' ;
     userData.email = facultyData?.email ;
 
+    const academicDepartment = await academicDepartmentsModel.findById(facultyData.academicDepartment) ;
+    if(!academicDepartment){
+        throw new AppError(httpStatus.NOT_FOUND , "Academic department not found !") ;
+    }
+    facultyData.academicFaculty = academicDepartment?.academicFaculty ;
+
     const session = await mongoose.startSession() ;
     try {
         

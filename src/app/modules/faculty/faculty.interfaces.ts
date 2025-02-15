@@ -20,7 +20,7 @@ export type TFaculty = {
     presentAddress : string ;
     permanentAddress : string ;
     profileImg : string ;
-    academicFaculty : Schema.Types.ObjectId ;
-    academicDepartment : Schema.Types.ObjectId ;
+    academicFaculty : Types.ObjectId ;
+    academicDepartment : Types.ObjectId ;
     isDeleted : boolean ;
 }

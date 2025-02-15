@@ -79,12 +79,12 @@ const facultySchema = new Schema<TFaculty>({
         required : [true , "gender is required !"] ,
     },
     academicFaculty : {
-        type : Types.ObjectId ,
+        type : Schema.Types.ObjectId ,
         ref : "academicFaculty" ,
         required : [true , "academic faculty is required !"] ,
     },
     academicDepartment : {
-        type : Types.ObjectId ,
+        type : Schema.Types.ObjectId ,
         ref : "academicDepartment" ,
         required : [true , "academicDepartment is required !"] ,
     },
