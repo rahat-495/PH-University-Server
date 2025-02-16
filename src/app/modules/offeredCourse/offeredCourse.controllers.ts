@@ -39,10 +39,18 @@ const deleteOfferedCourse : RequestHandler = catchAsync(async (req , res) => {
     }
 })
 
+const getMyOfferedCourses : RequestHandler = catchAsync(async (req , res) => {
+    const result = await offeredCourseServices.getMyOfferedCoursesFromDb(req.user.userId) ;
+    if(result){
+        sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Offered Course retrived Successfully !"}) ;
+    }
+})
+
 export const offeredCourseControllers = {
     updateOfferedCourse, 
     createOfferedCourse ,
     getAllOfferdCourses ,
     deleteOfferedCourse ,
+    getMyOfferedCourses ,
     getSingleOfferedCourse ,
 }
