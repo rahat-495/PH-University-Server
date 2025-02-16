@@ -19,6 +19,7 @@ router.post('/create-admin' ,
     upload.single("file") ,
     parseTextDataToJsonData ,
     validateRequest(adminValidations.createAdminValidationSchema) , 
+    auth('admin' , 'superAdmin') , 
     userControllers.createAdmin
 );
 
