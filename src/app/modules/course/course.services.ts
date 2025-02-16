@@ -73,6 +73,11 @@ const assignFacultiesWithCourseIntoDb = async (id : string , payload : Partial<T
     return result ;
 }
 
+const getFacultiesWithCourseFromDb = async (id : string) => {
+    const result = await courseFacultiesModel.findOne({course : id}).populate("faculties") ;
+    return result ;
+}
+
 const removeFacultiesWithCourseFromDb = async (id : string , payload : Partial<TCourseFaculties>) => {
     const result = await courseFacultiesModel.findByIdAndUpdate(id , { $pull : { faculties : { $in : payload } } } , {new : true}) ;
     return result ;
@@ -84,6 +89,7 @@ export const courseServices = {
     getAllCourseFromDb ,
     deleteCourseIntoDb ,
     getSingleCourseFromDb ,
+    getFacultiesWithCourseFromDb ,
     assignFacultiesWithCourseIntoDb ,
     removeFacultiesWithCourseFromDb ,
 }
