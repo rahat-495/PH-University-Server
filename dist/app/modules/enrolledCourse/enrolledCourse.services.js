@@ -100,7 +100,7 @@ const updateEnrolledCourseMarksIntoDb = (facultyId, payload) => __awaiter(void 0
     const modifiedData = Object.assign({}, courseMarks);
     if (courseMarks === null || courseMarks === void 0 ? void 0 : courseMarks.finelTerm) {
         const { classTest1, classTest2, midTerm, finelTerm } = isCourseBelongToFaculty === null || isCourseBelongToFaculty === void 0 ? void 0 : isCourseBelongToFaculty.courseMarks;
-        const totalMarks = Math.ceil(classTest1 * 0.1) + Math.ceil(midTerm * 0.3) + Math.ceil(classTest2 * 0.1) + Math.ceil(finelTerm * 0.5);
+        const totalMarks = Math.ceil(classTest1) + Math.ceil(midTerm) + Math.ceil(classTest2) + Math.ceil(finelTerm);
         const result = (0, enrolledCourse_utils_1.default)(totalMarks);
         modifiedData.isCompleted = true;
         modifiedData.grade = result.grade;

@@ -20,8 +20,10 @@ const academicFaculty_model_1 = require("../academicFaculty/academicFaculty.mode
 const course_model_1 = require("../course/course.model");
 const faculty_model_1 = require("../faculty/faculty.model");
 const semesterRegistration_model_1 = require("../semesterRegistration/semesterRegistration.model");
+const student_model_1 = require("../student/student.model");
 const offeredCourse_model_1 = require("./offeredCourse.model");
 const offeredCourse_utils_1 = require("./offeredCourse.utils");
+const http_status_1 = __importDefault(require("http-status"));
 const createOfferedCourseIntoDb = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { academicDepartment, academicFaculty, course, faculty, semesterRegistration, section, days, startTime, endTime } = payload;
     const isAcademicDepartmentAxist = yield academicDepartment_model_1.academicDepartmentsModel.findById(academicDepartment);
@@ -104,10 +106,113 @@ const deleteOfferedCourseFromDb = (id) => __awaiter(void 0, void 0, void 0, func
     const result = yield offeredCourse_model_1.offeredCoursesModel.findByIdAndDelete(id);
     return result;
 });
+const getMyOfferedCoursesFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const student = yield student_model_1.studentsModel.findOne({ id: id });
+    if (!student) {
+        throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "User is not found !");
+    }
+    const currentOnGoingSemester = yield semesterRegistration_model_1.semesterRegistrationsModel.findOne({ status: 'ONGOING' });
+    if (!currentOnGoingSemester) {
+        throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "There is no semester registration on going !");
+    }
+    const result = yield offeredCourse_model_1.offeredCoursesModel.aggregate([
+        {
+            $match: {
+                semesterRegistration: currentOnGoingSemester === null || currentOnGoingSemester === void 0 ? void 0 : currentOnGoingSemester._id,
+                academicFaculty: student === null || student === void 0 ? void 0 : student.academicFaculty,
+                academicDepartment: student === null || student === void 0 ? void 0 : student.academicDepartment
+            }
+        },
+        {
+            $lookup: {
+                from: "courses",
+                localField: "course",
+                foreignField: "_id",
+                as: "course"
+            }
+        },
+        { $unwind: "$course" },
+        {
+            $lookup: {
+                from: "enrolledcourses",
+                pipeline: [
+                    {
+                        $match: {
+                            $expr: {
+                                $and: [
+                                    { $eq: ['$semesterRegistration', currentOnGoingSemester === null || currentOnGoingSemester === void 0 ? void 0 : currentOnGoingSemester._id] },
+                                    { $eq: ['$student', student === null || student === void 0 ? void 0 : student._id] },
+                                    { $eq: ['$isEnrolled', true] }
+                                ]
+                            }
+                        }
+                    }
+                ],
+                as: "enrolledCourse"
+            }
+        },
+        {
+            $lookup: {
+                from: "enrolledcourses",
+                pipeline: [
+                    {
+                        $match: {
+                            $expr: {
+                                $and: [
+                                    { $eq: ['$student', student === null || student === void 0 ? void 0 : student._id] },
+                                    { $eq: ['$isCompleted', true] }
+                                ]
+                            }
+                        }
+                    }
+                ],
+                as: "completeCourses"
+            }
+        },
+        {
+            $addFields: {
+                completeCourseIds: {
+                    $ifNull: [
+                        { $map: { input: "$completeCourses", as: "completed", in: "$$completed.course" } },
+                        []
+                    ]
+                }
+            }
+        },
+        {
+            $addFields: {
+                isPrerequisitesFullFiiled: {
+                    $or: [
+                        { $eq: ["$course.preRequisiteCourses", []] },
+                        { $setIsSubset: ["$course.preRequisiteCourses.course", "$completeCourseIds"] }
+                    ]
+                }
+            }
+        },
+        {
+            $addFields: {
+                isAlreadyEnrolled: {
+                    $in: [
+                        "$course._id",
+                        { $map: { input: "$enrolledCourse", as: "enroll", in: "$$enroll.course" } }
+                    ]
+                }
+            }
+        },
+        {
+            $match: {
+                isAlreadyEnrolled: false,
+                isPrerequisitesFullFiiled: true
+            }
+        }
+    ]);
+    return result;
+});
 exports.offeredCourseServices = {
     createOfferedCourseIntoDb,
     getAllOfferedCourseFromDb,
     updateOfferedCourseIntoDb,
     deleteOfferedCourseFromDb,
+    getMyOfferedCoursesFromDb,
     getSingleOfferedCourseFromDb,
 };
