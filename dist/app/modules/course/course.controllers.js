@@ -29,25 +29,31 @@ const getAllCourses = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
     }
 }));
 const getSingleCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield course_services_1.courseServices.getSingleCourseFromDb(req.params.id);
+    const result = yield course_services_1.courseServices.getSingleCourseFromDb(req.params.courseId);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course are retrive Successfully !" });
     }
 }));
 const updateCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield course_services_1.courseServices.updateCourseIntoDb(req.params.id, req.body);
+    const result = yield course_services_1.courseServices.updateCourseIntoDb(req.params.courseId, req.body);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course are updated Successfully !" });
     }
 }));
 const deleteCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield course_services_1.courseServices.deleteCourseIntoDb(req.params.id);
+    const result = yield course_services_1.courseServices.deleteCourseIntoDb(req.params.courseId);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course are deleted Successfully !" });
     }
 }));
 const assignFacultiesWithCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield course_services_1.courseServices.assignFacultiesWithCourseIntoDb(req.params.courseId, req.body.faculties);
+    if (result) {
+        (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course with faculties added Successfully !" });
+    }
+}));
+const getFacultiesWithCourse = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield course_services_1.courseServices.getFacultiesWithCourseFromDb(req.params.courseId);
     if (result) {
         (0, sendResponse_1.default)(res, { data: result, statusCode: 200, success: true, message: "Course with faculties added Successfully !" });
     }
@@ -64,6 +70,7 @@ exports.courseControllers = {
     createCourse,
     getAllCourses,
     getSingleCourse,
+    getFacultiesWithCourse,
     assignFacultiesWithCourse,
     removeFacultiesWithCourse,
 };
