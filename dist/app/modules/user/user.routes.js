@@ -17,7 +17,7 @@ const user_utils_1 = require("./user.utils");
 const router = express_1.default.Router();
 router.get('/me', (0, auth_1.default)('student', 'faculty', 'admin', 'superAdmin'), user_controllers_1.userControllers.getMe);
 router.post('/change-status/:id', (0, auth_1.default)('admin', 'superAdmin'), (0, validateRequest_1.default)(user_validation_1.userValidation.changeStatusValidationSchema), user_controllers_1.userControllers.changeStatus);
-router.post('/create-admin', sendImageToCloudinary_1.upload.single("file"), user_utils_1.parseTextDataToJsonData, (0, validateRequest_1.default)(admin_validation_1.adminValidations.createAdminValidationSchema), user_controllers_1.userControllers.createAdmin);
+router.post('/create-admin', sendImageToCloudinary_1.upload.single("file"), user_utils_1.parseTextDataToJsonData, (0, validateRequest_1.default)(admin_validation_1.adminValidations.createAdminValidationSchema), (0, auth_1.default)('admin', 'superAdmin'), user_controllers_1.userControllers.createAdmin);
 router.post('/create-student', sendImageToCloudinary_1.upload.single("file"), user_utils_1.parseTextDataToJsonData, (0, validateRequest_1.default)(student_validation_1.studentValidations.createStudentValidationSchema), (0, auth_1.default)('admin', 'superAdmin'), user_controllers_1.userControllers.createStudent);
 router.post('/create-faculty', sendImageToCloudinary_1.upload.single("file"), user_utils_1.parseTextDataToJsonData, (0, auth_1.default)('admin', 'superAdmin'), (0, validateRequest_1.default)(faculty_validation_1.facultyValidations.createFacultyValidationSchema), user_controllers_1.userControllers.createFaculty);
 exports.userRoutes = router;
