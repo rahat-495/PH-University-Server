@@ -22,6 +22,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const semesterRegistration_model_1 = require("../semesterRegistration/semesterRegistration.model");
 const faculty_model_1 = require("../faculty/faculty.model");
 const enrolledCourse_utils_1 = __importDefault(require("./enrolledCourse.utils"));
+const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const createEnrolledCourseIntoDb = (userId, payload) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     const { offeredCourse } = payload;
@@ -114,7 +115,18 @@ const updateEnrolledCourseMarksIntoDb = (facultyId, payload) => __awaiter(void 0
     const result = yield enrolledCourse_model_1.enrolledCoursesModel.findByIdAndUpdate(isCourseBelongToFaculty === null || isCourseBelongToFaculty === void 0 ? void 0 : isCourseBelongToFaculty._id, modifiedData, { new: true });
     return result;
 });
+const getMyEnrolledCoursesFromDb = (id, query) => __awaiter(void 0, void 0, void 0, function* () {
+    const student = yield student_model_1.studentsModel.findOne({ id });
+    if (!student) {
+        throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "User Not Found !");
+    }
+    const enrolledCourseQuery = new QueryBuilder_1.default(enrolledCourse_model_1.enrolledCoursesModel.find({ student: student === null || student === void 0 ? void 0 : student._id }).populate("academicDepartment offeredCourse academicFaculty academicSemester semesterRegistration course faculty student"), query).paginate().sort().filter();
+    const result = yield enrolledCourseQuery.modelQuery;
+    const meta = yield enrolledCourseQuery.countTotal();
+    return { result, meta };
+});
 exports.enrolledCourseSerivces = {
     createEnrolledCourseIntoDb,
+    getMyEnrolledCoursesFromDb,
     updateEnrolledCourseMarksIntoDb,
 };
