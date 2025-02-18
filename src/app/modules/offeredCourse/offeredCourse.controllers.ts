@@ -40,7 +40,7 @@ const deleteOfferedCourse : RequestHandler = catchAsync(async (req , res) => {
 })
 
 const getMyOfferedCourses : RequestHandler = catchAsync(async (req , res) => {
-    const result = await offeredCourseServices.getMyOfferedCoursesFromDb(req.user.userId) ;
+    const result = await offeredCourseServices.getMyOfferedCoursesFromDb(req.user.userId , req.query) ;
     if(result){
         sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "Offered Course retrived Successfully !"}) ;
     }

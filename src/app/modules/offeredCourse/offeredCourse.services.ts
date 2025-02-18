@@ -121,7 +121,7 @@ const deleteOfferedCourseFromDb = async (id : string) => {
     return result ;
 }
 
-const getMyOfferedCoursesFromDb = async (id : string) => {
+const getMyOfferedCoursesFromDb = async (id : string , query : Record<string , unknown>) => {
     const student = await studentsModel.findOne({id : id}) ;
     if(!student){
         throw new AppError(httpStatus.NOT_FOUND , "User is not found !") ;
@@ -131,8 +131,21 @@ const getMyOfferedCoursesFromDb = async (id : string) => {
     if(!currentOnGoingSemester){
         throw new AppError(httpStatus.NOT_FOUND , "There is no semester registration on going !") ;
     }
+
+    const limit = Number(query.limit) ;
+    const page = Number(query.page) ;
+    const skip = (page - 1) * limit ;
     
-    const result = await offeredCoursesModel.aggregate([
+    const paginationQuery = [
+        {
+            $limit : limit 
+        },
+        {
+            $skip : skip
+        }
+    ]
+
+    const aggregationQuery = [
         { 
             $match: { 
                 semesterRegistration: currentOnGoingSemester?._id, 
@@ -222,9 +235,21 @@ const getMyOfferedCoursesFromDb = async (id : string) => {
                 isPrerequisitesFullFiiled: true 
             } 
         }
-    ]);
+    ]
+
+    const result = await offeredCoursesModel.aggregate([...aggregationQuery , ...paginationQuery]);
+    const total = (await offeredCoursesModel.aggregate(aggregationQuery)).length
+    const totalPage = Math.ceil(result.length / limit) ;
     
-    return result;
+    return {
+        meta : {
+            page ,
+            limit ,
+            total , 
+            totalPage ,
+        },
+        result
+    };
     
 }
 
