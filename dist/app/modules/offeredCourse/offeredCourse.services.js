@@ -106,7 +106,7 @@ const deleteOfferedCourseFromDb = (id) => __awaiter(void 0, void 0, void 0, func
     const result = yield offeredCourse_model_1.offeredCoursesModel.findByIdAndDelete(id);
     return result;
 });
-const getMyOfferedCoursesFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+const getMyOfferedCoursesFromDb = (id, query) => __awaiter(void 0, void 0, void 0, function* () {
     const student = yield student_model_1.studentsModel.findOne({ id: id });
     if (!student) {
         throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "User is not found !");
@@ -115,7 +115,18 @@ const getMyOfferedCoursesFromDb = (id) => __awaiter(void 0, void 0, void 0, func
     if (!currentOnGoingSemester) {
         throw new AppErrors_1.default(http_status_1.default.NOT_FOUND, "There is no semester registration on going !");
     }
-    const result = yield offeredCourse_model_1.offeredCoursesModel.aggregate([
+    const limit = Number(query.limit);
+    const page = Number(query.page);
+    const skip = (page - 1) * limit;
+    const paginationQuery = [
+        {
+            $limit: limit
+        },
+        {
+            $skip: skip
+        }
+    ];
+    const aggregationQuery = [
         {
             $match: {
                 semesterRegistration: currentOnGoingSemester === null || currentOnGoingSemester === void 0 ? void 0 : currentOnGoingSemester._id,
@@ -205,8 +216,19 @@ const getMyOfferedCoursesFromDb = (id) => __awaiter(void 0, void 0, void 0, func
                 isPrerequisitesFullFiiled: true
             }
         }
-    ]);
-    return result;
+    ];
+    const result = yield offeredCourse_model_1.offeredCoursesModel.aggregate([...aggregationQuery, ...paginationQuery]);
+    const total = (yield offeredCourse_model_1.offeredCoursesModel.aggregate(aggregationQuery)).length;
+    const totalPage = Math.ceil(result.length / limit);
+    return {
+        meta: {
+            page,
+            limit,
+            total,
+            totalPage,
+        },
+        result
+    };
 });
 exports.offeredCourseServices = {
     createOfferedCourseIntoDb,
