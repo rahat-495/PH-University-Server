@@ -7,6 +7,7 @@ import auth from "../middlewares/auth";
 
 const router = Router() ;
 
+router.get('/my-enrolled-courses' , auth("student") , enrolledCourseControllers.getMyEnrolledCourses) ;
 router.post('/create-enrolled-course' , auth("student") , validateRequest(enrolledCourseValidations.createEnrolledCourseValidationSchema) , enrolledCourseControllers.createEnrolledCourse) ;
 router.post('/update-enrolled-course-marks' , auth("faculty") , validateRequest(enrolledCourseValidations.updateEnrolledCourseMarksValidationSchema) , enrolledCourseControllers.updateEnrolledCourseMarks) ;
 
