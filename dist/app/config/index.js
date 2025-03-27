@@ -19,4 +19,5 @@ exports.default = {
     apiKey: process.env.API_KEY,
     apiSecret: process.env.API_SECRET,
     superAdminPassword: process.env.SUPER_ADMIN_PASSWORD,
+    jwtAccessSecretTime: process.env.JWT_ACCESS_SECRET_TIME,
 };

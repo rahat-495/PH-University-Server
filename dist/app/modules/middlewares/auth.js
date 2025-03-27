@@ -24,7 +24,13 @@ const auth = (...requiredRoles) => {
         if (!token) {
             throw new AppErrors_1.default(http_status_codes_1.default.UNAUTHORIZED, "You are not authorized !");
         }
-        const decoded = jsonwebtoken_1.default.verify(token, config_1.default.jwtAccessSecret);
+        let decoded = {};
+        try {
+            decoded = jsonwebtoken_1.default.verify(token, config_1.default.jwtAccessSecret);
+        }
+        catch (error) {
+            throw new AppErrors_1.default(401, "Unauthorized !");
+        }
         const role = decoded.role;
         const user = yield user_model_1.UsersModel.isUserAxistByCustomId(decoded === null || decoded === void 0 ? void 0 : decoded.userId);
         if (!user) {
