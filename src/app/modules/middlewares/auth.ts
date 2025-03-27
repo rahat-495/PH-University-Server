@@ -16,7 +16,12 @@ const auth = (...requiredRoles : TUserRole[]) => {
             throw new AppError(httpStatus.UNAUTHORIZED , "You are not authorized !") ;
         }
         
-        const decoded = jwt.verify(token as string , config.jwtAccessSecret as string) as JwtPayload ;
+        let decoded = {} as JwtPayload;
+        try {
+            decoded = jwt.verify(token as string , config.jwtAccessSecret as string) as JwtPayload ;
+        } catch (error) {
+            throw new AppError(401 , "Unauthorized !") ;
+        }
         const role = decoded.role ;
 
         const user = await UsersModel.isUserAxistByCustomId(decoded?.userId) ;
