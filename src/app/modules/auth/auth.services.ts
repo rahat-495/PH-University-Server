@@ -31,7 +31,7 @@ const loginUser = async (payload : TLoginUser) => {
     }
 
     const jwtPayload = { userId : user?.id , role : user?.role }
-    const accesstoken = await createToken(jwtPayload , config.jwtAccessSecret as string , config.jwtAccessSecretTime as string) ;
+    const accesstoken = await createToken(jwtPayload , config.jwtAccessSecret as string , '1d') ;
     const refreshtoken = await createToken(jwtPayload , config.jwtRefreshSecret as string , "365d") ;
 
     return { accesstoken , refreshtoken , needsPasswordChange : user?.needsPasswordChange } ;
@@ -87,7 +87,7 @@ const refreshToken = async (token : string) => {
     }
 
     const jwtPayload = { userId : user?.id , role : user?.role }
-    const accessToken = await createToken(jwtPayload , config.jwtAccessSecret as string , config.jwtAccessSecretTime as string) ;
+    const accessToken = await createToken(jwtPayload , config.jwtAccessSecret as string , '1d') ;
     return {accessToken} ;
 }
 

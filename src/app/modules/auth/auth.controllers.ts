@@ -6,7 +6,7 @@ import { authServices } from "./auth.services";
 
 const loginUser = catchAsync(async (req , res) => {
     const result = await authServices.loginUser(req.body) ;
-    res.cookie("refreshToken" , result.refreshtoken , { secure : config.nodeEnv === "production" , httpOnly : true , sameSite : "none" , maxAge : 1000 * 60 * 60 * 24 * 365}) ;
+    res.cookie("refreshToken" , result.refreshtoken , { secure : config.nodeEnv === "production" , httpOnly : true , sameSite : "strict" , maxAge : 1000 * 60 * 60 * 24 * 365}) ;
     if(result){
         sendResponse<object>(res , {data : result , statusCode : 200 , success : true , message : "User Login Successfully !"}) ;
     }
