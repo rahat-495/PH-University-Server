@@ -38,7 +38,7 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
         throw new AppErrors_1.default(400, "The password is not matched !");
     }
     const jwtPayload = { userId: user === null || user === void 0 ? void 0 : user.id, role: user === null || user === void 0 ? void 0 : user.role };
-    const accesstoken = yield (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwtAccessSecret, '1d');
+    const accesstoken = yield (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwtAccessSecret, config_1.default.jwtAccessSecretTime);
     const refreshtoken = yield (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwtRefreshSecret, "365d");
     return { accesstoken, refreshtoken, needsPasswordChange: user === null || user === void 0 ? void 0 : user.needsPasswordChange };
 });
@@ -80,7 +80,7 @@ const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
         throw new AppErrors_1.default(http_status_1.default.UNAUTHORIZED, "You are not authorized !");
     }
     const jwtPayload = { userId: user === null || user === void 0 ? void 0 : user.id, role: user === null || user === void 0 ? void 0 : user.role };
-    const accessToken = yield (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwtAccessSecret, '1d');
+    const accessToken = yield (0, auth_utils_1.createToken)(jwtPayload, config_1.default.jwtAccessSecret, config_1.default.jwtAccessSecretTime);
     return { accessToken };
 });
 const forgetPassword = (userId) => __awaiter(void 0, void 0, void 0, function* () {
